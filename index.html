@@ -1,0 +1,3720 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PHD Healthtec · Medicina regenerativa e longevidade</title>
+<meta content="Curadoria e orquestração de protocolos regenerativos com células mesenquimais em parceiros clínicos licenciados no Chile." name="description"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<!-- Inter variável com eixo óptico: opsz 32 = corte Display, opsz 14 = corte Text -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..800&amp;display=swap" rel="stylesheet"/>
+<style>
+/* ============================================================
+   1. TOKENS · PHD Healthtec Brand Color System
+   ============================================================ */
+:root{
+
+  /* --- paleta oficial --- */
+  --midnight-navy: #0C233F;   /* base institucional */
+  --deep-blue:     #314869;   /* profundidade */
+  --tech-teal:     #2D7387;   /* tecnologia */
+  --crystal-aqua:  #C0E9F1;   /* luz / reflexo */
+  --stem-coral:    #D4816A;   /* vitalidade */
+  --soft-peach:    #F1CCBE;   /* luminosidade */
+  --silver-gray:   #C7C7CA;   /* neutro */
+  --pure-white:    #FFFFFF;   /* fundo */
+
+  /* --- papéis funcionais --- */
+  --brand:       var(--tech-teal);
+  --brand-deep:  var(--deep-blue);
+  --brand-light: var(--crystal-aqua);
+  --brand-soft:  #EAF5F8;                 /* teal a 8%, para fundos */
+  --brand-ink:   #1F5C6E;                 /* teal escurecido, texto em branco */
+  --accent:      var(--stem-coral);
+  --accent-soft: var(--soft-peach);
+  --accent-ink:  #A85B45;                 /* coral escurecido, texto em branco */
+
+  --ink:      var(--midnight-navy);
+  --muted:    #52678A;                    /* deep blue clareado, corpo */
+  --faint:    #64738B;                    /* apoio, labels · AA em canvas */
+  --canvas:   #F4F8FA;                    /* fundo frio */
+  --surface:  var(--pure-white);
+  --night:    var(--midnight-navy);
+  --line:     var(--silver-gray);
+
+  /* rgb para uso em rgba() */
+  --ink-rgb:    12,35,63;
+  --brand-rgb:  45,115,135;
+  --accent-rgb: 212,129,106;
+  --aqua-rgb:   192,233,241;
+
+  /* --- tipografia --- */
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-body:    'Inter', system-ui, sans-serif;
+  --opsz-display: 'opsz' 32;   /* corte Display */
+  --opsz-text:    'opsz' 16;   /* corte Text */
+
+  /* --- forma --- */
+  --r-card: 16px;
+  --r-block: 28px;
+  --r-pill: 999px;
+
+  /* --- elevação · 3 camadas, tingidas de navy, nunca preto puro --- */
+  --e1: 0 1px 1px rgba(var(--ink-rgb),.04),
+        0 2px 6px rgba(var(--ink-rgb),.05);
+  --e2: 0 1px 2px rgba(var(--ink-rgb),.05),
+        0 6px 14px rgba(var(--ink-rgb),.06),
+        0 14px 32px rgba(var(--ink-rgb),.05);
+  --e3: 0 2px 4px rgba(var(--ink-rgb),.06),
+        0 12px 26px rgba(var(--ink-rgb),.09),
+        0 28px 56px rgba(var(--ink-rgb),.07);
+  --e4: 0 4px 8px rgba(var(--ink-rgb),.07),
+        0 22px 44px rgba(var(--ink-rgb),.12),
+        0 48px 88px rgba(var(--ink-rgb),.10);
+
+  /* luz superior · o que dá a sensação de superfície levantada */
+  --rim:       inset 0 1px 0 rgba(255,255,255,.85);
+  --rim-night: inset 0 1px 0 rgba(255,255,255,.10);
+
+  /* aliases mantidos */
+  --shadow-soft:       var(--e1);
+  --shadow-card:       var(--e2);
+  --shadow-card-hover: var(--e3);
+  --shadow-img:        var(--e4);
+
+  /* --- layout --- */
+  --max: 1200px;
+  --nav-h: 48px;
+
+  /* --- durações --- */
+  --t-link: .2s;
+  --t-btn:  .3s;
+  --t-card: .4s;
+  --t-slow: .5s;
+  --t-reveal: .6s;
+}
+
+/* ============================================================
+   2. RESET
+   ============================================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+section[id],[id]{scroll-margin-top:72px}
+body{
+  font-family:var(--font-body);
+  font-variation-settings:var(--opsz-text);
+  font-weight:300;
+  background:var(--canvas);
+  color:var(--ink);
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+ul{list-style:none}
+
+/* ============================================================
+   3. LAYOUT
+   ============================================================ */
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:20px}
+@media(min-width:768px){.wrap{padding-inline:40px}}
+
+.section{position:relative;padding-block:56px;background:var(--canvas)}
+@media(min-width:768px){.section{padding-block:80px}}
+@media(min-width:1024px){.section{padding-block:120px}}
+/* plano elevado: luz no topo, hairline embaixo. Separa sem borda dura. */
+.section--surface{
+  background:var(--surface);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
+             0 -1px 0 rgba(var(--ink-rgb),.05),
+             0 1px 0 rgba(var(--ink-rgb),.05);
+}
+/* respiro de luz no topo das seções em canvas */
+.section:not(.section--surface):not(.section--night)::before{
+  content:'';position:absolute;inset:0 0 auto 0;height:180px;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,255,255,.75) 0%,rgba(255,255,255,0) 100%);
+}
+
+/* ambiente escuro · slide 6 do manual */
+/* plano escuro: bloco institucional que delimita a página */
+.section--night{
+  position:relative;z-index:1;color:#fff;
+  background:linear-gradient(180deg,#12304F 0%,var(--night) 48%,#081A2F 100%);
+  /* rim de luz no topo, sombra projetada nas seções vizinhas */
+  box-shadow:inset 0 1px 0 rgba(var(--aqua-rgb),.16),
+             inset 0 -1px 0 rgba(var(--aqua-rgb),.10),
+             0 -18px 40px rgba(var(--ink-rgb),.10),
+             0 18px 40px rgba(var(--ink-rgb),.10);
+}
+/* brilho ambiente sutil, sem sujar o texto */
+.section--night::after{
+  content:'';position:absolute;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(80% 60% at 18% 6%,  rgba(var(--brand-rgb),.30) 0%, transparent 62%),
+    radial-gradient(60% 55% at 90% 96%, rgba(var(--accent-rgb),.10) 0%, transparent 60%);
+}
+.section--night > *{position:relative;z-index:1}
+
+/* --- texto no plano escuro --- */
+.section--night .h3{color:#fff}
+.section--night .strong{color:#fff}
+.section--night .brand{color:var(--crystal-aqua)}
+.section--night .accent{color:var(--soft-peach)}
+.section--night .micro--brand{color:rgba(var(--aqua-rgb),.85)}
+.section--night .micro--accent{color:var(--soft-peach)}
+.section--night .eyebrow__line{background:var(--crystal-aqua)}
+.section--night .eyebrow__text{color:rgba(var(--aqua-rgb),.85)}
+.section--night .text-gradient{
+  background:linear-gradient(100deg,var(--crystal-aqua) 0%,#7FC6D8 55%,var(--crystal-aqua) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* --- cards no plano escuro --- */
+.section--night .card{
+  background:linear-gradient(180deg,rgba(255,255,255,.085) 0%,rgba(255,255,255,.045) 100%);
+  border-color:rgba(255,255,255,.11);
+  box-shadow:0 2px 4px rgba(0,0,0,.20),
+             0 14px 30px rgba(0,0,0,.28),
+             0 30px 60px rgba(0,0,0,.22),
+             var(--rim-night);
+}
+.section--night .card:hover{
+  background:linear-gradient(180deg,rgba(255,255,255,.11) 0%,rgba(255,255,255,.06) 100%);
+  box-shadow:0 4px 8px rgba(0,0,0,.24),
+             0 22px 44px rgba(0,0,0,.34),
+             0 44px 80px rgba(0,0,0,.26),
+             var(--rim-night);
+}
+.section--night .card::after{box-shadow:inset 0 0 0 1px rgba(var(--aqua-rgb),.42)}
+
+.section--night .card--featured{
+  background:linear-gradient(180deg,rgba(var(--accent-rgb),.24) 0%,rgba(var(--accent-rgb),.07) 100%);
+  border-color:rgba(var(--accent-rgb),.34);
+}
+.section--night .card--featured::after{box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.55)}
+
+.section--night .icon-box{
+  background:rgba(var(--aqua-rgb),.12);
+  border-color:rgba(var(--aqua-rgb),.24);
+  color:var(--crystal-aqua);
+  box-shadow:var(--rim-night);
+}
+.section--night .accent-block{border-left-color:var(--stem-coral)}
+.section--night .h2,.section--night .h1{color:#fff}
+.section--night .light,.section--night .body,.section--night .lead{color:rgba(255,255,255,.62)}
+.section--night .micro{color:rgba(var(--aqua-rgb),.75)}
+
+/* ============================================================
+   4. TIPOGRAFIA
+   ============================================================ */
+.h1{
+  font-family:var(--font-display);
+  font-variation-settings:var(--opsz-display);
+  font-weight:700;
+  font-size:28px;
+  line-height:1.1;
+  letter-spacing:-.03em;
+}
+@media(min-width:640px){.h1{font-size:34px}}
+@media(min-width:768px){.h1{font-size:40px}}
+@media(min-width:1024px){.h1{font-size:clamp(40px,4.5vw,62px)}}
+/* hero institucional: título mais contido, três linhas limpas */
+@media(min-width:1024px){.hero .h1{font-size:clamp(34px,3.3vw,46px);letter-spacing:-.025em}}
+@media(min-width:1024px){.hero__copy{max-width:545px}}
+
+.h2{
+  font-family:var(--font-display);
+  font-variation-settings:var(--opsz-display);
+  font-weight:700;
+  font-size:22px;
+  line-height:1.2;
+  letter-spacing:-.02em;
+}
+@media(min-width:768px){.h2{font-size:28px}}
+@media(min-width:1024px){.h2{font-size:clamp(32px,4vw,48px)}}
+
+.h3{font-size:13px;font-weight:600;line-height:1.4;letter-spacing:-.01em}
+@media(min-width:768px){.h3{font-size:14px}}
+
+.lead{font-size:15px;font-weight:300;color:var(--muted);line-height:1.75}
+@media(min-width:768px){.lead{font-size:17px}}
+
+.body{font-size:14px;font-weight:300;color:var(--muted);line-height:1.75}
+@media(min-width:768px){.body{font-size:15px}}
+
+.micro{
+  font-size:10px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.12em;color:var(--faint);
+}
+@media(min-width:768px){.micro{font-size:11px}}
+.micro--brand{color:var(--brand-ink)}
+.micro--accent{color:var(--accent-ink)}
+
+.light{font-weight:300;color:var(--muted)}
+.strong{font-weight:700;color:var(--ink)}
+.brand{color:var(--brand-ink)}
+.accent{color:var(--accent-ink)}
+
+/* gradiente da marca · aqua → teal → deep blue → navy (assinatura do símbolo) */
+.text-gradient{
+  background:linear-gradient(100deg,
+    var(--tech-teal) 0%,
+    var(--deep-blue) 45%,
+    var(--midnight-navy) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.text-shimmer{
+  background:linear-gradient(100deg,
+    var(--deep-blue) 18%,
+    var(--tech-teal) 32%,
+    var(--crystal-aqua) 42%,
+    var(--tech-teal) 52%,
+    var(--midnight-navy) 70%);
+  background-size:250% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 5s linear infinite;
+}
+@keyframes shimmer{0%{background-position:150% 0}100%{background-position:-50% 0}}
+
+/* bloco de ênfase · coral, uso pontual */
+.accent-block{border-left:2px solid var(--accent);padding-left:20px}
+.accent-block--cold{border-left-color:var(--brand)}
+
+/* ============================================================
+   5. BOTÕES
+   ============================================================ */
+.btn{
+  display:inline-block;text-align:center;
+  font-family:var(--font-display);
+  font-variation-settings:var(--opsz-text);
+  font-size:14px;font-weight:600;letter-spacing:.01em;
+  padding:14px 24px;border-radius:var(--r-pill);
+  transition:all var(--t-btn) ease;
+}
+@media(min-width:768px){.btn{font-size:15px;padding:15px 36px}}
+.btn:active{transform:scale(.98)}
+
+/* CTA primário · teal → deep blue. Frio e institucional. */
+.btn--cta{
+  color:#fff;
+  background:linear-gradient(135deg,var(--tech-teal) 0%,var(--deep-blue) 100%);
+  box-shadow:0 1px 2px rgba(var(--ink-rgb),.14),
+             0 6px 16px rgba(var(--brand-rgb),.28),
+             0 14px 32px rgba(var(--brand-rgb),.18),
+             inset 0 1px 0 rgba(255,255,255,.22);
+}
+.btn--cta:hover{
+  box-shadow:0 2px 4px rgba(var(--ink-rgb),.16),
+             0 10px 24px rgba(var(--brand-rgb),.36),
+             0 22px 48px rgba(var(--brand-rgb),.24),
+             inset 0 1px 0 rgba(255,255,255,.28);
+  transform:translateY(-2px);
+}
+
+/* CTA secundário · coral. Um por página, no máximo. */
+.btn--accent{
+  color:#fff;
+  background:linear-gradient(135deg,#A56452 0%,#854C3C 100%);
+  box-shadow:0 1px 2px rgba(0,0,0,.20),
+             0 6px 16px rgba(var(--accent-rgb),.26),
+             0 14px 32px rgba(var(--accent-rgb),.16),
+             inset 0 1px 0 rgba(255,255,255,.20);
+}
+.btn--accent:hover{
+  box-shadow:0 2px 4px rgba(0,0,0,.22),
+             0 10px 24px rgba(var(--accent-rgb),.34),
+             0 22px 48px rgba(var(--accent-rgb),.22),
+             inset 0 1px 0 rgba(255,255,255,.26);
+  transform:translateY(-2px);
+}
+
+.btn--ghost{
+  color:var(--ink);
+  background:var(--surface);
+  border:1px solid rgba(var(--ink-rgb),.12);
+  box-shadow:var(--e1),var(--rim);
+}
+.btn--ghost:hover{
+  border-color:rgba(var(--brand-rgb),.35);
+  background:var(--brand-soft);
+  color:var(--brand-ink);
+  box-shadow:var(--e2),var(--rim);
+  transform:translateY(-1px);
+}
+
+/* ghost em fundo escuro */
+.section--night .btn--ghost,
+.footer .btn--ghost{
+  color:#fff;background:rgba(255,255,255,.05);
+  border-color:rgba(255,255,255,.16);
+  box-shadow:0 8px 22px rgba(0,0,0,.28),var(--rim-night);
+}
+.section--night .btn--ghost:hover{
+  background:rgba(var(--aqua-rgb),.12);
+  border-color:rgba(var(--aqua-rgb),.5);
+  color:var(--crystal-aqua);
+}
+
+.btn--sm{font-size:12px;padding:8px 20px}
+
+/* ============================================================
+   6. CARDS
+   ============================================================ */
+.card{
+  position:relative;overflow:hidden;
+  border:1px solid rgba(var(--ink-rgb),.06);
+  background:var(--surface);
+  border-radius:var(--r-card);
+  padding:24px;
+  box-shadow:var(--e2),var(--rim);
+  transition:box-shadow var(--t-card) ease, transform var(--t-card) cubic-bezier(.22,1,.36,1);
+  will-change:transform;
+}
+.card:hover{
+  box-shadow:var(--e3),var(--rim);
+  transform:translateY(-3px);
+}
+.card::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  box-shadow:inset 0 0 0 1px rgba(var(--brand-rgb),.32);
+  opacity:0;transition:opacity var(--t-card) ease;pointer-events:none;
+}
+.card:hover::after{opacity:1}
+
+/* card de destaque · o único com coral no grid */
+.card--featured{
+  border-color:rgba(var(--accent-rgb),.32);
+  background:linear-gradient(135deg,var(--soft-peach) 0%,#fff 62%);
+}
+.card--featured::after{box-shadow:inset 0 0 0 1px rgba(var(--accent-rgb),.40)}
+
+.grid{display:grid;gap:14px}
+@media(min-width:768px){.grid--2{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){
+  .grid--3{grid-template-columns:repeat(3,1fr)}
+  .grid--4{grid-template-columns:repeat(4,1fr)}
+}
+
+/* ícone dentro de card */
+.icon-box{
+  width:46px;height:46px;display:flex;align-items:center;justify-content:center;
+  border-radius:12px;
+  border:1px solid rgba(var(--brand-rgb),.22);
+  background:linear-gradient(180deg,#fff 0%,var(--brand-soft) 100%);
+  color:var(--brand);
+  box-shadow:var(--e1),var(--rim);
+}
+.icon-box--accent{
+  border-color:rgba(var(--accent-rgb),.28);
+  background:rgba(var(--accent-rgb),.10);
+  color:var(--accent-ink);
+}
+
+/* ============================================================
+   7. REVEAL AO ROLAR
+   ============================================================ */
+[data-reveal]{
+  opacity:0;
+  transform:translateY(40px);
+  transition:opacity 1.15s cubic-bezier(.16,1,.3,1),
+             transform 1.15s cubic-bezier(.16,1,.3,1),
+             filter 1.15s cubic-bezier(.16,1,.3,1);
+  filter:blur(3px);
+  will-change:opacity,transform,filter;
+}
+/* variantes */
+[data-reveal="scale"]{transform:translateY(34px) scale(.962)}
+[data-reveal="left"] {transform:translateX(-44px)}
+[data-reveal="right"]{transform:translateX(44px)}
+[data-reveal="fade"] {transform:none}
+
+[data-reveal].is-in{opacity:1;transform:none;filter:blur(0)}
+/* depois de revelado o elemento sai do caminho: sem transição residual */
+[data-reveal].is-done{transition:none;will-change:auto;filter:none}
+
+/* barra de progresso da leitura */
+.progress{
+  position:fixed;top:0;left:0;right:0;height:2px;z-index:1100;
+  pointer-events:none;background:transparent;
+}
+.progress__bar{
+  height:100%;width:0;
+  background:linear-gradient(90deg,var(--tech-teal) 0%,var(--crystal-aqua) 55%,var(--tech-teal) 100%);
+  box-shadow:0 0 12px rgba(var(--brand-rgb),.55);
+  transform-origin:left center;
+  transition:width .12s linear;
+}
+
+/* ============================================================
+   8. NAV
+   ============================================================ */
+.nav{
+  position:fixed;inset:0 0 auto 0;z-index:1000;
+  height:var(--nav-h);
+  background:rgba(244,248,250,.55);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  transition:all var(--t-slow) ease;
+}
+.nav.is-scrolled{
+  background:rgba(244,248,250,.88);
+  box-shadow:0 1px 0 rgba(var(--ink-rgb),.06),
+             0 6px 20px rgba(var(--ink-rgb),.06);
+}
+.nav__inner{
+  max-width:var(--max);margin-inline:auto;height:100%;
+  display:flex;align-items:center;justify-content:space-between;
+  padding-inline:20px;
+}
+@media(min-width:768px){.nav__inner{padding-inline:40px}}
+
+/* wordmark: PHD bold + Healthtec light */
+.logo{display:inline-flex;align-items:center;gap:9px}
+.logo__mark{
+  height:26px;width:auto;
+  filter:drop-shadow(0 2px 4px rgba(var(--ink-rgb),.18));
+  transition:transform var(--t-btn) cubic-bezier(.22,1,.36,1);
+}
+.logo:hover .logo__mark{transform:translateY(-1px) scale(1.03)}
+.footer .logo__mark{
+  height:32px;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.45));
+}
+
+.wordmark{
+  font-family:var(--font-display);
+  font-variation-settings:var(--opsz-text);
+  font-size:17px;line-height:1;letter-spacing:-.01em;
+  color:var(--midnight-navy);
+  white-space:nowrap;
+}
+.wordmark b{font-weight:800;letter-spacing:.03em}
+.wordmark span{font-weight:500;color:var(--deep-blue)}
+
+.nav__links{display:none;align-items:center;gap:32px}
+@media(min-width:768px){.nav__links{display:flex}}
+.nav__link{
+  font-size:12px;font-weight:500;letter-spacing:.01em;color:var(--muted);
+  transition:color var(--t-link) ease;
+}
+.nav__link:hover{color:var(--ink)}
+.nav__mobile{display:flex;align-items:center;gap:12px}
+@media(min-width:768px){.nav__mobile{display:none}}
+
+.burger{
+  width:32px;height:32px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-pill);color:var(--muted);transition:color var(--t-link) ease;
+}
+.burger:hover{color:var(--ink)}
+
+.drawer{
+  position:fixed;inset:var(--nav-h) 0 auto 0;z-index:999;
+  background:rgba(244,248,250,.97);
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(var(--ink-rgb),.08);
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows var(--t-btn) ease;
+}
+.drawer.is-open{grid-template-rows:1fr}
+.drawer__inner{overflow:hidden}
+.drawer__list{display:flex;flex-direction:column;gap:4px;padding:16px 20px 24px}
+.drawer__list a{padding:10px 0;font-size:14px;font-weight:500;color:var(--muted)}
+
+/* ============================================================
+   9. HERO
+   ============================================================ */
+.hero{
+  position:relative;overflow:hidden;
+  min-height:100svh;
+  background:var(--canvas);
+  padding-top:64px;
+}
+/* glow frio dominante */
+.hero__glow{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(60% 65% at 25% 48%, rgba(var(--brand-rgb),.13) 0%, transparent 65%);
+}
+/* glow aqua secundário, só desktop */
+.hero__glow--2{
+  display:none;
+  background:radial-gradient(45% 60% at 82% 40%, rgba(var(--aqua-rgb),.45) 0%, transparent 60%);
+}
+@media(min-width:1024px){.hero__glow--2{display:block}}
+
+.hero__inner{
+  position:relative;max-width:var(--max);margin-inline:auto;
+  padding-inline:20px;
+  min-height:calc(100svh - 64px);
+  display:flex;align-items:flex-start;
+}
+@media(min-width:768px){.hero__inner{padding-inline:40px}}
+@media(min-width:1024px){.hero__inner{align-items:center}}
+
+.hero__row{display:flex;flex-direction:column;width:100%}
+@media(min-width:1024px){.hero__row{flex-direction:row;align-items:center;gap:48px}}
+@media(min-width:1280px){.hero__row{gap:80px}}
+
+.hero__copy{padding-block:40px 16px}
+@media(min-width:1024px){.hero__copy{max-width:540px;flex-shrink:0;padding-block:48px}}
+
+.scroll-hint{display:flex;align-items:center;gap:12px}
+.scroll-hint__track{
+  position:relative;width:1px;height:28px;overflow:hidden;
+  border-radius:var(--r-pill);background:rgba(var(--ink-rgb),.12);
+}
+.scroll-hint__bar{
+  position:absolute;inset:0 0 auto 0;height:12px;
+  border-radius:var(--r-pill);background:var(--brand);
+  transform-origin:top;
+  animation:scrollLine 2.2s ease-in-out infinite;
+}
+@keyframes scrollLine{
+  0%  {transform:translateY(-100%) scaleY(.6);opacity:0}
+  35% {opacity:1}
+  100%{transform:translateY(180%) scaleY(1);opacity:0}
+}
+.scroll-hint__label{font-size:12px;font-weight:500;color:var(--faint);transition:color var(--t-link) ease}
+.scroll-hint:hover .scroll-hint__label{color:var(--muted)}
+
+/* ============================================================
+   10. MOCKUP · container queries
+   ============================================================ */
+.phone{position:relative;width:100%;container-type:inline-size}
+/* halo coral: eco da célula do logo. Único elemento quente do hero. */
+.phone__halo{
+  position:absolute;inset:-8%;z-index:-1;border-radius:var(--r-pill);pointer-events:none;
+  background:radial-gradient(circle, rgba(var(--accent-rgb),.22) 0%, transparent 68%);
+}
+.phone__frame{
+  position:relative;z-index:1;
+  padding:2.6cqw;
+  border-radius:13cqw;
+  background:linear-gradient(145deg,#2A3B52 0%,#152840 45%,#0C233F 100%);
+  box-shadow:inset 0 0 0 .4cqw rgba(255,255,255,.07);
+  animation:float 6s ease-in-out infinite;
+}
+.phone__screen{
+  position:relative;overflow:hidden;
+  border-radius:10.6cqw;
+  background:#0C233F;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.5);
+}
+.phone__status{
+  position:absolute;inset:0 0 auto 0;height:7.2%;
+  display:flex;align-items:center;justify-content:space-between;
+  padding-inline:8%;background:#0C233F;color:#fff;pointer-events:none;
+}
+.phone__time{font-size:4cqw;font-weight:600;letter-spacing:.01em}
+.phone__icons{display:flex;align-items:center;gap:1.6cqw}
+.phone__icons svg{height:3.4cqw;width:auto}
+.phone__notch{
+  position:absolute;top:1.7%;left:50%;transform:translateX(-50%);
+  width:30%;height:3.3%;border-radius:var(--r-pill);background:#000;
+}
+.phone__glow{
+  box-shadow:0 6px 12px rgba(var(--ink-rgb),.10),
+             0 24px 48px rgba(var(--ink-rgb),.16),
+             0 56px 100px rgba(var(--ink-rgb),.18),
+             inset 0 0 0 .4cqw rgba(255,255,255,.07);
+}
+/* sombra de contato: elipse difusa abaixo do aparelho */
+.phone::after{
+  content:'';position:absolute;z-index:0;
+  left:8%;right:8%;bottom:-5%;height:9%;
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side,rgba(var(--ink-rgb),.26) 0%,transparent 100%);
+  filter:blur(6px);
+}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+
+/* placeholder de tela: núcleo celular sobre navy */
+.phone__fill{
+  aspect-ratio:9/19.5;width:100%;
+  background:
+    radial-gradient(60% 26% at 50% 34%, rgba(var(--accent-rgb),.55) 0%, transparent 70%),
+    radial-gradient(120% 60% at 50% 0%, rgba(var(--brand-rgb),.55) 0%, transparent 62%),
+    linear-gradient(180deg,#0C233F 0%,#081A2F 100%);
+}
+
+.hero__phone-mobile{display:flex;justify-content:center;margin-top:40px}
+.hero__phone-mobile .phone{width:60%;max-width:224px}
+.hero__phone-desktop{display:none}
+@media(min-width:1024px){
+  .hero__phone-mobile{display:none}
+  .hero__phone-desktop{display:flex;flex:1;align-items:center;justify-content:flex-end}
+  .hero__phone-desktop .phone{max-width:318px}
+}
+@media(min-width:1280px){.hero__phone-desktop .phone{max-width:352px}}
+
+/* ============================================================
+   11. MARQUEE
+   ============================================================ */
+.marquee{
+  position:relative;z-index:2;
+  overflow:hidden;padding-block:14px;
+  background:var(--surface);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
+             0 -1px 0 rgba(var(--ink-rgb),.05),
+             0 2px 10px rgba(var(--ink-rgb),.05);
+}
+.marquee__track{
+  display:flex;width:max-content;white-space:nowrap;
+  animation:marquee 32s linear infinite;
+}
+.marquee__item{display:inline-flex;align-items:center}
+.marquee__dot{margin-inline:20px;color:var(--brand);opacity:.45}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ============================================================
+   12. TIMELINE
+   ============================================================ */
+.timeline{position:relative;margin-top:40px}
+.timeline__line{
+  position:absolute;left:19px;top:0;bottom:32px;width:1px;
+  background:linear-gradient(to bottom,var(--tech-teal),var(--crystal-aqua) 60%,transparent);
+}
+.timeline__item{position:relative;padding-left:56px;padding-bottom:40px}
+.timeline__item:last-child{padding-bottom:0}
+.timeline__num{
+  position:absolute;left:0;top:0;z-index:1;
+  width:40px;height:40px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-pill);
+  border:1px solid rgba(var(--brand-rgb),.38);
+  background:rgba(var(--brand-rgb),.10);
+  color:var(--brand-ink);font-size:13px;font-weight:700;
+}
+
+/* ============================================================
+   13. CARROSSEL NATIVO
+   ============================================================ */
+.rail-wrap{position:relative;margin-top:40px}
+.rail{
+  display:flex;gap:14px;
+  overflow-x:auto;overscroll-behavior-x:contain;
+  scroll-snap-type:x mandatory;
+  scrollbar-width:none;-ms-overflow-style:none;
+  /* padding = gutter do wrap, margin negativa devolve o alinhamento.
+     Resultado: sombras com folga e sangria até a borda da tela. */
+  padding:12px 20px 30px;
+  margin-inline:-20px;
+  scroll-padding-inline:20px;
+}
+@media(min-width:768px){
+  .rail{padding-inline:40px;margin-inline:-40px;scroll-padding-inline:40px}
+}
+.rail::-webkit-scrollbar{display:none}
+.rail:focus-visible{outline:2px solid var(--brand);outline-offset:2px;border-radius:var(--r-card)}
+.rail.is-dragging{scroll-snap-type:none;cursor:grabbing;user-select:none}
+.rail__item{flex-shrink:0;scroll-snap-align:start;width:250px}
+@media(min-width:768px){.rail__item{width:290px}}
+.rail__fade{
+  position:absolute;top:0;right:-20px;width:56px;height:100%;pointer-events:none;
+  background:linear-gradient(to left,var(--canvas),transparent);
+  opacity:1;transition:opacity var(--t-btn) ease;
+}
+@media(min-width:768px){.rail__fade{right:-40px;width:88px}}
+.rail-wrap.is-end .rail__fade{opacity:0}
+.section--night .rail__fade{background:linear-gradient(to left,var(--night),transparent)}
+.section--surface .rail__fade{background:linear-gradient(to left,var(--surface),transparent)}
+.rail__hint{margin-top:4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}
+
+.thumb{
+  position:relative;overflow:hidden;border-radius:var(--r-card);
+  border:1px solid rgba(var(--ink-rgb),.07);
+  box-shadow:var(--e2),var(--rim);
+  transition:box-shadow var(--t-card) ease, transform var(--t-card) cubic-bezier(.22,1,.36,1);
+  cursor:pointer;
+}
+.thumb:hover{box-shadow:var(--e3),var(--rim);transform:translateY(-3px)}
+.thumb__media{
+  height:170px;width:100%;
+  background:linear-gradient(135deg,var(--crystal-aqua) 0%,#8FC7D4 100%);
+  transition:transform var(--t-slow) ease;
+}
+@media(min-width:768px){.thumb__media{height:190px}}
+.thumb:hover .thumb__media{transform:scale(1.03)}
+.thumb__play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.thumb__play span{
+  width:48px;height:48px;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-pill);background:rgba(255,255,255,.92);
+  box-shadow:0 8px 20px rgba(var(--ink-rgb),.22);
+  transition:all var(--t-btn) ease;color:var(--midnight-navy);
+}
+.thumb:hover .thumb__play span{transform:scale(1.1);background:#fff}
+
+
+/* ============================================================
+   13b. SEÇÃO O APP · rail de mockups
+   ============================================================ */
+.eyebrow{display:flex;align-items:center;gap:12px}
+.eyebrow__line{width:28px;height:1px;background:var(--brand);flex-shrink:0}
+.eyebrow__text{
+  font-size:11px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.14em;color:var(--brand-ink);
+}
+
+.rail__item--app{width:210px}
+@media(min-width:640px){.rail__item--app{width:230px}}
+@media(min-width:768px){.rail__item--app{width:248px}}
+.rail__item--app .phone::after{display:none}
+/* sombra mais curta: quatro aparelhos lado a lado acumulam sombra
+   e o conjunto vira uma mancha escura */
+.rail__item--app .phone__glow{
+  box-shadow:0 2px 6px rgba(var(--ink-rgb),.09),
+             0 10px 22px rgba(var(--ink-rgb),.11),
+             0 22px 44px rgba(var(--ink-rgb),.09),
+             inset 0 0 0 .4cqw rgba(255,255,255,.07);
+}
+.rail__item--app .phone__frame{
+  animation:none;
+  transition:transform var(--t-card) cubic-bezier(.22,1,.36,1),
+             box-shadow var(--t-card) ease;
+}
+.rail__item--app:hover .phone__frame{transform:translateY(-4px)}
+.rail__caption{margin-top:20px}
+.rail__caption h3{font-size:14px;font-weight:600;letter-spacing:-.01em;color:var(--ink)}
+.rail__caption p{margin-top:8px;font-size:13px;font-weight:300;line-height:1.7;color:var(--muted)}
+
+
+/* --- controles do carrossel --- */
+.rail__foot{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  margin-top:4px;
+}
+.rail__hint{margin:0;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}
+@media(min-width:768px){.rail__hint{display:none}}
+
+.rail__foot[hidden]{display:none}
+.rail-dots{display:flex;align-items:center;gap:6px}
+.rail-dot{
+  width:6px;height:6px;padding:0;border-radius:999px;
+  background:rgba(var(--ink-rgb),.16);
+  transition:width var(--t-btn) cubic-bezier(.22,1,.36,1), background var(--t-btn) ease;
+}
+.rail-dot.is-on{width:22px;background:var(--brand)}
+.section--night .rail-dot{background:rgba(255,255,255,.20)}
+.section--night .rail-dot.is-on{background:var(--crystal-aqua)}
+
+.rail-nav{display:none;gap:8px}
+@media(min-width:768px){.rail-nav{display:flex}}
+.rail-btn{
+  width:42px;height:42px;display:flex;align-items:center;justify-content:center;
+  border-radius:999px;
+  background:var(--surface);
+  border:1px solid rgba(var(--ink-rgb),.10);
+  box-shadow:var(--e1),var(--rim);
+  color:var(--ink);
+  transition:all var(--t-btn) cubic-bezier(.22,1,.36,1);
+}
+.rail-btn:hover:not(:disabled){
+  transform:translateY(-2px);
+  box-shadow:var(--e2),var(--rim);
+  border-color:rgba(var(--brand-rgb),.35);
+  color:var(--brand-ink);
+}
+.rail-btn:disabled{opacity:.32;cursor:default}
+.section--night .rail-btn{
+  background:rgba(255,255,255,.07);
+  border-color:rgba(255,255,255,.14);
+  color:#fff;
+  box-shadow:0 10px 24px rgba(0,0,0,.30),var(--rim-night);
+}
+.section--night .rail-btn:hover:not(:disabled){
+  background:rgba(var(--aqua-rgb),.14);
+  border-color:rgba(var(--aqua-rgb),.40);
+  color:var(--crystal-aqua);
+}
+
+/* --- UI placeholder dentro da tela · tudo em cqw, escala sozinho --- */
+.ui{
+  aspect-ratio:9/19.5;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#0C233F 0%,#081A2F 100%);
+  color:#fff;padding:16cqw 5cqw 0;
+}
+.ui__brand{font-size:3.4cqw;font-weight:700;letter-spacing:.3em;color:rgba(255,255,255,.8)}
+.ui__h{font-size:5.4cqw;font-weight:700;letter-spacing:-.02em;margin-top:3.4cqw}
+.ui__sub{font-size:2.9cqw;letter-spacing:.1em;color:rgba(var(--aqua-rgb),.7);margin-top:1cqw}
+.ui__body{flex:1;margin-top:4cqw;display:flex;flex-direction:column;gap:2.8cqw;overflow:hidden}
+
+.ui__card{
+  border-radius:3.4cqw;padding:3.6cqw;
+  background:rgba(255,255,255,.06);
+  border:.3cqw solid rgba(255,255,255,.09);
+}
+.ui__row{display:flex;align-items:center;gap:2.6cqw}
+.ui__dot{width:7.6cqw;height:7.6cqw;border-radius:50%;flex-shrink:0;background:rgba(var(--brand-rgb),.45)}
+.ui__dot--aqua{background:rgba(var(--aqua-rgb),.24)}
+.ui__dot--coral{background:rgba(var(--accent-rgb),.45)}
+.ui__label{display:block;font-size:3.4cqw;font-weight:600;line-height:1.3}
+.ui__meta{display:block;margin-top:.6cqw;font-size:2.7cqw;color:rgba(255,255,255,.5);line-height:1.35}
+.ui__tag{
+  margin-left:auto;flex-shrink:0;font-size:2.5cqw;font-weight:600;
+  padding:.9cqw 2.2cqw;border-radius:999px;
+  background:rgba(var(--brand-rgb),.35);color:var(--crystal-aqua);
+}
+.ui__tag--coral{background:rgba(var(--accent-rgb),.28);color:var(--soft-peach)}
+
+.ui__ring{
+  margin:3cqw auto 2cqw;width:40cqw;height:40cqw;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:conic-gradient(var(--tech-teal) 0 74%, rgba(255,255,255,.10) 74% 100%);
+}
+.ui__ring i{
+  width:31cqw;height:31cqw;border-radius:50%;background:#0A1E36;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-style:normal;font-size:9.5cqw;font-weight:700;line-height:1;
+}
+.ui__ring i em{font-style:normal;font-size:2.3cqw;font-weight:500;letter-spacing:.16em;color:rgba(var(--aqua-rgb),.7);margin-top:1.2cqw}
+
+.ui__chips{display:flex;gap:2cqw}
+.ui__chip{
+  flex:1;border-radius:2.8cqw;padding:2.6cqw 1.6cqw;text-align:center;
+  background:rgba(255,255,255,.06);border:.3cqw solid rgba(255,255,255,.09);
+}
+.ui__chip b{display:block;font-size:4.4cqw;line-height:1}
+.ui__chip span{display:block;margin-top:1cqw;font-size:2.4cqw;color:rgba(255,255,255,.55)}
+.ui__chip--warn{background:rgba(var(--accent-rgb),.16);border-color:rgba(var(--accent-rgb),.32)}
+.ui__chip--warn b{color:var(--soft-peach)}
+
+.ui__tabs{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:3cqw;padding:3cqw 1.5cqw 3.6cqw;
+  border-top:.3cqw solid rgba(255,255,255,.09);
+}
+.ui__tab{width:6cqw;height:6cqw;border-radius:1.8cqw;background:rgba(255,255,255,.15)}
+.ui__tab.is-on{background:var(--tech-teal)}
+
+/* ============================================================
+   14. FAQ
+   ============================================================ */
+.faq__item{border-bottom:1px solid rgba(var(--ink-rgb),.09)}
+.faq__btn{
+  width:100%;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  text-align:left;padding-block:20px;
+}
+.faq__q{font-size:13px;font-weight:600;color:var(--ink);transition:color var(--t-link) ease}
+@media(min-width:768px){.faq__q{font-size:14px}}
+.faq__btn:hover .faq__q{color:var(--brand-ink)}
+.faq__icon{flex-shrink:0;margin-top:2px;color:var(--brand);transition:transform var(--t-btn) ease}
+.faq__btn[aria-expanded="true"] .faq__icon{transform:rotate(45deg)}
+.faq__panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--t-btn) ease}
+.faq__btn[aria-expanded="true"] + .faq__panel{grid-template-rows:1fr}
+.faq__panel > div{overflow:hidden}
+.faq__a{font-size:13px;font-weight:300;color:var(--muted);line-height:1.75;padding-bottom:20px}
+
+/* ============================================================
+   15. IMAGEM
+   ============================================================ */
+.media{position:relative;overflow:hidden;border-radius:var(--r-card)}
+.media{box-shadow:var(--e4);background:var(--brand-soft)}
+.media__img{
+  display:block;width:100%;height:280px;object-fit:cover;
+  transform:scale(1.001);
+  transition:transform 1.2s cubic-bezier(.22,1,.36,1);
+}
+@media(min-width:768px){.media__img{height:340px}}
+.media--wide .media__img{height:240px}
+@media(min-width:768px){.media--wide .media__img{height:320px}}
+@media(min-width:1024px){.media--wide .media__img{height:380px}}
+.media:hover .media__img{transform:scale(1.03)}
+
+/* véu frio: alinha as fotos à paleta sem lavar o assunto */
+.media__tint{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(135deg, rgba(var(--brand-rgb),.20) 0%, transparent 58%),
+    linear-gradient(0deg,   rgba(var(--ink-rgb),.18) 0%, transparent 45%);
+  mix-blend-mode:multiply;
+}
+.media--warm .media__tint{
+  background:
+    linear-gradient(135deg, rgba(var(--brand-rgb),.32) 0%, rgba(var(--ink-rgb),.10) 62%, transparent 100%),
+    linear-gradient(0deg,   rgba(var(--ink-rgb),.22) 0%, transparent 50%);
+}
+.media__fade{
+  position:absolute;inset:auto 0 0 0;height:96px;pointer-events:none;
+  background:linear-gradient(to top,var(--canvas),transparent);
+}
+.media__inset{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(var(--ink-rgb),.07)}
+
+/* ============================================================
+   16. FOOTER
+   ============================================================ */
+.footer{
+  background:linear-gradient(180deg,#0E2745 0%,var(--night) 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.10);
+  padding:40px 20px;
+}
+@media(min-width:768px){.footer{padding-inline:40px}}
+.footer__inner{
+  max-width:var(--max);margin-inline:auto;
+  display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center;
+}
+@media(min-width:768px){.footer__inner{flex-direction:row;justify-content:space-between;text-align:left}}
+.footer .logo__mark{
+  height:32px;
+  filter:drop-shadow(0 3px 10px rgba(0,0,0,.45));
+}
+.footer .wordmark{color:#fff}
+.footer .wordmark span,.section--night .wordmark span{color:rgba(255,255,255,.72)}
+.footer .logo{opacity:.9;transition:opacity var(--t-link) ease}
+.footer .logo:hover{opacity:1}
+.footer__copy{font-size:11px;color:rgba(255,255,255,.55)}
+.footer__links{display:flex;gap:20px;font-size:11px;color:rgba(255,255,255,.62)}
+.footer__links a{transition:color var(--t-link) ease}
+.footer__links a:hover{color:var(--crystal-aqua)}
+
+/* ============================================================
+   17. ACESSIBILIDADE
+   ============================================================ */
+:focus-visible{outline:2px solid var(--brand);outline-offset:3px;border-radius:4px}
+.section--night :focus-visible,.footer :focus-visible{outline-color:var(--crystal-aqua)}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+  [data-reveal]{opacity:1;transform:none}
+  .progress{display:none}
+  .ui-deck .ui{transition:none}
+  .ui-touch{display:none}
+  .card:hover,.thumb:hover,.btn:hover,.rail__item--app:hover .phone__frame{transform:none}
+}
+
+/* ============================================================
+   18. AJUSTES INSTITUCIONAIS
+   ============================================================ */
+@media(min-width:768px){.nav__links{gap:24px}}
+@media(min-width:1024px){.nav__links{gap:30px}}
+
+/* cartão de etapa do processo */
+.rail__item--step{width:230px}
+@media(min-width:768px){.rail__item--step{width:262px}}
+.rail__item--step .card{height:100%}
+.step-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:34px;height:34px;border-radius:999px;
+  font-size:12px;font-weight:700;letter-spacing:.02em;
+  border:1px solid rgba(var(--brand-rgb),.32);
+  background:rgba(var(--brand-rgb),.09);
+  color:var(--brand-ink);
+}
+
+/* aviso regulatório */
+.note{
+  border-radius:var(--r-card);
+  border:1px solid rgba(var(--ink-rgb),.10);
+  background:var(--surface);
+  padding:20px 22px;
+  box-shadow:var(--e1),var(--rim);
+}
+.note p{font-size:13px;font-weight:300;line-height:1.7;color:var(--muted)}
+.note strong{font-weight:600;color:var(--ink)}
+.section--night .note{
+  background:rgba(255,255,255,.055);
+  border-color:rgba(255,255,255,.11);
+  box-shadow:0 14px 30px rgba(0,0,0,.26),var(--rim-night);
+}
+.section--night .note p{color:rgba(255,255,255,.68)}
+.section--night .note strong{color:#fff}
+
+/* footer institucional */
+.footer__grid{
+  max-width:var(--max);margin-inline:auto;
+  display:grid;gap:36px;
+  padding-bottom:32px;
+}
+@media(min-width:768px){
+  .footer__grid{grid-template-columns:1.4fr 1fr 1fr;gap:48px;padding-bottom:40px}
+}
+.footer__tag{
+  margin-top:16px;font-size:12px;font-weight:600;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(var(--aqua-rgb),.85);
+}
+.footer__desc{margin-top:12px;max-width:320px;font-size:13px;font-weight:300;line-height:1.7;color:rgba(255,255,255,.62)}
+.footer__col h4{
+  font-size:11px;font-weight:600;text-transform:uppercase;
+  letter-spacing:.14em;color:rgba(var(--aqua-rgb),.7);
+}
+.footer__col ul{margin-top:14px;display:flex;flex-direction:column;gap:9px}
+.footer__col a{font-size:13px;font-weight:300;color:rgba(255,255,255,.72);transition:color var(--t-link) ease}
+.footer__col a:hover{color:var(--crystal-aqua)}
+.footer__bar{
+  max-width:var(--max);margin-inline:auto;
+  padding-top:24px;
+  border-top:1px solid rgba(255,255,255,.10);
+  display:flex;flex-direction:column;gap:14px;text-align:center;
+}
+@media(min-width:768px){
+  .footer__bar{flex-direction:row;align-items:center;justify-content:space-between;text-align:left}
+}
+.footer__legal{font-size:11px;font-weight:300;line-height:1.6;color:rgba(255,255,255,.55);max-width:640px}
+
+
+/* ============================================================
+   19. HERO EM MOVIMENTO
+   ============================================================ */
+
+/* deck de telas: uma visível por vez */
+.ui-deck{position:relative;aspect-ratio:9/19.5;width:100%;overflow:hidden}
+.ui-deck .ui{
+  position:absolute;inset:0;
+  opacity:0;transform:translateY(10px) scale(.995);
+  transition:opacity .55s cubic-bezier(.22,1,.36,1),
+             transform .55s cubic-bezier(.22,1,.36,1);
+  pointer-events:none;
+}
+.ui-deck .ui.is-on{opacity:1;transform:none}
+
+/* linhas entrando em cascata quando a tela assume */
+.ui-deck .ui.is-on .ui__body > *{animation:uiRow .5s both cubic-bezier(.22,1,.36,1)}
+.ui-deck .ui.is-on .ui__body > *:nth-child(1){animation-delay:.10s}
+.ui-deck .ui.is-on .ui__body > *:nth-child(2){animation-delay:.16s}
+.ui-deck .ui.is-on .ui__body > *:nth-child(3){animation-delay:.22s}
+.ui-deck .ui.is-on .ui__body > *:nth-child(4){animation-delay:.28s}
+.ui-deck .ui.is-on .ui__body > *:nth-child(5){animation-delay:.34s}
+.ui-deck .ui.is-on .ui__body > *:nth-child(6){animation-delay:.40s}
+@keyframes uiRow{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
+
+/* anel preenchendo */
+@property --ring{syntax:'<percentage>';inherits:false;initial-value:74%}
+.ui__ring{--ring:74%;background:conic-gradient(var(--tech-teal) 0 var(--ring), rgba(255,255,255,.10) var(--ring) 100%)}
+.ui-deck .ui.is-on .ui__ring{animation:ringFill 1.5s .25s cubic-bezier(.22,1,.36,1) both}
+@keyframes ringFill{from{--ring:0%}to{--ring:74%}}
+
+/* toque do usuário sobre a barra de abas */
+.ui-touch{
+  position:absolute;z-index:5;width:9%;aspect-ratio:1;
+  margin-left:-4.5%;margin-top:-4.5%;
+  border-radius:999px;pointer-events:none;
+  background:rgba(var(--aqua-rgb),.30);
+  box-shadow:0 0 0 1px rgba(var(--aqua-rgb),.40);
+  opacity:0;transform:scale(.5);
+  transition:left .34s cubic-bezier(.22,1,.36,1), top .34s cubic-bezier(.22,1,.36,1),
+             opacity .2s ease, transform .2s ease;
+}
+.ui-touch.is-visible{opacity:1;transform:scale(1)}
+.ui-touch.is-tap{animation:tapPulse .45s ease-out}
+@keyframes tapPulse{
+  0%  {transform:scale(1);   box-shadow:0 0 0 1px rgba(var(--aqua-rgb),.45)}
+  55% {transform:scale(.72); box-shadow:0 0 0 8px rgba(var(--aqua-rgb),.10)}
+  100%{transform:scale(1);   box-shadow:0 0 0 14px rgba(var(--aqua-rgb),0)}
+}
+
+/* ============================================================
+   20. PROFUNDIDADE DO HERO
+   ============================================================ */
+.hero{
+  background:linear-gradient(180deg,#FFFFFF 0%,var(--canvas) 46%,#EEF3F7 100%);
+  box-shadow:inset 0 -90px 90px -70px rgba(var(--ink-rgb),.14);
+}
+/* textura de grade, esmaecida nas bordas */
+.hero__grid{
+  position:absolute;inset:0;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(var(--ink-rgb),.075) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--ink-rgb),.075) 1px, transparent 1px);
+  background-size:64px 64px;
+  -webkit-mask-image:radial-gradient(72% 62% at 50% 38%, #000 0%, transparent 78%);
+  mask-image:radial-gradient(72% 62% at 50% 38%, #000 0%, transparent 78%);
+}
+/* halo largo atrás do aparelho */
+.hero__aura{
+  position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(38% 42% at 72% 46%, rgba(var(--brand-rgb),.20) 0%, transparent 68%);
+  filter:blur(18px);
+}
+@media(max-width:1023px){.hero__aura{background:radial-gradient(52% 26% at 50% 74%, rgba(var(--brand-rgb),.16) 0%, transparent 70%)}}
+
+/* chão sob o aparelho */
+.phone__floor{
+  position:absolute;left:-6%;right:-6%;bottom:-7%;height:14%;
+  border-radius:50%;pointer-events:none;z-index:-1;
+  background:radial-gradient(closest-side, rgba(var(--ink-rgb),.20) 0%, transparent 72%);
+  filter:blur(10px);
+}
+
+/* camadas com parallax leve */
+.hero__glow,.hero__aura,.hero__grid{will-change:transform}
+
+
+/* ============================================================
+   21. PLANO CLARO TINGIDO + FAIXA DE PILARES
+   ============================================================ */
+.section--tint{
+  background:linear-gradient(180deg,var(--brand-soft) 0%,#F1F7FA 100%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
+             0 -1px 0 rgba(var(--ink-rgb),.05),
+             0 1px 0 rgba(var(--ink-rgb),.05);
+}
+.section--tint .note{background:#fff}
+
+.pillars{
+  margin-top:44px;
+  display:grid;
+  gap:0 32px;
+  border-bottom:1px solid rgba(var(--ink-rgb),.09);
+}
+@media(min-width:768px){.pillars{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.pillars{grid-template-columns:repeat(5,1fr);gap:0 28px}}
+
+.pillar{
+  padding:22px 0 24px;
+  border-top:1px solid rgba(var(--ink-rgb),.09);
+}
+@media(min-width:1024px){.pillar{padding:26px 0 28px}}
+.pillar__icon{display:block;color:var(--brand)}
+.pillar h3{
+  margin-top:16px;font-size:14px;font-weight:600;letter-spacing:-.01em;color:var(--ink);
+}
+.pillar p{
+  margin-top:8px;font-size:13px;font-weight:300;line-height:1.65;color:var(--muted);
+}
+/* fio decorativo que cresce quando o item aparece */
+.pillar{position:relative}
+.pillar::before{
+  content:'';position:absolute;top:-1px;left:0;height:1px;width:0;
+  background:var(--brand);
+  transition:width .9s cubic-bezier(.22,1,.36,1) .15s;
+}
+.pillar.is-in::before{width:34px}
+
+/* no mobile o texto vem antes da imagem nos blocos divididos */
+@media(max-width:1023px){
+  #ciencia .split,#jornada .split{flex-direction:column-reverse !important}
+}
+
+
+/* ============================================================
+   22. BARRA DE CONFIANÇA E PROGRAMAS
+   ============================================================ */
+.trustbar{
+  position:relative;z-index:2;background:var(--surface);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
+             0 -1px 0 rgba(var(--ink-rgb),.05),
+             0 2px 10px rgba(var(--ink-rgb),.05);
+}
+.trustbar__inner{
+  max-width:var(--max);margin-inline:auto;padding:20px;
+  display:grid;gap:16px;
+}
+@media(min-width:768px){
+  .trustbar__inner{padding:22px 40px;grid-template-columns:repeat(2,1fr);gap:18px 40px}
+}
+@media(min-width:1024px){.trustbar__inner{grid-template-columns:repeat(4,1fr);gap:28px}}
+.chip{display:flex;align-items:flex-start;gap:11px}
+.chip svg{flex-shrink:0;margin-top:1px;color:var(--brand)}
+.chip span{font-size:12.5px;font-weight:400;line-height:1.45;color:var(--muted)}
+.chip b{font-weight:600;color:var(--ink)}
+
+/* cartão de programa */
+.prog-card{display:flex;flex-direction:column;height:100%}
+.prog-card__name{
+  font-family:var(--font-display);font-variation-settings:var(--opsz-display);
+  font-size:19px;font-weight:700;letter-spacing:-.02em;margin-top:16px;
+}
+.prog-card__focus{margin-top:10px;font-size:13px;font-weight:300;line-height:1.65;color:var(--muted);flex:1}
+.section--night .prog-card__focus{color:rgba(255,255,255,.66)}
+.section--night .op p{color:rgba(255,255,255,.66)}
+.section--night .op h4{color:#fff}
+.prog-card__meta{
+  margin-top:18px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;
+}
+.tagline{
+  font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;
+  padding:5px 11px;border-radius:999px;
+  border:1px solid rgba(var(--aqua-rgb),.28);
+  background:rgba(var(--aqua-rgb),.10);
+  color:var(--crystal-aqua);
+}
+.tagline--premium{
+  border-color:rgba(var(--accent-rgb),.38);
+  background:rgba(var(--accent-rgb),.14);
+  color:var(--soft-peach);
+}
+.prog-card__price{font-size:11px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+
+/* selo técnico */
+.seal{
+  margin-top:36px;display:flex;flex-direction:column;gap:14px;
+  padding:22px 24px;border-radius:var(--r-card);
+  background:linear-gradient(180deg,rgba(255,255,255,.09) 0%,rgba(255,255,255,.045) 100%);
+  border:1px solid rgba(255,255,255,.12);
+  box-shadow:0 14px 30px rgba(0,0,0,.26),var(--rim-night);
+}
+@media(min-width:768px){.seal{flex-direction:row;align-items:center;justify-content:space-between;gap:28px}}
+.seal__num{
+  font-family:var(--font-display);font-variation-settings:var(--opsz-display);
+  font-size:26px;font-weight:700;letter-spacing:-.02em;color:#fff;white-space:nowrap;
+}
+.seal__num span{display:block;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(var(--aqua-rgb),.8);margin-top:4px}
+.seal__text{font-size:13px;font-weight:300;line-height:1.65;color:rgba(255,255,255,.66)}
+
+/* mini blocos "como operamos" */
+.ops{margin-top:32px;display:grid;gap:14px}
+@media(min-width:640px){.ops{grid-template-columns:repeat(3,1fr)}}
+.op{padding:18px;border-radius:12px;background:var(--surface);border:1px solid rgba(var(--ink-rgb),.07);box-shadow:var(--e1),var(--rim)}
+.op h4{font-size:13px;font-weight:600;letter-spacing:-.01em}
+.op p{margin-top:6px;font-size:12.5px;font-weight:300;line-height:1.6;color:var(--muted)}
+
+/* ordem no mobile */
+@media(max-width:1023px){
+  #jornada .split{flex-direction:column-reverse !important}
+}
+
+
+/* ============================================================
+   23. JORNADA · imagem que acompanha a rolagem
+   ============================================================ */
+@media(min-width:1024px){
+  /* o JS do split centraliza as colunas; aqui a coluna precisa nascer no topo */
+  #jornada .split{align-items:flex-start !important}
+
+  #jornada .split > :first-child{
+    position:sticky;
+    top:calc(var(--nav-h) + 32px);
+    align-self:flex-start;
+  }
+  /* painel alto: a imagem vira um plano fixo enquanto a timeline corre ao lado */
+  #jornada .media__img{height:min(72vh,620px)}
+}
+/* a imagem recebe transform por JS, então nada de transição nem zoom no hover aqui */
+#jornada .media__img{transition:none;will-change:transform}
+#jornada .media:hover .media__img{transform:none}
+
+/* indicador de progresso da jornada, dentro da moldura */
+#jornada .media{position:relative}
+.jprog{
+  position:absolute;left:0;right:0;bottom:0;height:2px;z-index:2;
+  background:rgba(255,255,255,.18);pointer-events:none;
+}
+.jprog__bar{
+  display:block;height:100%;width:0;
+  background:linear-gradient(90deg,var(--tech-teal),var(--crystal-aqua));
+  box-shadow:0 0 10px rgba(var(--aqua-rgb),.55);
+}
+@media(prefers-reduced-motion:reduce){
+  #jornada .split > :first-child{position:static}
+}
+
+
+/* ============================================================
+   24. PROGRAMAS EM DETALHE · carrossel interativo
+   ============================================================ */
+.rail__item--prog{width:252px}
+@media(min-width:768px){.rail__item--prog{width:296px}}
+
+.pcard{
+  display:block;width:100%;text-align:left;overflow:hidden;
+  border-radius:var(--r-card);
+  border:1px solid rgba(var(--ink-rgb),.07);
+  background:var(--surface);
+  box-shadow:var(--e2),var(--rim);
+  transition:box-shadow var(--t-card) ease, transform var(--t-card) cubic-bezier(.22,1,.36,1);
+}
+.pcard:hover{box-shadow:var(--e3),var(--rim);transform:translateY(-3px)}
+.pcard.is-on{
+  box-shadow:var(--e3),var(--rim),inset 0 0 0 2px rgba(var(--brand-rgb),.55);
+  transform:translateY(-3px);
+}
+
+.pcard__media{position:relative;display:block;overflow:hidden}
+.pcard__media img{
+  display:block;width:100%;height:158px;object-fit:cover;
+  transition:transform 1s cubic-bezier(.22,1,.36,1);
+}
+@media(min-width:768px){.pcard__media img{height:178px}}
+.pcard:hover .pcard__media img{transform:scale(1.05)}
+.pcard__tint{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(160deg,rgba(var(--brand-rgb),.24) 0%,transparent 55%),
+             linear-gradient(0deg,rgba(var(--ink-rgb),.34) 0%,transparent 52%);
+  mix-blend-mode:multiply;
+}
+.pcard__rede{
+  position:absolute;left:12px;top:12px;z-index:2;
+  font-size:9.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;
+  padding:5px 10px;border-radius:999px;
+  background:rgba(255,255,255,.92);color:var(--brand-ink);
+  box-shadow:0 2px 8px rgba(var(--ink-rgb),.18);
+}
+.pcard__rede--premium{color:var(--accent-ink)}
+
+.pcard__body{display:block;padding:18px}
+.pcard__name{
+  display:block;font-family:var(--font-display);font-variation-settings:var(--opsz-display);
+  font-size:17px;font-weight:700;letter-spacing:-.02em;color:var(--ink);
+}
+.pcard__focus{
+  display:block;margin-top:7px;font-size:12.5px;font-weight:300;line-height:1.55;color:var(--muted);
+  min-height:38px;
+}
+.pcard__cta{
+  display:flex;align-items:center;gap:6px;margin-top:14px;
+  font-size:12px;font-weight:600;color:var(--brand-ink);
+}
+.pcard__cta svg{transition:transform var(--t-btn) cubic-bezier(.22,1,.36,1)}
+.pcard.is-on .pcard__cta svg{transform:rotate(90deg)}
+
+/* --- painel de detalhe --- */
+.pdetail{
+  margin-top:10px;
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .45s cubic-bezier(.22,1,.36,1);
+}
+.pdetail.is-open{grid-template-rows:1fr}
+.pdetail__inner{overflow:hidden}
+.pdetail__card{
+  margin-top:14px;padding:26px 24px;border-radius:var(--r-card);
+  background:var(--surface);
+  border:1px solid rgba(var(--ink-rgb),.07);
+  box-shadow:var(--e2),var(--rim);
+}
+@media(min-width:768px){.pdetail__card{padding:32px}}
+@media(min-width:1024px){
+  .pdetail__card{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:48px;align-items:start}
+}
+.pdetail__name{
+  font-family:var(--font-display);font-variation-settings:var(--opsz-display);
+  font-size:22px;font-weight:700;letter-spacing:-.02em;
+}
+@media(min-width:768px){.pdetail__name{font-size:26px}}
+.pdetail__desc{margin-top:16px;font-size:14px;font-weight:300;line-height:1.75;color:var(--muted)}
+@media(min-width:768px){.pdetail__desc{font-size:15px}}
+.pdetail__nota{
+  margin-top:20px;padding-left:16px;border-left:2px solid var(--brand);
+  font-size:12.5px;font-weight:300;line-height:1.65;color:var(--muted);
+}
+.pdetail__specs{margin-top:24px;display:flex;flex-direction:column;gap:0}
+@media(min-width:1024px){.pdetail__specs{margin-top:6px}}
+.spec{
+  display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  padding:13px 0;border-top:1px solid rgba(var(--ink-rgb),.08);
+}
+.spec:last-child{border-bottom:1px solid rgba(var(--ink-rgb),.08)}
+.spec dt{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+.spec dd{font-size:13px;font-weight:500;color:var(--ink);text-align:right;line-height:1.5}
+.pdetail__actions{margin-top:24px;display:flex;gap:10px;flex-wrap:wrap}
+@media(min-width:1024px){.pdetail__actions{grid-column:1 / -1;margin-top:8px}}
+.pdetail__close{
+  margin-left:auto;display:inline-flex;align-items:center;gap:6px;
+  font-size:12px;font-weight:600;color:var(--muted);transition:color var(--t-link) ease;
+}
+.pdetail__close:hover{color:var(--ink)}
+
+
+/* ============================================================
+   25. PROGRAMAS · camada técnica
+   ============================================================ */
+@property --px{syntax:'<percentage>';inherits:true;initial-value:50%}
+@property --py{syntax:'<percentage>';inherits:true;initial-value:38%}
+
+#programas{isolation:isolate}
+
+/* --- 1. matriz de pontos revelada pelo cursor --- */
+.techgrid{
+  position:absolute;inset:0;pointer-events:none;z-index:0;
+  --px:50%;--py:38%;
+  background-image:radial-gradient(rgba(var(--aqua-rgb),.9) 1px, transparent 1.4px);
+  background-size:26px 26px;
+  opacity:0;
+  transition:opacity .7s ease;
+  -webkit-mask-image:radial-gradient(230px circle at var(--px) var(--py),
+                     #000 0%, rgba(0,0,0,.42) 44%, transparent 72%);
+  mask-image:radial-gradient(230px circle at var(--px) var(--py),
+             #000 0%, rgba(0,0,0,.42) 44%, transparent 72%);
+}
+#programas.is-live.has-pointer .techgrid{opacity:.55}
+/* sem cursor: a matriz passeia sozinha, bem devagar */
+@media(hover:none){
+  #programas.is-live .techgrid{opacity:.40;animation:orbita 22s ease-in-out infinite alternate}
+}
+@keyframes orbita{
+  0%  {--px:22%;--py:26%}
+  50% {--px:72%;--py:58%}
+  100%{--px:34%;--py:80%}
+}
+
+/* --- 2. varredura de luz, uma vez ao entrar --- */
+.techsweep{position:absolute;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.techsweep span{
+  position:absolute;top:-25%;bottom:-25%;width:42%;
+  background:linear-gradient(100deg,transparent 0%,rgba(var(--aqua-rgb),.19) 45%,transparent 100%);
+  filter:blur(8px);
+  transform:translateX(-150%) skewX(-12deg);
+}
+#programas.is-live .techsweep span{animation:varredura 1.7s cubic-bezier(.4,0,.2,1) .25s both}
+@keyframes varredura{to{transform:translateX(340%) skewX(-12deg)}}
+
+/* --- 3. foco que segue o cursor no card --- */
+#programas .card{--mx:50%;--my:50%}
+#programas .card::after{display:none}          /* o anel antigo dá lugar à borda reativa */
+.pg-fx{
+  position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+  opacity:0;transition:opacity .45s ease;
+}
+#programas .card:hover .pg-fx,
+#programas .card:focus-within .pg-fx{opacity:1}
+/* halo interno */
+.pg-fx::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(340px circle at var(--mx) var(--my),
+             rgba(var(--aqua-rgb),.17) 0%, transparent 46%);
+}
+/* borda que acende só onde o cursor está */
+.pg-fx::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;
+  background:radial-gradient(230px circle at var(--mx) var(--my),
+             rgba(var(--aqua-rgb),.85) 0%, rgba(var(--aqua-rgb),.15) 42%, transparent 66%);
+  -webkit-mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  -webkit-mask-composite:xor;
+          mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+          mask-composite:exclude;
+}
+#programas .card > *{position:relative;z-index:1}
+
+/* --- 4. contador do selo --- */
+.seal__num b{font:inherit;font-variant-numeric:tabular-nums}
+
+@media(prefers-reduced-motion:reduce){
+  .techgrid{opacity:.28 !important;animation:none !important}
+  .techsweep{display:none}
+  .pg-fx{display:none}
+}
+
+
+/* ============================================================
+   26. PALETA AMPLIADA · tons vivos derivados da marca
+   ============================================================ */
+:root{
+  --t-teal:   #2D7387;
+  --t-cyan:   #3FA9C4;
+  --t-sky:    #62C0DA;
+  --t-mint:   #4FC9A8;
+  --t-violet: #6E7FE8;
+  --t-coral:  #D4816A;
+
+  --t-teal-rgb:45,115,135;
+  --t-cyan-rgb:63,169,196;
+  --t-sky-rgb:98,192,218;
+  --t-mint-rgb:79,201,168;
+  --t-violet-rgb:110,127,232;
+  --t-coral-rgb:212,129,106;
+
+  /* versão escurecida de cada tom, para texto sobre fundo claro */
+  --t-teal-ink:  #2D7387;
+  --t-cyan-ink:  #2D798D;
+  --t-sky-ink:   #3C7787;
+  --t-mint-ink:  #307C68;
+  --t-violet-ink:#5D6BC5;
+  --t-coral-ink: #985C4C;
+
+  /* tom ativo da seção; cada bloco redefine o seu */
+  --tone:var(--t-teal);
+  --tone-rgb:var(--t-teal-rgb);
+  --tone-ink:var(--t-teal-ink);
+}
+#sobre       {--tone:var(--t-cyan);--tone-rgb:var(--t-cyan-rgb);--tone-ink:var(--t-cyan-ink)}
+#diferencial {--tone:var(--t-teal);--tone-rgb:var(--t-teal-rgb);--tone-ink:var(--t-teal-ink)}
+#programas   {--tone:var(--t-sky);--tone-rgb:var(--t-sky-rgb);--tone-ink:var(--t-sky-ink)}
+#jornada     {--tone:var(--t-mint);--tone-rgb:var(--t-mint-rgb);--tone-ink:var(--t-mint-ink)}
+#protocolos  {--tone:var(--t-violet);--tone-rgb:var(--t-violet-rgb);--tone-ink:var(--t-violet-ink)}
+#ciencia     {--tone:var(--t-cyan);--tone-rgb:var(--t-cyan-rgb);--tone-ink:var(--t-cyan-ink)}
+#parceiros   {--tone:var(--t-sky);--tone-rgb:var(--t-sky-rgb);--tone-ink:var(--t-sky-ink)}
+#faq         {--tone:var(--t-mint);--tone-rgb:var(--t-mint-rgb);--tone-ink:var(--t-mint-ink)}
+
+/* os elementos de apoio passam a seguir o tom da seção */
+.eyebrow__line{background:linear-gradient(90deg,var(--tone),transparent)}
+.eyebrow__text{color:var(--tone-ink)}
+.section--night .eyebrow__text{color:rgba(var(--tone-rgb),1)}
+.section--night .eyebrow__line{background:linear-gradient(90deg,var(--tone),transparent)}
+.micro--brand{color:var(--tone-ink)}
+.section--night .micro--brand{color:rgba(var(--tone-rgb),.95)}
+.icon-box{
+  border-color:rgba(var(--tone-rgb),.26);
+  background:linear-gradient(180deg,#fff 0%,rgba(var(--tone-rgb),.13) 100%);
+  color:var(--tone-ink);
+}
+.section--night .icon-box{
+  background:rgba(var(--tone-rgb),.16);
+  border-color:rgba(var(--tone-rgb),.32);
+  color:rgba(var(--tone-rgb),1);
+}
+.accent-block--cold{border-left-color:var(--tone)}
+
+/* espectro nos pilares e nos programas: cada item com o seu tom */
+.pillar:nth-child(1){--tone:var(--t-teal);--tone-rgb:var(--t-teal-rgb);--tone-ink:var(--t-teal-ink)}
+.pillar:nth-child(2){--tone:var(--t-cyan);--tone-rgb:var(--t-cyan-rgb);--tone-ink:var(--t-cyan-ink)}
+.pillar:nth-child(3){--tone:var(--t-mint);--tone-rgb:var(--t-mint-rgb);--tone-ink:var(--t-mint-ink)}
+.pillar:nth-child(4){--tone:var(--t-violet);--tone-rgb:var(--t-violet-rgb);--tone-ink:var(--t-violet-ink)}
+.pillar:nth-child(5){--tone:var(--t-coral);--tone-rgb:var(--t-coral-rgb);--tone-ink:var(--t-coral-ink)}
+.pillar__icon{color:var(--tone-ink)}
+.pillar::before{background:var(--tone)}
+
+#programas .grid > .card:nth-child(1){--tone:var(--t-sky);--tone-rgb:var(--t-sky-rgb);--tone-ink:var(--t-sky-ink)}
+#programas .grid > .card:nth-child(2){--tone:var(--t-mint);--tone-rgb:var(--t-mint-rgb);--tone-ink:var(--t-mint-ink)}
+#programas .grid > .card:nth-child(3){--tone:var(--t-violet);--tone-rgb:var(--t-violet-rgb);--tone-ink:var(--t-violet-ink)}
+#programas .grid > .card:nth-child(4){--tone:var(--t-cyan);--tone-rgb:var(--t-cyan-rgb);--tone-ink:var(--t-cyan-ink)}
+#programas .grid > .card:nth-child(5){--tone:var(--t-sky);--tone-rgb:var(--t-sky-rgb);--tone-ink:var(--t-sky-ink)}
+#programas .grid > .card:nth-child(6){--tone:var(--t-coral);--tone-rgb:var(--t-coral-rgb);--tone-ink:var(--t-coral-ink)}
+.pg-fx::before{background:radial-gradient(340px circle at var(--mx) var(--my), rgba(var(--tone-rgb),.24) 0%, transparent 46%)}
+.pg-fx::after{background:radial-gradient(230px circle at var(--mx) var(--my), rgba(var(--tone-rgb),.95) 0%, rgba(var(--tone-rgb),.18) 42%, transparent 66%)}
+.techgrid{background-image:radial-gradient(rgba(var(--t-sky-rgb),.95) 1px, transparent 1.4px)}
+
+/* botões e gradientes mais vivos */
+.btn--cta{background:linear-gradient(135deg,var(--t-cyan) 0%,var(--t-teal) 48%,var(--deep-blue) 100%)}
+.text-gradient{
+  background:linear-gradient(100deg,var(--t-sky) 0%,var(--t-cyan) 32%,var(--t-teal) 62%,var(--deep-blue) 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.text-shimmer{
+  background-image:linear-gradient(100deg,
+    var(--deep-blue) 12%, var(--t-teal) 26%, var(--t-cyan) 36%,
+    var(--t-sky) 44%, var(--t-mint) 52%, var(--t-cyan) 62%, var(--midnight-navy) 80%);
+  background-size:280% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.timeline__line{background:linear-gradient(to bottom,var(--t-mint),var(--t-cyan) 45%,var(--crystal-aqua) 75%,transparent)}
+.timeline__num{
+  border-color:rgba(var(--tone-rgb),.42);
+  background:rgba(var(--tone-rgb),.12);
+  color:var(--tone-ink);
+}
+.marquee__dot{color:var(--tone)}
+.rail__hint{color:var(--tone-ink)}
+.section--night .rail__hint{color:rgba(var(--tone-rgb),.95)}
+
+/* ============================================================
+   27. CARTÕES DE VIDRO FOSCO
+   ============================================================ */
+.card--glass,.op,.note,.panel-glass{
+  background:linear-gradient(150deg, rgba(255,255,255,.72) 0%, rgba(255,255,255,.42) 100%);
+  backdrop-filter:blur(16px) saturate(150%);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  border:1px solid rgba(255,255,255,.65);
+  box-shadow:0 1px 2px rgba(var(--ink-rgb),.04),
+             0 10px 26px rgba(var(--ink-rgb),.07),
+             0 26px 60px rgba(var(--ink-rgb),.06),
+             inset 0 1px 0 rgba(255,255,255,.92);
+  border-radius:var(--r-card);
+}
+.card--glass::after{display:none}
+.op{position:relative;overflow:hidden}
+/* brilho de tom no canto superior do vidro */
+.op::before,.card--glass::before{
+  content:'';position:absolute;inset:-40% -30% auto -30%;height:120%;pointer-events:none;
+  background:radial-gradient(60% 60% at 18% 0%, rgba(var(--tone-rgb),.22) 0%, transparent 62%);
+}
+.op > *,.card--glass > *{position:relative;z-index:1}
+
+.section--night .note,
+.section--night .card--glass{
+  background:linear-gradient(150deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,.055) 100%);
+  border-color:rgba(255,255,255,.16);
+  box-shadow:0 18px 40px rgba(0,0,0,.30), inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+
+/* ============================================================
+   28. HERO · espaço de imagem
+   ============================================================ */
+.hfig{
+  position:relative;width:100%;margin:0;
+  border-radius:26px;overflow:visible;
+}
+.hfig__img{
+  display:block;width:100%;height:auto;
+  aspect-ratio:3/4;object-fit:cover;
+  border-radius:26px;
+  box-shadow:0 4px 10px rgba(var(--ink-rgb),.08),
+             0 22px 44px rgba(var(--ink-rgb),.14),
+             0 48px 92px rgba(var(--ink-rgb),.12);
+}
+.hfig__tint{
+  position:absolute;inset:0;border-radius:26px;pointer-events:none;
+  background:linear-gradient(150deg, rgba(var(--t-cyan-rgb),.10) 0%, transparent 44%),
+             linear-gradient(0deg, rgba(var(--ink-rgb),.34) 0%, transparent 38%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+}
+.hfig__floor{
+  position:absolute;left:-6%;right:-6%;bottom:-6%;height:12%;z-index:-1;
+  border-radius:50%;pointer-events:none;
+  background:radial-gradient(closest-side, rgba(var(--ink-rgb),.22) 0%, transparent 72%);
+  filter:blur(12px);
+}
+/* etiqueta de vidro sobre a foto */
+.hfig__tag{
+  position:absolute;left:14px;right:14px;bottom:14px;
+  display:flex;align-items:center;gap:9px;
+  padding:11px 14px;border-radius:14px;
+  font-size:11.5px;font-weight:600;letter-spacing:.01em;color:var(--ink);
+  background:rgba(255,255,255,.72);
+  backdrop-filter:blur(14px) saturate(160%);
+  -webkit-backdrop-filter:blur(14px) saturate(160%);
+  border:1px solid rgba(255,255,255,.7);
+  box-shadow:0 8px 22px rgba(var(--ink-rgb),.16), inset 0 1px 0 rgba(255,255,255,.9);
+}
+.hfig__dot{
+  width:7px;height:7px;border-radius:999px;flex-shrink:0;
+  background:var(--t-mint);box-shadow:0 0 0 3px rgba(var(--t-mint-rgb),.22);
+  animation:pulso 2.6s ease-in-out infinite;
+}
+@keyframes pulso{
+  0%,100%{box-shadow:0 0 0 3px rgba(var(--t-mint-rgb),.22)}
+  50%    {box-shadow:0 0 0 7px rgba(var(--t-mint-rgb),.08)}
+}
+
+.hero__figure--mobile{display:flex;justify-content:center;margin-top:40px;padding-bottom:44px}
+.hero__figure--mobile .hfig{width:88%;max-width:360px}
+.hero__figure--desktop{display:none}
+@media(min-width:1024px){
+  .hero__figure--mobile{display:none}
+  .hero__figure--desktop{display:flex;flex:1;align-items:center;justify-content:flex-end}
+  .hero__figure--desktop .hfig{max-width:452px}
+}
+@media(min-width:1280px){.hero__figure--desktop .hfig{max-width:508px}}
+
+
+/* ============================================================
+   29. PARCEIROS · carrossel de unidades
+   ============================================================ */
+.rail__item--loc{width:264px}
+@media(min-width:768px){.rail__item--loc{width:306px}}
+
+.loc{
+  position:relative;overflow:hidden;height:100%;
+  border-radius:var(--r-card);
+  background:linear-gradient(150deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,.055) 100%);
+  backdrop-filter:blur(16px) saturate(150%);
+  -webkit-backdrop-filter:blur(16px) saturate(150%);
+  border:1px solid rgba(255,255,255,.16);
+  box-shadow:0 2px 4px rgba(0,0,0,.20),0 16px 34px rgba(0,0,0,.28),
+             inset 0 1px 0 rgba(255,255,255,.14);
+  transition:transform var(--t-card) cubic-bezier(.22,1,.36,1), box-shadow var(--t-card) ease;
+}
+.loc:hover{transform:translateY(-4px);box-shadow:0 4px 8px rgba(0,0,0,.24),0 26px 52px rgba(0,0,0,.34),inset 0 1px 0 rgba(255,255,255,.18)}
+
+.loc__media{position:relative;overflow:hidden}
+.loc__media img{display:block;width:100%;height:164px;object-fit:cover;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+@media(min-width:768px){.loc__media img{height:182px}}
+.loc:hover .loc__media img{transform:scale(1.05)}
+.loc__veu{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(0deg, rgba(var(--ink-rgb),.62) 0%, transparent 58%),
+             linear-gradient(150deg, rgba(var(--tone-rgb),.22) 0%, transparent 52%);
+}
+.loc__pin{
+  position:absolute;left:14px;top:14px;z-index:2;
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:9.5px;font-weight:600;letter-spacing:.11em;text-transform:uppercase;
+  padding:6px 11px;border-radius:999px;color:#fff;
+  background:rgba(var(--ink-rgb),.55);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border:1px solid rgba(255,255,255,.22);
+}
+.loc__pin--premium{background:rgba(var(--t-coral-rgb),.55);border-color:rgba(255,255,255,.28)}
+.loc__pend{
+  position:absolute;right:14px;top:14px;z-index:2;
+  font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+  padding:5px 9px;border-radius:999px;
+  color:#FFE3D7;background:rgba(120,58,40,.72);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid rgba(var(--t-coral-rgb),.55);
+}
+.loc__body{padding:18px}
+.loc__nome{
+  font-family:var(--font-display);font-variation-settings:var(--opsz-display);
+  font-size:16px;font-weight:700;letter-spacing:-.02em;color:#fff;
+}
+.loc__end{
+  margin-top:9px;display:flex;align-items:flex-start;gap:8px;
+  font-size:12.5px;font-weight:300;line-height:1.55;color:rgba(255,255,255,.66);
+}
+.loc__end svg{flex-shrink:0;margin-top:2px;color:rgba(var(--tone-rgb),1)}
+.loc__tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
+.loc__tag{
+  font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:5px 9px;border-radius:999px;
+  color:rgba(var(--tone-rgb),1);
+  background:rgba(var(--tone-rgb),.14);
+  border:1px solid rgba(var(--tone-rgb),.26);
+}
+
+
+/* ============================================================
+   30. VIDRO FOSCO · referência glassmorphism
+   ============================================================ */
+
+/* faixa com fundo colorido: sem isso o desfoque não tem o que borrar */
+/* mancha de cor cobrindo a seção inteira */
+.secaura{
+  position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
+  /* dissolve nas bordas para emendar com as seções vizinhas */
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 86%,transparent 100%);
+          mask-image:linear-gradient(180deg,transparent 0%,#000 14%,#000 86%,transparent 100%);
+}
+.secaura i{
+  position:absolute;display:block;border-radius:50%;
+  filter:blur(90px);opacity:.9;
+  animation:derivar 30s ease-in-out infinite alternate;
+}
+.secaura i:nth-child(1){left:-12%;top:-6%; width:56%;height:52%;background:rgba(var(--t-cyan-rgb),.30)}
+.secaura i:nth-child(2){left:44%;top:-10%;width:52%;height:48%;background:rgba(var(--t-sky-rgb),.21);animation-duration:36s;animation-delay:-8s}
+.secaura i:nth-child(3){left:-6%;top:38%; width:54%;height:50%;background:rgba(var(--t-mint-rgb),.16);animation-duration:33s;animation-delay:-14s}
+.secaura i:nth-child(4){left:52%;top:34%; width:50%;height:46%;background:rgba(var(--t-violet-rgb),.12);animation-duration:39s;animation-delay:-4s}
+.secaura i:nth-child(5){left:18%;top:64%; width:58%;height:46%;background:rgba(var(--t-cyan-rgb),.19);animation-duration:34s;animation-delay:-20s}
+.secaura i:nth-child(6){left:66%;top:70%; width:44%;height:40%;background:rgba(var(--t-coral-rgb),.10);animation-duration:41s;animation-delay:-11s}
+@keyframes derivar{
+  from{transform:translate3d(0,0,0) scale(1)}
+  to  {transform:translate3d(5%,-4%,0) scale(1.14)}
+}
+.has-aura > .wrap{position:relative;z-index:1}
+/* a mancha escurece levemente o fundo: o corpo compensa */
+.has-aura{--muted:#465B7C;--faint:#5A6B84}
+.glassband{position:relative}
+@media(prefers-reduced-motion:reduce){.secaura i{animation:none}}
+
+/* o cartão de vidro */
+.glass{
+  position:relative;overflow:hidden;
+  border-radius:24px;
+  border:0;
+  background:linear-gradient(145deg, rgba(255,255,255,.62) 0%, rgba(255,255,255,.34) 58%, rgba(255,255,255,.48) 100%);
+  backdrop-filter:blur(26px) saturate(185%);
+  -webkit-backdrop-filter:blur(26px) saturate(185%);
+  box-shadow:0 2px 6px rgba(var(--ink-rgb),.06),
+             0 14px 32px rgba(var(--ink-rgb),.12),
+             0 34px 70px rgba(var(--ink-rgb),.12),
+             inset 0 1px 0 rgba(255,255,255,.85),
+             inset 0 -1px 0 rgba(255,255,255,.30);
+  transition:transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s ease;
+}
+.glass:hover{
+  transform:translateY(-4px);
+  box-shadow:0 3px 8px rgba(var(--ink-rgb),.07),
+             0 22px 48px rgba(var(--ink-rgb),.16),
+             0 52px 100px rgba(var(--ink-rgb),.14),
+             inset 0 1px 0 rgba(255,255,255,.92),
+             inset 0 -1px 0 rgba(255,255,255,.34);
+}
+/* fio de luz na borda, mais forte no topo e à esquerda */
+.glass::before{
+  content:'';position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;z-index:2;
+  background:linear-gradient(145deg,
+    rgba(255,255,255,.98) 0%, rgba(255,255,255,.34) 34%,
+    rgba(255,255,255,.14) 62%, rgba(255,255,255,.72) 100%);
+  -webkit-mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+  -webkit-mask-composite:xor;
+          mask:linear-gradient(#000,#000) content-box, linear-gradient(#000,#000);
+          mask-composite:exclude;
+}
+/* grão: tira o aspecto de plástico */
+.glass::after{
+  content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:1;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  background-size:160px 160px;
+  opacity:.30;mix-blend-mode:overlay;
+}
+.glass > *{position:relative;z-index:3}
+
+/* marca de canto, como na referência */
+.glass__mark{
+  position:absolute;right:18px;top:16px;z-index:3;
+  color:var(--ink);
+  opacity:.28;
+}
+
+/* etiqueta em pílula */
+.glass__pill{
+  display:inline-flex;align-items:center;
+  font-size:9.5px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:6px 13px;border-radius:999px;
+  color:var(--ink);
+  border:1px solid rgba(255,255,255,.85);
+  background:rgba(255,255,255,.34);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+/* conteúdo dentro do vidro */
+.glass__body{padding:26px 24px 24px}
+@media(min-width:768px){.glass__body{padding:30px 28px 28px}}
+.glass__title{
+  margin-top:16px;font-family:var(--font-display);font-variation-settings:var(--opsz-display);
+  font-size:17px;font-weight:700;letter-spacing:-.02em;line-height:1.25;color:var(--ink);
+}
+.glass__text{
+  margin-top:10px;font-size:13px;font-weight:400;line-height:1.7;
+  color:#2C4361;
+}
+.glass__foot{
+  margin-top:20px;padding-top:14px;
+  border-top:1px solid rgba(255,255,255,.55);
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;
+  color:#3A5473;
+}
+.glass__foot svg{color:var(--ink);opacity:.55}
+
+@media(prefers-reduced-motion:reduce){
+  .glassband__aura i{animation:none}
+}
+/* navegadores sem backdrop-filter recebem um vidro opaco equivalente */
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .glass{background:rgba(255,255,255,.88)}
+}
+
+
+/* ============================================================
+   31. FRASE ÂNCORA · fundo fotográfico
+   ============================================================ */
+.ancora{
+  position:relative;overflow:hidden;
+  min-height:52vh;display:flex;align-items:center;justify-content:center;text-align:center;
+  --tone:var(--t-cyan);--tone-rgb:var(--t-cyan-rgb);--tone-ink:var(--t-cyan-ink);
+}
+@media(min-width:1024px){.ancora{min-height:58vh}}
+.ancora__foto{position:absolute;inset:0;z-index:0;pointer-events:none}
+.ancora__foto img{
+  width:100%;height:100%;object-fit:cover;object-position:52% 46%;
+  opacity:.38;                      /* visível, mas sem competir com o texto */
+  filter:grayscale(.30) contrast(1.06) brightness(1.03);
+  transform:scale(1.04);
+}
+.ancora__veu{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    linear-gradient(150deg, rgba(var(--t-cyan-rgb),.16) 0%, transparent 52%),
+    linear-gradient(0deg,   rgba(var(--t-sky-rgb),.12) 0%, transparent 46%),
+    linear-gradient(180deg, var(--canvas) 0%, rgba(244,248,250,.30) 24%,
+                             rgba(244,248,250,.30) 76%, var(--canvas) 100%);
+}
+.ancora__luz{
+  position:absolute;inset:0;z-index:2;pointer-events:none;
+  background:radial-gradient(42% 52% at 50% 50%, rgba(255,255,255,.80) 0%, rgba(255,255,255,.34) 48%, transparent 74%);
+}
+.ancora__texto{position:relative;z-index:3;padding-inline:20px}
+@media(min-width:768px){.ancora__texto{padding-inline:40px}}
+@media(prefers-reduced-motion:reduce){.ancora__foto img{transform:none}}
+
+
+/* ============================================================
+   32. HERO · carrossel com deslize
+   ============================================================ */
+.hfig__deck{
+  position:relative;border-radius:26px;overflow:hidden;aspect-ratio:3/4;
+  box-shadow:0 4px 10px rgba(var(--ink-rgb),.08),
+             0 22px 44px rgba(var(--ink-rgb),.14),
+             0 48px 92px rgba(var(--ink-rgb),.12);
+  touch-action:pan-y;              /* o dedo ainda rola a página na vertical */
+  cursor:grab;
+  user-select:none;-webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
+}
+.hfig__deck.is-grabbing{cursor:grabbing}
+.hfig__deck:focus-visible{outline:2px solid var(--t-cyan);outline-offset:4px}
+
+.hfig__track{
+  display:flex;height:100%;
+  will-change:transform;
+  backface-visibility:hidden;
+}
+.hfig__slide{
+  position:relative;flex:0 0 100%;height:100%;overflow:hidden;
+}
+.hfig__slide img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  will-change:transform;backface-visibility:hidden;
+  -webkit-user-drag:none;user-drag:none;
+}
+/* véu que escurece o slide conforme ele sai de cena */
+.hfig__veu{
+  position:absolute;inset:0;pointer-events:none;
+  background:rgba(var(--ink-rgb),.55);
+  opacity:0;
+}
+
+/* a frase troca junto com a foto */
+.hfig__frase{
+  display:block;
+  transition:opacity .38s ease, transform .38s cubic-bezier(.22,1,.36,1);
+}
+.hfig__frase.is-out{opacity:0;transform:translateY(-6px)}
+
+/* pontos indicadores */
+.hfig__pts{
+  position:absolute;left:0;right:0;bottom:-24px;z-index:3;
+  display:flex;justify-content:center;gap:7px;
+}
+.hfig__pt{
+  width:6px;height:6px;padding:0;border:0;border-radius:999px;cursor:pointer;
+  background:rgba(var(--ink-rgb),.20);
+  transition:width .45s cubic-bezier(.22,1,.36,1), background .45s ease;
+}
+.hfig__pt.is-on{width:22px;background:var(--t-cyan)}
+.hfig__pt:focus-visible{outline:2px solid var(--t-cyan);outline-offset:3px}
+
+@media(prefers-reduced-motion:reduce){
+  .hfig__frase{transition:none}
+}
+
+/* ============================================================
+   33. ÊNFASE NO TEXTO E DETALHES DA MARCA
+   ============================================================ */
+
+/* ênfase padrão: navy, o peso faz o trabalho */
+.en{font-weight:600;color:var(--ink)}
+.section--night .en{color:#fff}
+
+/* ênfase quente: coral da célula, para o que diferencia */
+.en-c{font-weight:600;color:var(--accent-ink)}
+.section--night .en-c{color:var(--soft-peach)}
+
+/* ênfase fria: teal, para o que é técnico e verificável */
+.en-b{font-weight:600;color:var(--t-cyan-ink)}
+.section--night .en-b{color:rgba(var(--t-sky-rgb),1)}
+
+/* termo sublinhado por um fio da marca */
+.en-u{
+  font-weight:600;color:var(--ink);
+  background-image:linear-gradient(90deg,var(--t-cyan),var(--accent));
+  background-repeat:no-repeat;
+  background-size:100% 2px;
+  background-position:0 calc(100% - 1px);
+  padding-bottom:2px;
+}
+.section--night .en-u{
+  color:#fff;
+  background-image:linear-gradient(90deg,rgba(var(--t-sky-rgb),.9),rgba(var(--accent-rgb),.9));
+}
+
+/* ---------- fio do eyebrow em dois tons ---------- */
+.eyebrow__line{
+  width:34px;height:2px;border-radius:999px;
+  background:linear-gradient(90deg,var(--tone) 0%,var(--tone) 55%,var(--accent) 55%,var(--accent) 100%);
+}
+.section--night .eyebrow__line{
+  background:linear-gradient(90deg,var(--tone) 0%,var(--tone) 55%,var(--stem-coral) 55%,var(--stem-coral) 100%);
+}
+
+/* ---------- numeração da jornada alternando ---------- */
+.timeline__item:nth-child(even) .timeline__num{
+  border-color:rgba(var(--accent-rgb),.50);
+  background:rgba(var(--accent-rgb),.12);
+  color:#8A5244;
+}
+
+/* ---------- pilares: o fio herda o tom do item ---------- */
+.pillar::before{height:2px;border-radius:999px}
+
+/* ---------- cards de vidro: fio de cor no alto ---------- */
+.glass__fio{
+  position:absolute;left:24px;right:24px;top:0;height:2px;z-index:3;border-radius:0 0 999px 999px;
+  background:linear-gradient(90deg,var(--t-cyan) 0%,var(--t-sky) 46%,var(--accent) 100%);
+  opacity:.85;
+}
+@media(min-width:768px){.glass__fio{left:28px;right:28px}}
+
+/* ---------- pontos do carrossel: o último em coral ---------- */
+.hfig__pt.is-on{background:linear-gradient(90deg,var(--t-cyan),var(--t-sky))}
+
+/* ---------- selo do número: moldura em dois tons ---------- */
+.seal{position:relative}
+.seal::before{
+  content:'';position:absolute;left:0;top:22px;bottom:22px;width:3px;border-radius:999px;
+  background:linear-gradient(180deg,var(--t-sky) 0%,var(--stem-coral) 100%);
+}
+@media(min-width:768px){.seal{padding-left:34px}}
+@media(max-width:767px){.seal{padding-left:22px}}
+
+/* ---------- bloco de ênfase: fio em gradiente ---------- */
+.accent-block{
+  border-left:0;padding-left:20px;position:relative;
+}
+.accent-block::before{
+  content:'';position:absolute;left:0;top:2px;bottom:2px;width:2px;border-radius:999px;
+  background:linear-gradient(180deg,var(--accent) 0%,var(--stem-coral) 55%,var(--t-cyan) 100%);
+}
+.accent-block--cold::before{
+  background:linear-gradient(180deg,var(--t-cyan) 0%,var(--tone) 55%,var(--accent) 100%);
+}
+
+/* ---------- marcadores de lista com ponto coral ---------- */
+.marcador{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:18px;height:18px;flex-shrink:0;margin-top:2px;border-radius:999px;
+  background:rgba(var(--accent-rgb),.14);
+  color:var(--accent-ink);font-size:10px;font-weight:700;
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+<div class="nav__inner">
+<a href="/" class="logo" aria-label="PHD Healthtec, página inicial">
+<img class="logo__mark" src="assets/logo-phd.png" alt="" width="220" height="120"/>
+<span class="wordmark"><b>PHD</b> <span>Healthtec</span></span>
+</a>
+
+<div class="nav__links">
+<a class="nav__link" href="#sobre">A PHD Healthtec</a>
+<a class="nav__link" href="#programas">Programas</a>
+<a class="nav__link" href="#jornada">Jornada</a>
+<a class="nav__link" href="#ciencia">Ciência &amp; Segurança</a>
+<a class="btn btn--ghost btn--sm" href="ciencia-respaldo.html">Respaldo científico</a>
+<a class="btn btn--cta btn--sm" href="avaliacao.html">&#8594; Agendar avaliação confidencial</a>
+</div>
+
+<div class="nav__mobile">
+<a class="btn btn--ghost btn--sm" href="avaliacao.html">Agendar</a>
+<button class="burger" id="burger" aria-label="Abrir menu" aria-expanded="false" aria-controls="drawer">
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+<line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+</svg>
+</button>
+</div>
+</div>
+</nav>
+
+<div class="drawer" id="drawer">
+<div class="drawer__inner">
+<div class="drawer__list">
+<a href="#sobre">A PHD Healthtec</a>
+<a href="#diferencial">Diferenciais</a>
+<a href="#programas">Programas</a>
+<a href="#jornada">Jornada do paciente</a>
+<a href="#protocolos">Programas em detalhe</a>
+<a href="#ciencia">Ciência &amp; Segurança</a>
+<a href="#parceiros">Parceiros clínicos</a>
+<a href="ciencia-respaldo.html">Respaldo científico</a>
+<a href="#faq">Perguntas frequentes</a>
+<a href="agendamento.html">Agendar horário</a>
+<a class="btn btn--cta" style="margin-top:8px" href="avaliacao.html">&#8594; Agendar avaliação confidencial</a>
+</div>
+</div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+<div class="hero__grid"></div>
+<div class="hero__glow"></div>
+<div class="hero__glow hero__glow--2"></div>
+<div class="hero__aura"></div>
+
+<div class="hero__inner">
+<div class="hero__row">
+
+<div class="hero__copy">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Medicina regenerativa · Longevidade · Curadoria internacional</span>
+</div>
+
+<h1 class="h1" style="margin-top:22px" data-reveal="">
+<span>Envelhecer é inevitável.</span><br/>
+<span class="light">Envelhecer bem é uma</span><br/>
+<span class="text-shimmer" style="font-weight:700">escolha de precisão.</span>
+</h1>
+
+<p class="lead" style="margin-top:24px;max-width:480px" data-reveal="">
+A PHD Healthtec conecta pacientes brasileiros a protocolos regenerativos com <span class="en-b">células
+mesenquimais</span> em parceiros clínicos <span class="en">licenciados no Chile</span>. Uma jornada <span class="en-c">curada, discreta
+e conduzida por médicos</span>, do primeiro contato ao acompanhamento pós-tratamento.
+</p>
+
+<div style="margin-top:32px;display:flex;flex-direction:column;align-items:flex-start;gap:20px" data-reveal="">
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a class="btn btn--cta" href="avaliacao.html">&#8594; Agendar avaliação confidencial</a>
+<a class="btn btn--ghost" href="agendamento.html">Escolher um horário</a>
+<a class="btn btn--ghost" href="#programas">Conhecer os programas</a>
+</div>
+
+<a class="scroll-hint" href="#sobre" aria-label="Conhecer a PHD Healthtec">
+<span class="scroll-hint__track"><span class="scroll-hint__bar"></span></span>
+<span class="scroll-hint__label">Conhecer a PHD Healthtec</span>
+</a>
+</div>
+
+<div class="hero__figure hero__figure--mobile" data-reveal="scale">
+<figure class="hfig" data-hero-carousel>
+<div class="hfig__floor"></div>
+<div class="hfig__deck" tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Imagens da PHD Healthtec, arraste para trocar">
+<div class="hfig__track"><div class="hfig__slide" aria-hidden="true"><img src="assets/hero-7-ceu.webp" alt="" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-retrato.webp" alt="Retrato de paciente em luz natural" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-5-colo.webp" alt="Detalhe de colo e pescoço, gesto de cuidado" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-3-dna.webp" alt="Dupla hélice de DNA" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-6-perfil.webp" alt="Perfil de mulher em luz lateral" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-4-malha.webp" alt="Malha de tecido biológico" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-2-pele.webp" alt="Close de pele em repouso" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-7-ceu.webp" alt="Rosto voltado ao céu, luz do dia" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide" aria-hidden="true"><img src="assets/hero-retrato.webp" alt="" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div></div>
+</div>
+<span class="hfig__tint"></span>
+<figcaption class="hfig__tag">
+<span class="hfig__dot"></span>
+<span class="hfig__frase" aria-live="polite">Jornada coordenada do Brasil ao Chile</span>
+</figcaption>
+<div class="hfig__pts" role="group" aria-label="Navegação das imagens"><button type="button" class="hfig__pt is-on" aria-label="Ver imagem 1 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 2 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 3 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 4 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 5 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 6 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 7 de 7"></button></div>
+</figure>
+</div>
+</div>
+
+<div class="hero__figure hero__figure--desktop" data-reveal="right">
+<figure class="hfig" data-hero-carousel>
+<div class="hfig__floor"></div>
+<div class="hfig__deck" tabindex="0" role="group" aria-roledescription="carrossel" aria-label="Imagens da PHD Healthtec, arraste para trocar">
+<div class="hfig__track"><div class="hfig__slide" aria-hidden="true"><img src="assets/hero-7-ceu.webp" alt="" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-retrato.webp" alt="Retrato de paciente em luz natural" width="900" height="1200" draggable="false" fetchpriority="high" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-5-colo.webp" alt="Detalhe de colo e pescoço, gesto de cuidado" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-3-dna.webp" alt="Dupla hélice de DNA" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-6-perfil.webp" alt="Perfil de mulher em luz lateral" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-4-malha.webp" alt="Malha de tecido biológico" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-2-pele.webp" alt="Close de pele em repouso" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide"><img src="assets/hero-7-ceu.webp" alt="Rosto voltado ao céu, luz do dia" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div><div class="hfig__slide" aria-hidden="true"><img src="assets/hero-retrato.webp" alt="" width="900" height="1200" draggable="false" loading="lazy" decoding="async"/><span class="hfig__veu"></span></div></div>
+</div>
+<span class="hfig__tint"></span>
+<figcaption class="hfig__tag">
+<span class="hfig__dot"></span>
+<span class="hfig__frase" aria-live="polite">Jornada coordenada do Brasil ao Chile</span>
+</figcaption>
+<div class="hfig__pts" role="group" aria-label="Navegação das imagens"><button type="button" class="hfig__pt is-on" aria-label="Ver imagem 1 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 2 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 3 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 4 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 5 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 6 de 7"></button><button type="button" class="hfig__pt" aria-label="Ver imagem 7 de 7"></button></div>
+</figure>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- ============ BARRA DE CONFIANÇA ============ -->
+<div class="trustbar">
+<div class="trustbar__inner">
+<div class="chip" data-reveal=""><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9.2 11.8 2 2 3.6-3.8"/></svg><span><b>6 protocolos assinatura</b></span></div>
+<div class="chip" data-reveal=""><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z"/></svg><span><b>2 redes clínicas parceiras</b> no Chile</span></div>
+<div class="chip" data-reveal=""><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3v5.4a4.6 4.6 0 0 0 9.2 0V3"/><path d="M4.6 3h3.8M13.8 3h3.8"/><path d="M11.1 12.9v3.4a4 4 0 0 0 8 0v-1.6"/><circle cx="19.1" cy="12.9" r="2"/></svg><span><b>Acompanhamento médico licenciado</b> em todas as etapas</span></div>
+<div class="chip" data-reveal=""><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M6 8v4.5a3.5 3.5 0 0 0 3.5 3.5H15"/></svg><span><b>Jornada 100% coordenada</b> do Brasil ao Chile</span></div>
+</div>
+</div>
+
+<!-- ============ A PHD HEALTHTEC ============ -->
+<section class="section has-aura" id="sobre">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="wrap">
+<div style="display:flex;flex-direction:column;gap:40px" class="split">
+<div style="flex:1">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">A PHD Healthtec</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+Não somos uma clínica.<br/>
+<span class="light">Somos a curadoria da jornada.</span>
+</h2>
+
+<p class="body" style="margin-top:24px" data-reveal="">
+A PHD Healthtec nasce para atender um público que busca <span class="en">longevidade e rejuvenescimento
+com respaldo médico e científico</span>, com acesso gerenciado a terapias regenerativas com
+células-tronco <span class="en-c">hoje inacessíveis no Brasil</span>.
+</p>
+<p class="body" style="margin-top:14px" data-reveal="">
+Somos a <span class="en-u">orquestradora de toda a jornada</span> do paciente: da qualificação inicial no Brasil
+ao tratamento realizado por <span class="en-b">parceiros clínicos licenciados no Chile</span>, com acompanhamento
+digital <span class="en">antes, durante e depois</span> do procedimento.
+</p>
+<p class="body" style="margin-top:14px" data-reveal="">
+Nosso diferencial está na combinação entre <span class="en">posicionamento premium, tecnologia de
+atendimento e parcerias clínicas sólidas</span>, reduzindo a <span class="en-c">fricção e o risco</span> que hoje afastam
+esse público de buscar esse tipo de tratamento por conta própria.
+</p>
+
+<div class="accent-block" style="margin-top:36px" data-reveal="">
+<p style="font-size:15px;font-weight:700;line-height:1.4">
+Somos a camada de curadoria, confiança e orquestração<br/>
+<span class="light" style="font-weight:300">entre o paciente de alto padrão e a medicina regenerativa de excelência.</span>
+</p>
+</div>
+</div>
+
+<div style="flex:1" data-reveal="scale">
+<div class="media">
+<img class="media__img" src="assets/secao-sobre.webp" alt="Estrutura molecular translúcida sobre fundo azul" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media__tint"></div>
+<div class="media__inset"></div>
+</div>
+</div>
+</div>
+
+<div class="glassband"><div class="ops">
+<article class="glass" data-reveal="">
+<span class="glass__fio" aria-hidden="true"></span>
+<svg class="glass__mark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg>
+<div class="glass__body">
+<span class="glass__pill">Estrutura</span>
+<h3 class="glass__title">Estrutura internacional</h3>
+<p class="glass__text"><span class="en">Estrutura societária nos Estados Unidos</span>, relacionamento e qualificação conduzidos a partir do <span class="en">Brasil</span>, execução clínica por parceiros licenciados no <span class="en-c">Chile</span>.</p>
+<div class="glass__foot"><span>Brasil · EUA · Chile</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+</div>
+</article>
+<article class="glass" data-reveal="">
+<span class="glass__fio" aria-hidden="true"></span>
+<svg class="glass__mark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg>
+<div class="glass__body">
+<span class="glass__pill">Curadoria</span>
+<h3 class="glass__title">Curadoria médica</h3>
+<p class="glass__text"><span class="en-c">Nenhum protocolo</span> é oferecido sem <span class="en">avaliação médica individual prévia</span>, revisão de histórico e consentimento informado.</p>
+<div class="glass__foot"><span>Decisão sempre médica</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+</div>
+</article>
+<article class="glass" data-reveal="">
+<span class="glass__fio" aria-hidden="true"></span>
+<svg class="glass__mark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg>
+<div class="glass__body">
+<span class="glass__pill">Tecnologia</span>
+<h3 class="glass__title">Tecnologia própria</h3>
+<p class="glass__text"><span class="en-b">CRM, inteligência artificial de qualificação, telemedicina e portal do paciente</span> acompanham toda a jornada.</p>
+<div class="glass__foot"><span>Em todas as etapas</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+</div>
+</article></div></div>
+</div>
+</section>
+
+<!-- ============ DIFERENCIAIS ============ -->
+<section class="section section--tint" id="diferencial">
+<div class="wrap">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Nossos diferenciais</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+Curadoria médica.<br/>
+<span class="light">Não venda de procedimento.</span>
+</h2>
+
+<p class="lead" style="margin-top:24px;max-width:640px" data-reveal="">
+<span class="en">Toda decisão terapêutica é de médicos licenciados</span> nas jurisdições de atendimento.
+A PHD Healthtec <span class="en-c">orquestra a experiência, não pratica medicina</span>.
+</p>
+
+<div class="pillars">
+<div class="pillar" data-reveal=""><svg class="pillar__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 3v5.4a4.6 4.6 0 0 0 9.2 0V3"/><path d="M4.6 3h3.8M13.8 3h3.8"/><path d="M11.1 12.9v3.4a4 4 0 0 0 8 0v-1.6"/><circle cx="19.1" cy="12.9" r="2"/></svg><h3>Curadoria médica</h3><p>Cada protocolo é definido por <span class="en">médicos licenciados</span> após avaliação individual, <span class="en-c">nunca por catálogo padronizado</span>.</p></div>
+<div class="pillar" data-reveal=""><svg class="pillar__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M6 8v4.5a3.5 3.5 0 0 0 3.5 3.5H15"/></svg><h3>Coordenação integral</h3><p>Triagem, teleconsulta, exames, viagem e acompanhamento conduzidos por <span class="en">uma única equipe dedicada</span>.</p></div>
+<div class="pillar" data-reveal=""><svg class="pillar__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7.5" y="7.5" width="9" height="9" rx="1.6"/><rect x="3.8" y="3.8" width="16.4" height="16.4" rx="3"/><path d="M9.6 1.8v2M14.4 1.8v2M9.6 20.2v2M14.4 20.2v2M1.8 9.6h2M1.8 14.4h2M20.2 9.6h2M20.2 14.4h2"/></svg><h3>Tecnologia própria</h3><p><span class="en-b">Inteligência artificial, telemedicina e portal do paciente</span> presentes em toda a jornada.</p></div>
+<div class="pillar" data-reveal=""><svg class="pillar__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10" width="15" height="10.5" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.4v2.2"/></svg><h3>Discrição</h3><p>Processo pensado para quem valoriza <span class="en">privacidade</span>, sem exposição desnecessária.</p></div>
+<div class="pillar" data-reveal=""><svg class="pillar__icon" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3.2 2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8L3.5 9.4l5.9-.9L12 3.2Z"/></svg><h3>Padrão internacional</h3><p>Parceiros clínicos selecionados pelo <span class="en">padrão de estrutura, equipe e protocolo</span>, <span class="en-c">não pelo menor custo</span>.</p></div>
+</div>
+</div>
+</section>
+
+<!-- ============ FRASE ÂNCORA ============ -->
+<section class="section ancora" id="ancora">
+<div class="ancora__foto" aria-hidden="true">
+<img src="assets/ancora-pele.webp" alt="" width="1600" height="900" loading="lazy" decoding="async"/>
+</div>
+<div class="ancora__veu" aria-hidden="true"></div>
+<div class="ancora__luz" aria-hidden="true"></div>
+<div class="ancora__texto">
+<h2 class="h2" data-reveal="">Longevidade não se compra.</h2>
+<div class="h2 text-gradient" style="margin-top:4px" data-reveal="">Se constrói com precisão.</div>
+</div>
+</section>
+
+<!-- ============ PROGRAMAS ============ -->
+<section class="section section--night" id="programas">
+<div class="techgrid" aria-hidden="true"></div>
+<div class="techsweep" aria-hidden="true"><span></span></div>
+<div class="wrap">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Programas</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+Seis programas assinatura.<br/>
+<span class="light">Um protocolo para cada caso.</span>
+</h2>
+
+<p class="lead" style="margin-top:24px;max-width:640px" data-reveal="">
+Protocolos de administração de <span class="en-b">células mesenquimais</span>, <span class="en">definidos e ajustados individualmente
+após avaliação médica</span>. Cada programa é oferecido em <span class="en-c">uma ou ambas as redes clínicas
+parceiras no Chile</span>, conforme complexidade e recursos exigidos.
+</p>
+
+<div class="grid grid--2 grid--3" style="margin-top:40px">
+<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.6"/><path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21M5.6 5.6l1.3 1.3M17.1 17.1l1.3 1.3M18.4 5.6l-1.3 1.3M6.9 17.1l-1.3 1.3"/></svg></div>
+<h3 class="prog-card__name">Vitalys Prime</h3>
+<div class="micro micro--brand" style="margin-top:8px">Vitalidade sistêmica e longevidade</div>
+<p class="prog-card__focus">Programa sistêmico de suporte imunomodulador e anti-inflamatório, desenhado para quem busca manutenção funcional, vitalidade e envelhecimento saudável como base de um estilo de vida de alto desempenho.</p>
+<div class="prog-card__meta">
+<span class="tagline">Ambas as redes</span>
+<span class="prog-card__price">Mediante avaliação</span>
+</div>
+</div>
+<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z"/></svg></div>
+<h3 class="prog-card__name">Atlas Regenera</h3>
+<div class="micro micro--brand" style="margin-top:8px">Regeneração musculoesquelética, articular e tendínea</div>
+<p class="prog-card__focus">Combina a ação sistêmica da via endovenosa com aplicação local guiada por imagem, indicado para quadros musculoesqueléticos, articulares e tendíneos que exigem precisão dirigida.</p>
+<div class="prog-card__meta">
+<span class="tagline">Ambas as redes</span>
+<span class="prog-card__price">Mediante avaliação</span>
+</div>
+</div>
+<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="6.5" r="2.3"/><circle cx="17" cy="10" r="2.3"/><circle cx="9" cy="17.5" r="2.3"/><path d="M9 7.6 14.9 9.4M15.6 12 10.6 15.7M8.1 8.7l.6 6.5"/></svg></div>
+<h3 class="prog-card__name">Athena Neural</h3>
+<div class="micro micro--brand" style="margin-top:8px">Suporte neurológico e neuroinflamatório</div>
+<p class="prog-card__focus">Direcionado a protocolos neurológicos e neuroinflamatórios selecionados, com administração intratecal conduzida em ambiente clínico controlado por especialistas.</p>
+<div class="prog-card__meta">
+<span class="tagline tagline--premium">Rede premium</span>
+<span class="prog-card__price">Mediante avaliação</span>
+</div>
+</div>
+<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/><path d="M3.4 12h4.1l1.2-2.2 2.3 4.6 1.6-3.1.9 1.7h4.4"/></svg></div>
+<h3 class="prog-card__name">Prometheus Absolute</h3>
+<div class="micro micro--brand" style="margin-top:8px">Protocolo assinatura, abordagem neuro-respiratória</div>
+<p class="prog-card__focus">O mais completo dos programas, combinando suporte sistêmico, neurológico e respiratório em um único protocolo. Reservado a casos avaliados individualmente pela equipe médica.</p>
+<div class="prog-card__meta">
+<span class="tagline tagline--premium">Rede premium</span>
+<span class="prog-card__price">Mediante avaliação</span>
+</div>
+</div>
+<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v10"/><path d="M9 8c0 2-1.4 2.6-2.6 4.2C5 14 4.6 16 4.6 18.2c0 1.4.9 2.3 2.2 2.3 1.6 0 3.2-1.1 3.2-3.1V8"/><path d="M15 8c0 2 1.4 2.6 2.6 4.2C19 14 19.4 16 19.4 18.2c0 1.4-.9 2.3-2.2 2.3-1.6 0-3.2-1.1-3.2-3.1V8"/></svg></div>
+<h3 class="prog-card__name">Pneuma Vital</h3>
+<div class="micro micro--brand" style="margin-top:8px">Suporte respiratório e recuperação pulmonar</div>
+<p class="prog-card__focus">Voltado a quadros respiratórios crônicos e sequelas pulmonares, com administração inalatória sob supervisão médica.</p>
+<div class="prog-card__meta">
+<span class="tagline">Ambas as redes</span>
+<span class="prog-card__price">Mediante avaliação</span>
+</div>
+</div>
+<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.8 1.7 4.4a2 2 0 0 0 1.1 1.1l4.4 1.7-4.4 1.7a2 2 0 0 0-1.1 1.1L12 17.2l-1.7-4.4a2 2 0 0 0-1.1-1.1L4.8 10l4.4-1.7a2 2 0 0 0 1.1-1.1L12 2.8Z"/><path d="M18.5 15.5 19.2 17l1.5.7-1.5.7-.7 1.5-.7-1.5-1.5-.7 1.5-.7.7-1.5Z"/></svg></div>
+<h3 class="prog-card__name">Eternity Éclat</h3>
+<div class="micro micro--brand" style="margin-top:8px">Rejuvenescimento e regeneração estética localizada</div>
+<p class="prog-card__focus">Regeneração por zona: rosto, colo, mãos, couro cabeludo e outras áreas com indicação profissional, unindo ação sistêmica a aplicações locais direcionadas.</p>
+<div class="prog-card__meta">
+<span class="tagline">Ambas as redes</span>
+<span class="prog-card__price">Mediante avaliação</span>
+</div>
+</div>
+</div>
+
+<div class="seal" data-reveal="">
+<span class="seal__num"><b data-count="100">0</b> milhões<span>Células mesenquimais</span></span>
+<p class="seal__text">
+Contagem celular de referência dos protocolos. O protocolo aplicável a cada paciente é
+<span class="en">definido após avaliação médica individual</span>. Este dado indica rigor técnico e <span class="en-c">não constitui
+promessa de resultado clínico</span>.
+</p>
+</div>
+
+<div style="margin-top:40px" data-reveal="">
+<a class="btn btn--accent" href="avaliacao.html">Agendar avaliação confidencial</a>
+</div>
+</div>
+</section>
+
+<!-- ============ JORNADA ============ -->
+<section class="section" id="jornada">
+<div class="wrap">
+<div style="display:flex;flex-direction:column;gap:40px" class="split">
+<div style="flex:1" data-reveal="scale">
+<div class="media">
+<img class="media__img" src="assets/secao-jornada.webp" alt="Malha de tecido biológico vista de perto" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media__tint"></div>
+<div class="media__inset"></div>
+</div>
+</div>
+
+<div style="flex:1">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Jornada do paciente</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+Do primeiro contato<br/>
+<span class="light">ao retorno ao Brasil.</span>
+</h2>
+
+<p class="body" style="margin-top:24px" data-reveal="">
+Uma experiência curada em <span class="en-u">oito etapas</span>, cada uma acompanhada por <span class="en">um coordenador dedicado</span>.
+</p>
+
+<div class="timeline">
+<div class="timeline__line"></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">01</div><h3 class="h3" style="font-size:14px">Contato</h3><p class="body" style="margin-top:8px;font-size:13px">Primeiro contato e triagem inicial, com <span class="en">escuta atenta aos objetivos</span> do paciente.</p></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">02</div><h3 class="h3" style="font-size:14px">Qualificação</h3><p class="body" style="margin-top:8px;font-size:13px">Qualificação assistida por <span class="en-b">inteligência artificial</span> para entender histórico e elegibilidade preliminar.</p></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">03</div><h3 class="h3" style="font-size:14px">Teleconsulta</h3><p class="body" style="margin-top:8px;font-size:13px"><span class="en">Consulta médica remota com especialista</span> para avaliação inicial e definição dos próximos passos.</p></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">04</div><h3 class="h3" style="font-size:14px">Exames</h3><p class="body" style="margin-top:8px;font-size:13px">Solicitação e análise dos exames necessários para a avaliação clínica completa.</p></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">05</div><h3 class="h3" style="font-size:14px">Avaliação médica</h3><p class="body" style="margin-top:8px;font-size:13px">Definição do protocolo mais adequado por <span class="en">médicos licenciados</span>, após revisão individual de histórico e <span class="en-c">consentimento informado</span>.</p></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">06</div><h3 class="h3" style="font-size:14px">Planejamento da viagem</h3><p class="body" style="margin-top:8px;font-size:13px"><span class="en">Coordenação completa</span> de voos, hospedagem em padrão superior, transporte privativo e roteiro de bem-estar em <span class="en-c">Santiago</span>.</p></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">07</div><h3 class="h3" style="font-size:14px">Tratamento no Chile</h3><p class="body" style="margin-top:8px;font-size:13px">Execução do protocolo em <span class="en">rede clínica parceira licenciada</span>, sob responsabilidade médica local.</p></div>
+<div class="timeline__item" data-reveal=""><div class="timeline__num">08</div><h3 class="h3" style="font-size:14px">Acompanhamento</h3><p class="body" style="margin-top:8px;font-size:13px"><span class="en">Acompanhamento contínuo</span> via portal digital e equipe médica após o retorno ao Brasil.</p></div>
+</div>
+
+<div style="margin-top:32px" data-reveal="">
+<a class="btn btn--cta" href="avaliacao.html">&#8594; Iniciar minha avaliação</a>
+<a class="btn btn--ghost" style="margin-left:12px" href="agendamento.html">Escolher um horário</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ PROGRAMAS EM DETALHE ============ -->
+<section class="section section--surface" id="protocolos">
+<div class="wrap">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Programas em detalhe</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+Cada protocolo tem sua via<br/>
+<span class="brand">e sua indicação.</span>
+</h2>
+
+<p class="lead" style="margin-top:24px;max-width:600px" data-reveal="">
+Toque em um programa para ver <span class="en">composição, via de administração e perfil de indicação</span>.
+A definição do protocolo aplicável a cada paciente é <span class="en-c">sempre médica e individual</span>.
+</p>
+
+<div class="rail-wrap">
+<div class="rail" data-carousel aria-label="Programas da PHD Healthtec">
+<div class="rail__item rail__item--prog" data-reveal="">
+<button type="button" class="pcard" data-prog="0" aria-expanded="false" aria-controls="pdetail">
+<span class="pcard__media">
+<span class="pcard__rede">Ambas as redes</span>
+<img src="assets/programa-vitalys-prime.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="pcard__tint"></span>
+</span>
+<span class="pcard__body">
+<span class="pcard__name">Vitalys Prime</span>
+<span class="pcard__focus">Vitalidade sistêmica e longevidade</span>
+<span class="pcard__cta">Ver detalhes <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+</span>
+</button>
+</div>
+<div class="rail__item rail__item--prog" data-reveal="">
+<button type="button" class="pcard" data-prog="1" aria-expanded="false" aria-controls="pdetail">
+<span class="pcard__media">
+<span class="pcard__rede">Ambas as redes</span>
+<img src="assets/programa-atlas-regenera.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="pcard__tint"></span>
+</span>
+<span class="pcard__body">
+<span class="pcard__name">Atlas Regenera</span>
+<span class="pcard__focus">Regeneração musculoesquelética, articular e tendínea</span>
+<span class="pcard__cta">Ver detalhes <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+</span>
+</button>
+</div>
+<div class="rail__item rail__item--prog" data-reveal="">
+<button type="button" class="pcard" data-prog="2" aria-expanded="false" aria-controls="pdetail">
+<span class="pcard__media">
+<span class="pcard__rede pcard__rede--premium">Rede premium</span>
+<img src="assets/programa-athena-neural.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="pcard__tint"></span>
+</span>
+<span class="pcard__body">
+<span class="pcard__name">Athena Neural</span>
+<span class="pcard__focus">Suporte neurológico e neuroinflamatório</span>
+<span class="pcard__cta">Ver detalhes <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+</span>
+</button>
+</div>
+<div class="rail__item rail__item--prog" data-reveal="">
+<button type="button" class="pcard" data-prog="3" aria-expanded="false" aria-controls="pdetail">
+<span class="pcard__media">
+<span class="pcard__rede pcard__rede--premium">Rede premium</span>
+<img src="assets/programa-prometheus-absolute.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="pcard__tint"></span>
+</span>
+<span class="pcard__body">
+<span class="pcard__name">Prometheus Absolute</span>
+<span class="pcard__focus">Protocolo assinatura, abordagem neuro-respiratória</span>
+<span class="pcard__cta">Ver detalhes <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+</span>
+</button>
+</div>
+<div class="rail__item rail__item--prog" data-reveal="">
+<button type="button" class="pcard" data-prog="4" aria-expanded="false" aria-controls="pdetail">
+<span class="pcard__media">
+<span class="pcard__rede">Ambas as redes</span>
+<img src="assets/programa-pneuma-vital.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="pcard__tint"></span>
+</span>
+<span class="pcard__body">
+<span class="pcard__name">Pneuma Vital</span>
+<span class="pcard__focus">Suporte respiratório e recuperação pulmonar</span>
+<span class="pcard__cta">Ver detalhes <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+</span>
+</button>
+</div>
+<div class="rail__item rail__item--prog" data-reveal="">
+<button type="button" class="pcard" data-prog="5" aria-expanded="false" aria-controls="pdetail">
+<span class="pcard__media">
+<span class="pcard__rede">Ambas as redes</span>
+<img src="assets/programa-eternity-eclat.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="pcard__tint"></span>
+</span>
+<span class="pcard__body">
+<span class="pcard__name">Eternity Éclat</span>
+<span class="pcard__focus">Rejuvenescimento e regeneração estética localizada</span>
+<span class="pcard__cta">Ver detalhes <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></span>
+</span>
+</button>
+</div>
+</div>
+<div class="rail__fade"></div>
+</div>
+<p class="rail__hint">Arraste para ver mais &#8594;</p>
+
+<div class="pdetail" id="pdetail" aria-live="polite">
+<div class="pdetail__inner"><div class="pdetail__card" id="pdetailCard"></div></div>
+</div>
+</div>
+</section>
+
+<!-- ============ CIÊNCIA E SEGURANÇA ============ -->
+<section class="section has-aura" id="ciencia">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="wrap">
+<div style="display:flex;flex-direction:column;gap:40px" class="split">
+<div style="flex:1">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Ciência &amp; Segurança</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+O que a ciência diz<br/>
+<span class="light">e o que ela não promete.</span>
+</h2>
+
+<p class="body" style="margin-top:24px" data-reveal="">
+As <span class="en-b">células mesenquimais estromais</span> são células com capacidade de <span class="en">autorrenovação e
+diferenciação</span>, usadas em protocolos regenerativos por seu potencial <span class="en-c">imunomodulador
+e anti-inflamatório</span>.
+</p>
+<p class="body" style="margin-top:14px" data-reveal="">
+Estudos associam sua ação à estimulação de <span class="en-b">fibroblastos</span> responsáveis pela produção de
+<span class="en">colágeno e elastina</span>, e à redução da <span class="en-c">inflamação sistêmica crônica</span> associada ao envelhecimento.
+</p>
+
+<div class="accent-block accent-block--cold" style="margin-top:32px" data-reveal="">
+<p class="body" style="font-size:14px">
+Este conteúdo tem caráter informativo e educacional. A PHD Healthtec <span class="en-c">não promete resultados
+clínicos</span>: cada protocolo é definido, conduzido e avaliado <span class="en">exclusivamente por médicos
+licenciados</span>, respeitando a legislação da jurisdição onde o tratamento é realizado.
+</p>
+</div>
+</div>
+
+<div style="flex:1" data-reveal="scale">
+<div class="media">
+<img class="media__img" src="assets/secao-ciencia.webp" alt="Dupla hélice de DNA em tons prateados" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media__tint"></div>
+<div class="media__inset"></div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:32px" data-reveal=""><a class="btn btn--ghost" href="ciencia-respaldo.html">Ver o respaldo científico &#8594;</a></div>
+<div style="margin-top:48px"></div>
+<div class="glassband"><div class="grid grid--3" style="margin-top:0">
+<article class="glass" data-reveal="">
+<span class="glass__fio" aria-hidden="true"></span>
+<svg class="glass__mark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg>
+<div class="glass__body">
+<span class="glass__pill">Execução</span>
+<h3 class="glass__title">Execução clínica licenciada</h3>
+<p class="glass__text">Toda administração é realizada por <span class="en">equipe médica licenciada</span>, em estrutura clínica habilitada, sob a legislação da jurisdição onde o tratamento acontece.</p>
+<div class="glass__foot"><span>Equipe licenciada</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+</div>
+</article>
+<article class="glass" data-reveal="">
+<span class="glass__fio" aria-hidden="true"></span>
+<svg class="glass__mark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg>
+<div class="glass__body">
+<span class="glass__pill">Avaliação</span>
+<h3 class="glass__title">Avaliação individual obrigatória</h3>
+<p class="glass__text"><span class="en-c">Nenhum paciente</span> é incluído em protocolo sem <span class="en">avaliação individual</span>, revisão de histórico e consentimento informado.</p>
+<div class="glass__foot"><span>Caso a caso</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+</div>
+</article>
+<article class="glass" data-reveal="">
+<span class="glass__fio" aria-hidden="true"></span>
+<svg class="glass__mark" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M12 3v18M4.2 7.5l15.6 9M19.8 7.5l-15.6 9"/></svg>
+<div class="glass__body">
+<span class="glass__pill">Registro</span>
+<h3 class="glass__title">Rastreabilidade</h3>
+<p class="glass__text"><span class="en-b">Documentação clínica e rastreabilidade</span> do produto celular em <span class="en">todas as etapas</span> do protocolo, do recebimento à liberação técnica.</p>
+<div class="glass__foot"><span>Toda a cadeia</span><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+</div>
+</article></div></div>
+</div>
+</section>
+
+<!-- ============ PARCEIROS ============ -->
+<section class="section section--night" id="parceiros">
+<div class="wrap">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Parceiros clínicos</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+Execução por redes<br/>
+<span class="light">licenciadas no Chile.</span>
+</h2>
+
+<p class="lead" style="margin-top:24px;max-width:680px" data-reveal="">
+Nossos protocolos são executados por <span class="en">redes clínicas licenciadas no Chile</span>, com coordenação
+e governança local dedicadas exclusivamente à experiência PHD Healthtec. A seleção
+considera <span class="en-b">padrão de estrutura, equipe e protocolo</span>, <span class="en-c">nunca o menor custo</span>.
+</p>
+
+<div class="rail-wrap" style="margin-top:44px">
+<div class="rail" data-carousel aria-label="Unidades parceiras">
+<div class="rail__item rail__item--loc" data-reveal="" style="--tone:var(--t-sky);--tone-rgb:var(--t-sky-rgb)">
+<article class="loc">
+<div class="loc__media">
+<span class="loc__pin">Rede padrão</span>
+<span class="loc__pend">Foto pendente</span>
+<img src="assets/parceiro-1.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="loc__veu"></span>
+</div>
+<div class="loc__body">
+<h3 class="loc__nome">Unidade Santiago Centro</h3>
+<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Comuna de Providencia, Santiago · Região Metropolitana, Chile</span></p>
+<div class="loc__tags"><span class="loc__tag">Vitalys Prime</span><span class="loc__tag">Atlas Regenera</span><span class="loc__tag">Pneuma Vital</span><span class="loc__tag">Eternity Éclat</span></div>
+</div>
+</article>
+</div>
+<div class="rail__item rail__item--loc" data-reveal="" style="--tone:var(--t-coral);--tone-rgb:var(--t-coral-rgb)">
+<article class="loc">
+<div class="loc__media">
+<span class="loc__pin loc__pin--premium">Rede premium</span>
+<span class="loc__pend">Foto pendente</span>
+<img src="assets/parceiro-2.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="loc__veu"></span>
+</div>
+<div class="loc__body">
+<h3 class="loc__nome">Unidade Las Condes</h3>
+<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Comuna de Las Condes, Santiago · Região Metropolitana, Chile</span></p>
+<div class="loc__tags"><span class="loc__tag">Athena Neural</span><span class="loc__tag">Prometheus Absolute</span><span class="loc__tag">Vitalys Prime</span></div>
+</div>
+</article>
+</div>
+<div class="rail__item rail__item--loc" data-reveal="" style="--tone:var(--t-violet);--tone-rgb:var(--t-violet-rgb)">
+<article class="loc">
+<div class="loc__media">
+<span class="loc__pin loc__pin--premium">Rede premium</span>
+<span class="loc__pend">Foto pendente</span>
+<img src="assets/parceiro-3.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="loc__veu"></span>
+</div>
+<div class="loc__body">
+<h3 class="loc__nome">Unidade Vitacura</h3>
+<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Comuna de Vitacura, Santiago · Região Metropolitana, Chile</span></p>
+<div class="loc__tags"><span class="loc__tag">Athena Neural</span><span class="loc__tag">Prometheus Absolute</span></div>
+</div>
+</article>
+</div>
+<div class="rail__item rail__item--loc" data-reveal="" style="--tone:var(--t-mint);--tone-rgb:var(--t-mint-rgb)">
+<article class="loc">
+<div class="loc__media">
+<span class="loc__pin">Rede padrão</span>
+<span class="loc__pend">Foto pendente</span>
+<img src="assets/parceiro-4.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="loc__veu"></span>
+</div>
+<div class="loc__body">
+<h3 class="loc__nome">Centro de apoio laboratorial</h3>
+<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Comuna de Ñuñoa, Santiago · Região Metropolitana, Chile</span></p>
+<div class="loc__tags"><span class="loc__tag">Processamento</span><span class="loc__tag">Controle de qualidade</span><span class="loc__tag">Rastreabilidade</span></div>
+</div>
+</article>
+</div>
+<div class="rail__item rail__item--loc" data-reveal="" style="--tone:var(--t-cyan);--tone-rgb:var(--t-cyan-rgb)">
+<article class="loc">
+<div class="loc__media">
+<span class="loc__pin">Coordenação</span>
+<span class="loc__pend">Foto pendente</span>
+<img src="assets/parceiro-5.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="loc__veu"></span>
+</div>
+<div class="loc__body">
+<h3 class="loc__nome">Coordenação Brasil</h3>
+<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>A definir · atendimento remoto em todo o território nacional</span></p>
+<div class="loc__tags"><span class="loc__tag">Triagem</span><span class="loc__tag">Teleconsulta</span><span class="loc__tag">Viagem</span></div>
+</div>
+</article>
+</div>
+</div>
+<div class="rail__fade"></div>
+</div>
+<p class="rail__hint">Arraste para ver mais &#8594;</p>
+
+<div class="note" style="margin-top:36px" data-reveal="">
+<p><strong>Responsabilidade clínica.</strong> A administração dos protocolos é realizada por
+<span class="en">equipe médica licenciada</span>, em estrutura clínica habilitada, sob a legislação da jurisdição
+onde o tratamento acontece. A PHD Healthtec <span class="en-c">coordena a jornada e não pratica medicina</span>.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="section section--surface" id="faq">
+<div class="wrap">
+<div class="faq-grid" style="display:grid;gap:48px">
+<div>
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Perguntas frequentes</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">Perguntas frequentes.</h2>
+
+<div style="margin-top:32px" data-reveal="">
+<div class="faq__item">
+<button class="faq__btn" aria-expanded="false" aria-controls="faq1">
+<span class="faq__q">A PHD Healthtec é uma clínica?</span>
+<svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+</button>
+<div class="faq__panel" id="faq1" role="region"><div><p class="faq__a">Não. A PHD Healthtec é a camada de curadoria e orquestração entre o paciente e a medicina regenerativa de excelência. A execução clínica é realizada por parceiros licenciados no Chile, sob responsabilidade médica local.</p></div></div>
+</div>
+<div class="faq__item">
+<button class="faq__btn" aria-expanded="false" aria-controls="faq2">
+<span class="faq__q">O que são células mesenquimais?</span>
+<svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+</button>
+<div class="faq__panel" id="faq2" role="region"><div><p class="faq__a">São células estromais com capacidade de autorrenovação e diferenciação, utilizadas em protocolos regenerativos por seu potencial imunomodulador e anti-inflamatório. Estudos associam sua ação à estimulação de fibroblastos e à redução da inflamação sistêmica crônica associada ao envelhecimento.</p></div></div>
+</div>
+<div class="faq__item">
+<button class="faq__btn" aria-expanded="false" aria-controls="faq3">
+<span class="faq__q">Por que os protocolos são realizados no Chile?</span>
+<svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+</button>
+<div class="faq__panel" id="faq3" role="region"><div><p class="faq__a">Porque as terapias regenerativas com células-tronco são conduzidas lá por redes clínicas licenciadas, em conformidade com a legislação local. A PHD Healthtec coordena toda a jornada a partir do Brasil.</p></div></div>
+</div>
+<div class="faq__item">
+<button class="faq__btn" aria-expanded="false" aria-controls="faq4">
+<span class="faq__q">Como o protocolo é definido?</span>
+<svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+</button>
+<div class="faq__panel" id="faq4" role="region"><div><p class="faq__a">Após teleconsulta, exames e avaliação médica individual. A definição é feita por médicos licenciados, com revisão de histórico e consentimento informado. Não trabalhamos com catálogo padronizado.</p></div></div>
+</div>
+<div class="faq__item">
+<button class="faq__btn" aria-expanded="false" aria-controls="faq5">
+<span class="faq__q">Qual é o investimento?</span>
+<svg class="faq__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+</button>
+<div class="faq__panel" id="faq5" role="region"><div><p class="faq__a">Os programas são apresentados mediante avaliação. O escopo varia conforme o protocolo indicado, a rede clínica envolvida e a estrutura de viagem necessária.</p></div></div>
+</div>
+</div>
+</div>
+
+<div style="display:flex;align-items:center" data-reveal="">
+<div class="card card--glass" style="width:100%;text-align:center;padding:28px">
+<div class="icon-box icon-box--accent" style="margin-inline:auto">
+<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4.5" y="10" width="15" height="10.5" rx="2.4"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/><path d="M12 14.4v2.2"/></svg>
+</div>
+<h3 class="h3" style="margin-top:16px;font-size:15px">Atendimento confidencial</h3>
+<p class="body" style="margin-top:8px;font-size:12px">Um coordenador dedicado responde e conduz sua avaliação.</p>
+<a class="btn btn--cta" style="margin-top:24px;width:100%" href="avaliacao.html">&#8594; Agendar avaliação</a>
+<a class="btn btn--ghost" style="margin-top:10px;width:100%" href="agendamento.html">Escolher um horário</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- ============ CTA FINAL ============ -->
+<section class="section">
+<div class="wrap">
+<div class="media media--wide media--warm" data-reveal="scale" style="margin-bottom:56px">
+<img class="media__img" src="assets/secao-cta-final.webp" alt="Neurônios luminosos conectados em rede" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media__tint"></div>
+<div class="media__inset"></div>
+</div>
+
+<h2 class="h1" data-reveal="">
+Vamos estruturar<br/>
+<span class="light">sua jornada de longevidade?</span>
+</h2>
+
+<p class="body" style="margin-top:24px;max-width:520px" data-reveal="">
+Atendimento <span class="en">consultivo e confidencial</span> para pacientes que buscam <span class="en-c">medicina regenerativa
+de excelência</span>.
+</p>
+
+<div style="margin-top:36px;display:flex;flex-direction:column;align-items:flex-start;gap:14px" data-reveal="">
+<div style="display:flex;gap:12px;flex-wrap:wrap">
+<a class="btn btn--cta" href="avaliacao.html">&#8594; Agendar avaliação confidencial</a>
+<a class="btn btn--ghost" href="agendamento.html">Escolher um horário agora</a>
+</div>
+<p style="font-size:12px;color:var(--faint)">Nenhum protocolo é oferecido sem avaliação médica individual prévia.</p>
+</div>
+</div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+<div class="footer__grid">
+<div>
+<a href="/" class="logo" aria-label="PHD Healthtec, página inicial">
+<img class="logo__mark" src="assets/logo-phd-claro.png" alt="" width="220" height="120"/>
+<span class="wordmark"><b>PHD</b> <span>Healthtec</span></span>
+</a>
+<div class="footer__tag">Precisão. Curadoria. Longevidade.</div>
+<p class="footer__desc">
+A camada de curadoria, confiança e orquestração entre o paciente de alto padrão
+e a medicina regenerativa de excelência.
+</p>
+</div>
+
+<div class="footer__col">
+<h4>Navegação</h4>
+<ul>
+<li><a href="#sobre">A PHD Healthtec</a></li>
+<li><a href="#programas">Programas</a></li>
+<li><a href="#jornada">Jornada do paciente</a></li>
+<li><a href="#protocolos">Programas em detalhe</a></li>
+<li><a href="#ciencia">Ciência &amp; Segurança</a></li>
+<li><a href="#parceiros">Parceiros clínicos</a></li>
+<li><a href="#faq">Perguntas frequentes</a></li>
+<li><a href="ciencia-respaldo.html">Respaldo científico</a></li>
+</ul>
+</div>
+
+<div class="footer__col">
+<h4>Contato</h4>
+<ul>
+<li><a href="avaliacao.html">Agendar avaliação confidencial</a></li>
+<li><a href="agendamento.html">Escolher um horário</a></li>
+<li><a href="https://wa.me/5500000000000" rel="noopener" target="_blank">WhatsApp</a></li>
+<li><a href="mailto:contato@phdhealthtec.com">contato@phdhealthtec.com</a></li>
+<li><a href="#">Política de privacidade</a></li>
+<li><a href="#">Termos de uso</a></li>
+</ul>
+</div>
+</div>
+
+<div class="footer__bar">
+<p class="footer__legal">
+Conteúdo informativo sobre medicina regenerativa e longevidade. Não substitui consulta
+médica nem constitui promessa de resultado. Todos os protocolos, a seleção de pacientes
+e as decisões terapêuticas são de responsabilidade exclusiva de médicos licenciados, em
+conformidade com a legislação das jurisdições onde os serviços são prestados.
+&copy; 2026 PHD Healthtec.
+</p>
+<div class="footer__links">
+<a href="#">Privacidade</a><a href="#">Termos</a><a href="#">LGPD</a>
+</div>
+</div>
+</footer>
+
+<script>
+/* ---------- reveal ao rolar ---------- */
+(function(){
+  var els = Array.prototype.slice.call(document.querySelectorAll('[data-reveal]'));
+  if(!els.length) return;
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(reduce || !('IntersectionObserver' in window)){
+    els.forEach(function(e){ e.classList.add('is-in','is-done'); });
+    return;
+  }
+
+  function show(el){
+    if(el.classList.contains('is-in')) return;
+
+    /* atraso em cascata entre irmãos que revelam juntos */
+    var sibs = Array.prototype.filter.call(el.parentElement.children, function(c){
+      return c.hasAttribute('data-reveal') && !c.classList.contains('is-in');
+    });
+    var i = sibs.indexOf(el);
+    el.style.transitionDelay = (i > 0 ? Math.min(i, 8) * 130 : 0) + 'ms';
+
+    el.classList.add('is-in');
+
+    /* congela o estado final: nada re-anima depois */
+    window.setTimeout(function(){
+      el.classList.add('is-done');
+      el.style.transitionDelay = '';
+    }, 2600);
+  }
+
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      show(entry.target);
+      io.unobserve(entry.target);
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -16% 0px' });
+
+  els.forEach(function(e){ io.observe(e); });
+
+  /* rede de segurança: rolagem muito rápida, elemento dentro de scroller,
+     ou aba reaberta. Varre o que sobrou e revela o que já passou da linha. */
+  var pending = els.slice();
+  function sweep(){
+    if(!pending.length) return;
+    var line = window.innerHeight * 0.88;
+    pending = pending.filter(function(el){
+      if(el.classList.contains('is-in')) return false;
+      var r = el.getBoundingClientRect();
+      if(r.width === 0 && r.height === 0) return true;   /* oculto agora, tenta depois */
+      if(r.top < line){ show(el); io.unobserve(el); return false; }
+      return true;
+    });
+  }
+  var t = false;
+  function onScroll(){
+    if(t) return; t = true;
+    requestAnimationFrame(function(){ sweep(); t = false; });
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+  window.addEventListener('resize', onScroll);
+  window.addEventListener('load', sweep);
+  sweep();
+})();
+
+/* ---------- barra de progresso da leitura ---------- */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var wrap = document.createElement('div');
+  wrap.className = 'progress';
+  wrap.setAttribute('aria-hidden','true');
+  var bar = document.createElement('div');
+  bar.className = 'progress__bar';
+  wrap.appendChild(bar);
+  document.body.appendChild(wrap);
+
+  var ticking = false;
+  function update(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = max > 0 ? (window.scrollY / max) * 100 : 0;
+    bar.style.width = Math.max(0, Math.min(100, pct)) + '%';
+  }
+  window.addEventListener('scroll', function(){
+    if(ticking) return; ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }, {passive:true});
+  window.addEventListener('resize', update);
+  update();
+})();
+
+/* ---------- nav no scroll ---------- */
+(function(){
+  var nav = document.getElementById('nav');
+  var tick = false;
+  window.addEventListener('scroll', function(){
+    if(tick) return;
+    tick = true;
+    requestAnimationFrame(function(){
+      nav.classList.toggle('is-scrolled', window.scrollY > 20);
+      tick = false;
+    });
+  }, {passive:true});
+})();
+
+/* ---------- drawer mobile ---------- */
+(function(){
+  var burger = document.getElementById('burger');
+  var drawer = document.getElementById('drawer');
+  burger.addEventListener('click', function(){
+    var open = drawer.classList.toggle('is-open');
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Fechar menu' : 'Abrir menu');
+  });
+  drawer.querySelectorAll('a').forEach(function(a){
+    a.addEventListener('click', function(){
+      drawer.classList.remove('is-open');
+      burger.setAttribute('aria-expanded','false');
+    });
+  });
+})();
+
+/* ---------- marquee: duplica o conteúdo ---------- */
+(function(){
+  var track = document.getElementById('marquee');
+  if(!track) return;
+  track.innerHTML += track.innerHTML;
+})();
+
+/* ---------- FAQ acordeão ---------- */
+(function(){
+  document.querySelectorAll('.faq__btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var open = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq__btn').forEach(function(b){
+        b.setAttribute('aria-expanded','false');
+      });
+      btn.setAttribute('aria-expanded', String(!open));
+    });
+  });
+})();
+
+
+/* ---------- carrossel: setas, pontos, teclado, arraste ---------- */
+(function(){
+  document.querySelectorAll('.rail[data-carousel]').forEach(function(rail){
+    var wrap  = rail.closest('.rail-wrap');
+    var items = Array.prototype.slice.call(rail.children);
+    if(!wrap || items.length < 2) return;
+
+    rail.setAttribute('tabindex','0');
+    rail.setAttribute('role','group');
+
+    /* rodapé: pontos + dica + setas */
+    var foot = document.createElement('div');
+    foot.className = 'rail__foot';
+    var dots = document.createElement('div');
+    dots.className = 'rail-dots';
+    var nav  = document.createElement('div');
+    nav.className = 'rail-nav';
+
+    var hint = wrap.parentElement.querySelector('.rail__hint');
+    foot.appendChild(dots);
+    if(hint) foot.appendChild(hint);
+    foot.appendChild(nav);
+
+    function arrow(dir,label,path){
+      var b = document.createElement('button');
+      b.className = 'rail-btn';
+      b.type = 'button';
+      b.setAttribute('aria-label', label);
+      b.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="'+path+'"/></svg>';
+      b.addEventListener('click', function(){ go(index() + dir); });
+      return b;
+    }
+    var prev = arrow(-1,'Anterior','M15 18l-6-6 6-6');
+    var next = arrow( 1,'Próximo','M9 18l6-6-6-6');
+    nav.appendChild(prev); nav.appendChild(next);
+
+    items.forEach(function(_, i){
+      var d = document.createElement('button');
+      d.className = 'rail-dot';
+      d.type = 'button';
+      d.setAttribute('aria-label','Ir para o item ' + (i+1));
+      d.addEventListener('click', function(){ go(i); });
+      dots.appendChild(d);
+    });
+    wrap.insertAdjacentElement('afterend', foot);
+
+    function step(){
+      if(items.length < 2) return items[0].offsetWidth;
+      return items[1].offsetLeft - items[0].offsetLeft;
+    }
+    function index(){ return Math.round(rail.scrollLeft / step()); }
+    function maxScroll(){ return rail.scrollWidth - rail.clientWidth; }
+
+    function go(i){
+      var max = items.length - 1;
+      i = Math.max(0, Math.min(max, i));
+      rail.scrollTo({ left: Math.min(i * step(), maxScroll()), behavior: 'smooth' });
+    }
+
+    function sync(){
+      var max = maxScroll();
+      var i = max > 0 ? Math.round(rail.scrollLeft / step()) : 0;
+      Array.prototype.forEach.call(dots.children, function(d, k){
+        d.classList.toggle('is-on', k === i);
+        d.setAttribute('aria-current', k === i ? 'true' : 'false');
+      });
+      prev.disabled = rail.scrollLeft <= 2;
+      next.disabled = rail.scrollLeft >= max - 2;
+      wrap.classList.toggle('is-end', rail.scrollLeft >= max - 2);
+      foot.hidden = max <= 2;
+    }
+
+    var ticking = false;
+    rail.addEventListener('scroll', function(){
+      if(ticking) return;
+      ticking = true;
+      requestAnimationFrame(function(){ sync(); ticking = false; });
+    }, {passive:true});
+    window.addEventListener('resize', sync);
+    sync();
+
+    /* teclado */
+    rail.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowRight'){ e.preventDefault(); go(index()+1); }
+      if(e.key === 'ArrowLeft'){  e.preventDefault(); go(index()-1); }
+      if(e.key === 'Home'){ e.preventDefault(); go(0); }
+      if(e.key === 'End'){  e.preventDefault(); go(items.length-1); }
+    });
+
+    /* arraste com mouse. Touch usa o scroll nativo. */
+    var down = false, startX = 0, startLeft = 0, moved = 0;
+    rail.addEventListener('pointerdown', function(e){
+      if(e.pointerType === 'touch') return;
+      down = true; moved = 0;
+      startX = e.clientX; startLeft = rail.scrollLeft;
+      rail.classList.add('is-dragging');
+    });
+    rail.addEventListener('pointermove', function(e){
+      if(!down) return;
+      var dx = e.clientX - startX;
+      moved = Math.abs(dx);
+      rail.scrollLeft = startLeft - dx;
+    });
+    function release(){
+      if(!down) return;
+      down = false;
+      rail.classList.remove('is-dragging');
+      go(index());
+    }
+    rail.addEventListener('pointerup', release);
+    rail.addEventListener('pointercancel', release);
+    rail.addEventListener('pointerleave', release);
+    rail.addEventListener('click', function(e){
+      if(moved > 6){ e.preventDefault(); e.stopPropagation(); }
+    }, true);
+  });
+})();
+
+
+/* ---------- hero: app em uso ---------- */
+(function(){
+  var decks = document.querySelectorAll('[data-hero-app]');
+  if(!decks.length) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var HOLD = 3400;   /* tempo em cada tela */
+  var LEAD = 620;    /* toque acontece antes da troca */
+
+  decks.forEach(function(deck){
+    var screens = Array.prototype.slice.call(deck.querySelectorAll('.ui'));
+    if(screens.length < 2) return;
+
+    var touch = document.createElement('span');
+    touch.className = 'ui-touch';
+    deck.appendChild(touch);
+
+    var i = 0, timer = null, tapTimer = null, running = false;
+
+    function tabCenter(screen, k){
+      var tabs = screen.querySelectorAll('.ui__tab');
+      if(!tabs[k]) return null;
+      var t = tabs[k].getBoundingClientRect();
+      var d = deck.getBoundingClientRect();
+      if(!d.width) return null;
+      return {
+        x: ((t.left + t.width/2  - d.left) / d.width)  * 100,
+        y: ((t.top  + t.height/2 - d.top)  / d.height) * 100
+      };
+    }
+
+    function activate(k){
+      screens.forEach(function(sc, n){ sc.classList.toggle('is-on', n === k); });
+      i = k;
+    }
+
+    function cycle(){
+      var next = (i + 1) % screens.length;
+      var pos  = tabCenter(screens[i], next);
+
+      if(pos){
+        touch.style.left = pos.x + '%';
+        touch.style.top  = pos.y + '%';
+        touch.classList.add('is-visible');
+      }
+
+      tapTimer = window.setTimeout(function(){
+        touch.classList.add('is-tap');
+        window.setTimeout(function(){
+          activate(next);
+          touch.classList.remove('is-tap','is-visible');
+        }, 240);
+      }, LEAD - 240);
+    }
+
+    function start(){
+      if(running) return;
+      running = true;
+      timer = window.setInterval(cycle, HOLD);
+    }
+    function stop(){
+      running = false;
+      window.clearInterval(timer);
+      window.clearTimeout(tapTimer);
+      touch.classList.remove('is-tap','is-visible');
+    }
+
+    /* só roda quando o hero está à vista e a aba está ativa */
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !document.hidden) start(); else stop();
+        });
+      }, {threshold: .18}).observe(deck);
+    } else { start(); }
+
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden) stop();
+      else if(deck.getBoundingClientRect().bottom > 0) start();
+    });
+  });
+})();
+
+/* ---------- hero: parallax leve das camadas ---------- */
+(function(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var hero = document.querySelector('.hero');
+  if(!hero) return;
+  var layers = [
+    {el: hero.querySelector('.hero__grid'), k: 0.06},
+    {el: hero.querySelector('.hero__glow'), k: 0.14},
+    {el: hero.querySelector('.hero__aura'), k: 0.20}
+  ].filter(function(l){ return l.el; });
+
+  var ticking = false;
+  function update(){
+    var y = window.scrollY;
+    if(y > window.innerHeight * 1.2) return;
+    layers.forEach(function(l){
+      l.el.style.transform = 'translate3d(0,' + (y * l.k).toFixed(1) + 'px,0)';
+    });
+  }
+  window.addEventListener('scroll', function(){
+    if(ticking) return; ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }, {passive:true});
+  update();
+})();
+
+
+/* ---------- jornada: imagem fixa que desce com a rolagem ---------- */
+(function(){
+  var sec = document.getElementById('jornada');
+  if(!sec) return;
+  var media = sec.querySelector('.media');
+  var img   = sec.querySelector('.media__img');
+  if(!media || !img) return;
+
+  /* trilho de progresso dentro da moldura */
+  var track = document.createElement('span');
+  track.className = 'jprog';
+  var bar = document.createElement('span');
+  bar.className = 'jprog__bar';
+  track.appendChild(bar);
+  media.appendChild(track);
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var mq = window.matchMedia('(min-width:1024px)');
+
+  function update(){
+    var r  = sec.getBoundingClientRect();
+    var vh = window.innerHeight;
+    if(r.bottom < -100 || r.top > vh + 100) return;
+
+    /* 0 quando a seção entra por baixo, 1 quando termina de sair por cima */
+    var p = (vh - r.top) / (vh + r.height);
+    p = Math.max(0, Math.min(1, p));
+    bar.style.width = (p * 100).toFixed(1) + '%';
+
+    if(reduce || !mq.matches){ img.style.transform = ''; return; }
+    /* deslocamento interno: a foto corre devagar dentro da moldura */
+    var shift = (p - 0.5) * 10;
+    img.style.transform = 'scale(1.12) translate3d(0,' + shift.toFixed(2) + '%,0)';
+  }
+
+  var ticking = false;
+  window.addEventListener('scroll', function(){
+    if(ticking) return; ticking = true;
+    requestAnimationFrame(function(){ update(); ticking = false; });
+  }, {passive:true});
+  window.addEventListener('resize', update);
+  mq.addEventListener('change', update);
+  update();
+})();
+
+
+/* ---------- programas: carrossel com painel de detalhe ---------- */
+(function(){
+  var PROGRAMAS = [{"nome": "Vitalys Prime", "foco": "Vitalidade sistêmica e longevidade", "rede": "Ambas as redes", "via": "Endovenosa", "acao": "Sistêmica", "perfil": "Manutenção funcional e longevidade", "desc": "Um programa sistêmico de suporte imunomodulador e anti-inflamatório, desenhado para quem busca manutenção funcional, vitalidade e longevidade saudável como base de um estilo de vida de alto desempenho."}, {"nome": "Atlas Regenera", "foco": "Regeneração musculoesquelética, articular e tendínea", "rede": "Ambas as redes", "via": "Endovenosa e aplicação local guiada por imagem", "acao": "Sistêmica e dirigida", "perfil": "Quadros musculoesqueléticos e articulares", "desc": "Combina a ação sistêmica da via endovenosa com uma aplicação local guiada por imagem, indicado para quadros musculoesqueléticos, articulares e tendíneos que exigem precisão dirigida."}, {"nome": "Athena Neural", "foco": "Suporte neurológico e neuroinflamatório", "rede": "Rede premium", "via": "Intratecal, em ambiente clínico controlado", "acao": "Neurológica", "perfil": "Protocolos neurológicos selecionados", "desc": "Direcionado a protocolos neurológicos e neuroinflamatórios selecionados, com administração intratecal conduzida em ambiente clínico controlado por especialistas."}, {"nome": "Prometheus Absolute", "foco": "Protocolo assinatura, abordagem neuro-respiratória", "rede": "Rede premium", "via": "Combinada: sistêmica, neurológica e respiratória", "acao": "Integral", "perfil": "Casos avaliados individualmente pela equipe médica", "desc": "O mais completo dos programas PHD Healthtec, combinando suporte sistêmico, neurológico e respiratório em um único protocolo. Reservado a casos avaliados individualmente pela equipe médica."}, {"nome": "Pneuma Vital", "foco": "Suporte respiratório e recuperação pulmonar", "rede": "Ambas as redes", "via": "Inalatória, sob supervisão médica", "acao": "Respiratória", "perfil": "Quadros respiratórios crônicos e sequelas pulmonares", "desc": "Voltado a quadros respiratórios crônicos e sequelas pulmonares, com administração inalatória sob supervisão médica."}, {"nome": "Eternity Éclat", "foco": "Rejuvenescimento e regeneração estética localizada", "rede": "Ambas as redes", "via": "Sistêmica e aplicações locais por zona", "acao": "Estética regenerativa", "perfil": "Rosto, colo, mãos, couro cabeludo e outras áreas", "desc": "Regeneração e rejuvenescimento estético por zona: rosto, colo, mãos, couro cabeludo e outras áreas com indicação profissional, unindo ação sistêmica a aplicações locais direcionadas."}];
+  var rail  = document.querySelector('#protocolos .rail');
+  var painel= document.getElementById('pdetail');
+  var card  = document.getElementById('pdetailCard');
+  if(!rail || !painel || !card) return;
+
+  var atual = -1;
+
+  function spec(rot, val){
+    return '<div class="spec"><dt>' + rot + '</dt><dd>' + val + '</dd></div>';
+  }
+
+  function abrir(i){
+    var p = PROGRAMAS[i];
+    card.innerHTML =
+      '<div>' +
+        '<h3 class="pdetail__name">' + p.nome + '</h3>' +
+        '<div class="micro micro--brand" style="margin-top:10px">' + p.foco + '</div>' +
+        '<p class="pdetail__desc">' + p.desc + '</p>' +
+        '<p class="pdetail__nota">O protocolo é definido e ajustado individualmente após ' +
+          'avaliação médica, revisão de histórico e consentimento informado. Este conteúdo é ' +
+          'informativo e não constitui promessa de resultado.</p>' +
+      '</div>' +
+      '<dl class="pdetail__specs">' +
+        spec('Via', p.via) + spec('Ação', p.acao) +
+        spec('Indicação', p.perfil) + spec('Disponibilidade', p.rede) +
+        spec('Investimento', 'Mediante avaliação') +
+      '</dl>' +
+      '<div class="pdetail__actions">' +
+        '<a class="btn btn--cta" href="avaliacao.html">&#8594; Solicitar avaliação</a>' +
+        '<a class="btn btn--ghost" href="agendamento.html">Escolher um horário</a>' +
+        '<button type="button" class="pdetail__close" id="pdClose">Fechar &#215;</button>' +
+      '</div>';
+
+    painel.classList.add('is-open');
+    atual = i;
+
+    Array.prototype.forEach.call(rail.querySelectorAll('.pcard'), function(b, k){
+      b.classList.toggle('is-on', k === i);
+      b.setAttribute('aria-expanded', k === i ? 'true' : 'false');
+      b.querySelector('.pcard__cta').firstChild.nodeValue = (k === i ? 'Fechar ' : 'Ver detalhes ');
+    });
+
+    document.getElementById('pdClose').addEventListener('click', fechar);
+  }
+
+  function fechar(){
+    painel.classList.remove('is-open');
+    atual = -1;
+    Array.prototype.forEach.call(rail.querySelectorAll('.pcard'), function(b){
+      b.classList.remove('is-on');
+      b.setAttribute('aria-expanded','false');
+      b.querySelector('.pcard__cta').firstChild.nodeValue = 'Ver detalhes ';
+    });
+  }
+
+  rail.addEventListener('click', function(e){
+    var b = e.target.closest('.pcard');
+    if(!b) return;
+    var i = parseInt(b.dataset.prog, 10);
+    if(i === atual){ fechar(); return; }
+    abrir(i);
+    /* traz o painel para a vista sem sobressalto */
+    window.setTimeout(function(){
+      var r = painel.getBoundingClientRect();
+      if(r.bottom > window.innerHeight){
+        painel.scrollIntoView({behavior:'smooth', block:'nearest'});
+      }
+    }, 320);
+  });
+
+  rail.addEventListener('keydown', function(e){
+    if(e.key !== 'Escape') return;
+    fechar();
+  });
+})();
+
+
+/* ---------- programas: camada técnica ---------- */
+(function(){
+  var sec = document.getElementById('programas');
+  if(!sec) return;
+  var grid = sec.querySelector('.techgrid');
+  var cards = sec.querySelectorAll('.card');
+  var num  = sec.querySelector('.seal__num b');
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fino = window.matchMedia('(hover: hover)').matches;
+
+  /* liga a camada quando a seção entra em cena */
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(!e.isIntersecting) return;
+        sec.classList.add('is-live');
+        contar();
+        io.unobserve(sec);
+      });
+    }, {threshold:.22});
+    io.observe(sec);
+  } else {
+    sec.classList.add('is-live'); contar();
+  }
+
+  /* contador do selo */
+  function contar(){
+    if(!num) return;
+    var alvo = parseInt(num.dataset.count, 10) || 100;
+    if(reduce){ num.textContent = alvo; return; }
+    var t0 = null, dur = 1500;
+    function passo(t){
+      if(!t0) t0 = t;
+      var p = Math.min(1, (t - t0) / dur);
+      var e = 1 - Math.pow(1 - p, 3);
+      num.textContent = Math.round(alvo * e);
+      if(p < 1) requestAnimationFrame(passo);
+    }
+    requestAnimationFrame(passo);
+  }
+
+  if(reduce || !fino) return;
+
+  /* matriz de pontos segue o cursor na seção */
+  var pend = false, mx = 0, my = 0;
+  sec.addEventListener('pointerenter', function(){ sec.classList.add('has-pointer'); });
+  sec.addEventListener('pointerleave', function(){ sec.classList.remove('has-pointer'); });
+  sec.addEventListener('pointermove', function(e){
+    sec.classList.add('has-pointer');
+    var r = sec.getBoundingClientRect();
+    mx = ((e.clientX - r.left) / r.width) * 100;
+    my = ((e.clientY - r.top) / r.height) * 100;
+    if(pend) return;
+    pend = true;
+    requestAnimationFrame(function(){
+      grid.style.setProperty('--px', mx.toFixed(2) + '%');
+      grid.style.setProperty('--py', my.toFixed(2) + '%');
+      pend = false;
+    });
+  }, {passive:true});
+
+  /* foco e borda reativa em cada card */
+  Array.prototype.forEach.call(cards, function(c){
+    var tick = false, x = 0, y = 0;
+    c.addEventListener('pointermove', function(e){
+      var r = c.getBoundingClientRect();
+      x = e.clientX - r.left; y = e.clientY - r.top;
+      if(tick) return;
+      tick = true;
+      requestAnimationFrame(function(){
+        c.style.setProperty('--mx', x.toFixed(1) + 'px');
+        c.style.setProperty('--my', y.toFixed(1) + 'px');
+        tick = false;
+      });
+    }, {passive:true});
+  });
+})();
+
+
+/* ---------- hero: carrossel com deslize ---------- */
+(function(){
+  var FRASES  = ["Jornada coordenada do Brasil ao Chile", "Avaliação médica individual, caso a caso", "Protocolos definidos por médicos licenciados", "Execução por redes licenciadas no Chile", "Rastreabilidade em todas as etapas", "Acompanhamento após o retorno ao Brasil", "Longevidade construída com precisão"];
+  var HOLD    = 4800;
+  var DUR     = 760;                        /* ms da animação de encaixe */
+  var EASE    = 'cubic-bezier(.22,1,.36,1)';
+  var PARALLAX = 9;                         /* % que a foto corre dentro do quadro */
+  var ESCALA   = 1.20;                      /* folga para o parallax não mostrar borda */
+  var VEU      = .42;                       /* escurecimento máximo do slide que sai */
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  document.querySelectorAll('[data-hero-carousel]').forEach(function(fig){
+    var deck  = fig.querySelector('.hfig__deck');
+    var track = fig.querySelector('.hfig__track');
+    var slides= Array.prototype.slice.call(fig.querySelectorAll('.hfig__slide'));
+    var pts   = Array.prototype.slice.call(fig.querySelectorAll('.hfig__pt'));
+    var frase = fig.querySelector('.hfig__frase');
+    if(!deck || !track || slides.length < 3 || !frase) return;
+
+    var N = slides.length - 2;              /* slides reais, sem os dois clones */
+    var pos = 1;                            /* posição no track: 1 é o primeiro real */
+    var logico = 0;                         /* índice mostrado nos pontos e na frase */
+    var timer = null, rodando = false, animando = false;
+
+    /* o slide vizinho precisa já estar carregado antes de entrar em cena */
+    function precarregar(p){
+      var k = Math.round(p);
+      [k-1, k, k+1].forEach(function(n){
+        var sl = slides[(n + slides.length) % slides.length];
+        if(!sl) return;
+        var img = sl.firstElementChild;
+        if(img && img.loading === 'lazy'){ img.loading = 'eager'; img.src = img.src; }
+      });
+    }
+
+    /* ---------- desenho ---------- */
+    function pintar(p, animar){
+      precarregar(p);
+      var t = animar ? 'transform ' + DUR + 'ms ' + EASE : 'none';
+      var to = animar ? 'opacity ' + DUR + 'ms ' + EASE : 'none';
+
+      track.style.transition = t;
+      track.style.transform  = 'translate3d(' + (-p * 100) + '%,0,0)';
+
+      slides.forEach(function(sl, n){
+        var d = n - p;                      /* distância do centro, em telas */
+        var img = sl.firstElementChild;
+        var veu = sl.lastElementChild;
+        var dd  = Math.max(-1.4, Math.min(1.4, d));
+        img.style.transition = t;
+        img.style.transform  = 'translate3d(' + (-dd * PARALLAX).toFixed(2) + '%,0,0) scale(' + ESCALA + ')';
+        veu.style.transition = to;
+        veu.style.opacity    = (Math.min(1, Math.abs(dd)) * VEU).toFixed(3);
+      });
+    }
+
+    function trocarFrase(k){
+      if(k === logico) return;
+      logico = k;
+      pts.forEach(function(b, n){ b.classList.toggle('is-on', n === k); });
+      frase.classList.add('is-out');
+      window.setTimeout(function(){
+        frase.textContent = FRASES[k] || '';
+        frase.classList.remove('is-out');
+      }, reduce ? 0 : 330);
+    }
+
+    function normalizar(k){ return ((k % N) + N) % N; }
+
+    /* ---------- navegação ---------- */
+    function ir(destino){
+      if(animando) return;
+      animando = true;
+      pos = destino;
+      trocarFrase(normalizar(pos - 1));
+      pintar(pos, !reduce);
+
+      window.setTimeout(function(){
+        /* caiu num clone: salta para o original sem animação */
+        if(pos === 0){ pos = N; pintar(pos, false); }
+        else if(pos === N + 1){ pos = 1; pintar(pos, false); }
+        animando = false;
+      }, reduce ? 0 : DUR);
+    }
+
+    function proximo(){ ir(pos + 1); }
+    function anterior(){ ir(pos - 1); }
+
+    pts.forEach(function(b, k){
+      b.addEventListener('click', function(){
+        if(animando) return;
+        ir(k + 1);
+        reiniciar();
+      });
+    });
+
+    deck.addEventListener('keydown', function(e){
+      if(e.key === 'ArrowRight'){ e.preventDefault(); proximo(); reiniciar(); }
+      if(e.key === 'ArrowLeft'){  e.preventDefault(); anterior(); reiniciar(); }
+    });
+
+    /* ---------- autoplay ---------- */
+    function iniciar(){
+      if(rodando || reduce) return;
+      rodando = true;
+      timer = window.setInterval(proximo, HOLD);
+    }
+    function parar(){ rodando = false; window.clearInterval(timer); }
+    function reiniciar(){ parar(); iniciar(); }
+
+    /* ---------- arraste: mouse, caneta e dedo ---------- */
+    var ativo = false, x0 = 0, y0 = 0, dx = 0, eixo = null, idp = null, t0 = 0;
+
+    deck.addEventListener('pointerdown', function(e){
+      if(animando) return;
+      if(e.button !== undefined && e.button !== 0) return;
+      ativo = true; eixo = null; dx = 0; t0 = Date.now();
+      x0 = e.clientX; y0 = e.clientY; idp = e.pointerId;
+      deck.classList.add('is-grabbing');
+      parar();
+      if(deck.setPointerCapture) { try{ deck.setPointerCapture(e.pointerId); }catch(err){} }
+    });
+
+    deck.addEventListener('pointermove', function(e){
+      if(!ativo || e.pointerId !== idp) return;
+      var mx = e.clientX - x0, my = e.clientY - y0;
+
+      if(eixo === null){
+        if(Math.abs(mx) < 6 && Math.abs(my) < 6) return;
+        eixo = Math.abs(mx) > Math.abs(my) ? 'x' : 'y';
+        if(eixo === 'y'){ soltar(); return; }     /* deixa a página rolar */
+      }
+      if(eixo !== 'x') return;
+
+      dx = mx;
+      if(e.cancelable) e.preventDefault();
+      if(reduce) return;
+      /* o track acompanha o dedo em tempo real */
+      pintar(pos - dx / deck.offsetWidth, false);
+    });
+
+    function soltar(){
+      if(!ativo) return;
+      ativo = false;
+      var dt = Date.now() - t0;
+      deck.classList.remove('is-grabbing');
+      if(idp !== null && deck.releasePointerCapture){
+        try{ deck.releasePointerCapture(idp); }catch(err){}
+      }
+      idp = null;
+
+      if(eixo === 'x' && !reduce){
+        var fracao = dx / deck.offsetWidth;
+        var veloz  = Math.abs(dx) > 44 && dt < 420;   /* gesto rápido conta como troca */
+        if(fracao <= -0.16 || (veloz && dx < 0))      ir(pos + 1);
+        else if(fracao >= 0.16 || (veloz && dx > 0))  ir(pos - 1);
+        else { animando = true; pintar(pos, true);
+               window.setTimeout(function(){ animando = false; }, DUR); }
+      }
+      dx = 0; eixo = null;
+      iniciar();
+    }
+    deck.addEventListener('pointerup', soltar);
+    deck.addEventListener('pointercancel', soltar);
+    deck.addEventListener('lostpointercapture', soltar);
+
+    /* um arraste não vira clique */
+    deck.addEventListener('click', function(e){
+      if(Math.abs(dx) > 6){ e.preventDefault(); e.stopPropagation(); }
+    }, true);
+
+    /* pausa com o mouse sobre o quadro, nunca no toque */
+    fig.addEventListener('pointerenter', function(e){
+      if(e.pointerType !== 'touch') parar();
+    });
+    fig.addEventListener('pointerleave', function(e){
+      if(e.pointerType !== 'touch') iniciar();
+    });
+
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){
+        entries.forEach(function(e){
+          if(e.isIntersecting && !document.hidden) iniciar(); else parar();
+        });
+      }, {threshold:.2}).observe(fig);
+    } else { iniciar(); }
+
+    document.addEventListener('visibilitychange', function(){
+      if(document.hidden) parar();
+      else if(fig.getBoundingClientRect().bottom > 0) iniciar();
+    });
+
+    window.addEventListener('resize', function(){ pintar(pos, false); });
+    pintar(pos, false);
+
+    /* com a página ociosa, traz o restante do carrossel para o cache */
+    var ocioso = window.requestIdleCallback || function(fn){ return window.setTimeout(fn, 1800); };
+    ocioso(function(){
+      slides.forEach(function(sl){
+        var img = sl.firstElementChild;
+        if(img && img.loading === 'lazy'){ img.loading = 'eager'; img.src = img.src; }
+      });
+    });
+  });
+})();
+
+/* ---------- split responsivo ---------- */
+(function(){
+  var mq = window.matchMedia('(min-width:1024px)');
+  function apply(){
+    document.querySelectorAll('.split').forEach(function(el){
+      el.style.flexDirection = mq.matches ? 'row' : 'column';
+      el.style.gap = mq.matches ? '64px' : '40px';
+      el.style.alignItems = mq.matches ? 'center' : 'stretch';
+    });
+    document.querySelectorAll('.faq-grid').forEach(function(el){
+      el.style.gridTemplateColumns = mq.matches ? '1.5fr 1fr' : '1fr';
+      el.style.gap = mq.matches ? '80px' : '48px';
+    });
+  }
+  apply();
+  mq.addEventListener('change', apply);
+})();
+</script>
+</body>
+</html>
