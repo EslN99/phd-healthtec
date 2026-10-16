@@ -495,10 +495,77 @@ ul{list-style:none}
   filter:drop-shadow(0 2px 4px rgba(var(--ink-rgb),.18));
   transition:transform var(--t-btn) cubic-bezier(.22,1,.36,1);
 }
-.logo:hover .logo__mark{transform:translateY(-1px) scale(1.03)}
 .footer .logo__mark{
   height:32px;
   filter:drop-shadow(0 3px 10px rgba(0,0,0,.45));
+}
+
+/* ------------------------------------------------------------
+   Logo vivo
+   O mesmo movimento da vinheta, em escala de cabeçalho: a célula
+   respira, um halo pulsa atrás e um anel de luz dá a volta.
+   Tudo em transform e opacity, que o navegador compõe na GPU.
+   A marca tem 48x26 no topo e 59x32 no rodapé: os pseudo-elementos
+   são centrados nela, não no bloco inteiro do logo.
+   ------------------------------------------------------------ */
+.logo{position:relative;isolation:isolate}
+.logo__mark{
+  position:relative;z-index:1;
+  animation:respira 4.6s ease-in-out infinite;
+  transform-origin:50% 50%;
+}
+@keyframes respira{
+  0%,100%{transform:scale(1)}
+  50%    {transform:scale(1.07)}
+}
+/* halo atrás da marca */
+.logo::before{
+  content:"";position:absolute;z-index:0;
+  left:24px;top:50%;width:62px;height:62px;
+  margin:-31px 0 0 -31px;border-radius:50%;
+  background:radial-gradient(circle,
+    rgba(var(--t-cyan-rgb),.50) 0%,
+    rgba(var(--t-sky-rgb),.22) 42%,
+    rgba(var(--t-cyan-rgb),0) 70%);
+  pointer-events:none;
+  animation:halo 4.6s ease-in-out infinite;
+}
+@keyframes halo{
+  0%,100%{transform:scale(.78);opacity:.40}
+  50%    {transform:scale(1.18);opacity:1}
+}
+/* anel de luz dando a volta */
+.logo::after{
+  content:"";position:absolute;z-index:2;
+  left:24px;top:50%;width:44px;height:44px;
+  margin:-22px 0 0 -22px;border-radius:50%;
+  pointer-events:none;
+  background:conic-gradient(from 0deg,
+    rgba(192,233,241,0) 0deg,
+    rgba(192,233,241,0) 214deg,
+    rgba(var(--t-sky-rgb),.80) 300deg,
+    rgba(255,255,255,1) 338deg,
+    rgba(var(--t-coral-rgb),.70) 354deg,
+    rgba(192,233,241,0) 360deg);
+  -webkit-mask:radial-gradient(circle, transparent 66%, #000 69%, #000 78%, transparent 81%);
+          mask:radial-gradient(circle, transparent 66%, #000 69%, #000 78%, transparent 81%);
+  animation:gira 6s linear infinite;
+}
+@keyframes gira{to{transform:rotate(360deg)}}
+
+.footer .logo::before{left:30px;width:76px;height:76px;margin:-38px 0 0 -38px;
+  background:radial-gradient(circle,
+    rgba(var(--aqua-rgb),.40) 0%, rgba(var(--aqua-rgb),.14) 42%, rgba(var(--aqua-rgb),0) 70%)}
+.footer .logo::after{left:30px;width:54px;height:54px;margin:-27px 0 0 -27px}
+
+/* ao passar o mouse o movimento acelera, sem saltar */
+.logo:hover .logo__mark,.logo:hover::before{animation-duration:2.4s}
+.logo:hover::after{animation-duration:3s}
+
+@media(prefers-reduced-motion:reduce){
+  .logo__mark,.logo::before,.logo::after{animation:none}
+  .logo::before{opacity:.6;transform:scale(1)}
+  .logo::after{opacity:.5}
 }
 
 .wordmark{
@@ -1606,27 +1673,6 @@ ul{list-style:none}
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 /* ------------------------------------------------------------
-   Hélice viva na seção de Ciência
-   Desenhada em canvas, não é vídeo: pesa poucos KB e fica nítida
-   em qualquer tela. A foto embaixo é o estado de repouso.
-   ------------------------------------------------------------ */
-.media--helice{background:linear-gradient(160deg,#0A1E37 0%,#0C233F 55%,#14395A 100%)}
-.media--helice .media__img{
-  opacity:.22;filter:grayscale(.4) contrast(1.05);
-  transition:opacity .9s ease;
-}
-.media--helice.is-viva .media__img{opacity:.10}
-.helice{
-  position:absolute;inset:0;width:100%;height:100%;
-  display:block;opacity:0;transition:opacity .9s ease;
-}
-.media--helice.is-viva .helice{opacity:1}
-@media(prefers-reduced-motion:reduce){
-  .helice{display:none}
-  .media--helice .media__img{opacity:.85;filter:none}
-}
-
-/* ------------------------------------------------------------
    Brilho dos títulos
    Um único gradiente animado, recortado no texto, usado no H1 da
    hero e na linha de ênfase de cada título de seção. Os tons foram
@@ -1840,6 +1886,48 @@ ul{list-style:none}
 
 /* faixa com fundo colorido: sem isso o desfoque não tem o que borrar */
 /* mancha de cor cobrindo a seção inteira */
+/* ------------------------------------------------------------
+   Faixa de DNA
+   Detalhe de fundo, não moldura. É um SVG periódico repetido no
+   eixo x; deslizar exatamente um período fecha o laço, então a
+   hélice parece girar sem fim com um único transform.
+   ------------------------------------------------------------ */
+.dnafaixa{
+  position:absolute;left:0;right:0;z-index:0;
+  height:112px;pointer-events:none;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);
+  opacity:.26;
+}
+.dnafaixa i{
+  position:absolute;inset:0;display:block;
+  width:200%;
+  background:url("assets/dna-faixa.svg") repeat-x left center;
+  background-size:auto 100%;
+  animation:corre 26s linear infinite;
+  will-change:transform;
+}
+/* 260px é um período do desenho: ao fim do ciclo o quadro
+   coincide com o início e a emenda não aparece */
+@keyframes corre{
+  from{transform:translate3d(0,0,0)}
+  to  {transform:translate3d(-260px,0,0)}
+}
+.dnafaixa--topo{top:0;height:94px}
+.dnafaixa--base{bottom:0;height:98px}
+.dnafaixa--lenta i{animation-duration:38s;animation-direction:reverse}
+.section--night .dnafaixa{opacity:.34}
+
+@media(max-width:767px){.dnafaixa{height:76px;opacity:.20}}
+@media(prefers-reduced-motion:reduce){.dnafaixa i{animation:none}}
+
+/* ------------------------------------------------------------
+   Auroras de fundo
+   Três famílias de cor da identidade (branco, azul e coral) em
+   manchas desfocadas que derivam em trajetórias próprias. As
+   durações são números primos entre si, então o conjunto nunca
+   volta à mesma posição e o movimento não parece um laço.
+   ------------------------------------------------------------ */
 .secaura{
   position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;
   /* dissolve nas bordas para emendar com as seções vizinhas */
@@ -1848,23 +1936,91 @@ ul{list-style:none}
 }
 .secaura i{
   position:absolute;display:block;border-radius:50%;
-  filter:blur(90px);opacity:.9;
-  animation:derivar 30s ease-in-out infinite alternate;
+  filter:blur(92px);
+  will-change:transform;
+  animation:deriva-a 37s ease-in-out infinite alternate;
 }
-.secaura i:nth-child(1){left:-12%;top:-6%; width:56%;height:52%;background:rgba(var(--t-cyan-rgb),.30)}
-.secaura i:nth-child(2){left:44%;top:-10%;width:52%;height:48%;background:rgba(var(--t-sky-rgb),.21);animation-duration:36s;animation-delay:-8s}
-.secaura i:nth-child(3){left:-6%;top:38%; width:54%;height:50%;background:rgba(var(--t-mint-rgb),.16);animation-duration:33s;animation-delay:-14s}
-.secaura i:nth-child(4){left:52%;top:34%; width:50%;height:46%;background:rgba(var(--t-violet-rgb),.12);animation-duration:39s;animation-delay:-4s}
-.secaura i:nth-child(5){left:18%;top:64%; width:58%;height:46%;background:rgba(var(--t-cyan-rgb),.19);animation-duration:34s;animation-delay:-20s}
-.secaura i:nth-child(6){left:66%;top:70%; width:44%;height:40%;background:rgba(var(--t-coral-rgb),.10);animation-duration:41s;animation-delay:-11s}
-@keyframes derivar{
+
+/* azul */
+.secaura i:nth-child(1){
+  left:-14%;top:-8%;width:58%;height:54%;
+  background:rgba(var(--t-cyan-rgb),.30);
+  animation:deriva-a 37s ease-in-out infinite alternate;
+}
+.secaura i:nth-child(2){
+  left:46%;top:-12%;width:54%;height:50%;
+  background:rgba(var(--t-sky-rgb),.22);
+  animation:deriva-b 43s ease-in-out infinite alternate;animation-delay:-9s;
+}
+/* branco: o que abre espaço entre as cores */
+.secaura i:nth-child(3){
+  left:12%;top:26%;width:62%;height:56%;
+  background:rgba(255,255,255,.60);
+  animation:deriva-c 31s ease-in-out infinite alternate;animation-delay:-5s;
+}
+/* coral */
+.secaura i:nth-child(4){
+  left:50%;top:22%;width:58%;height:56%;
+  background:rgba(var(--t-coral-rgb),.36);
+  animation:deriva-d 47s ease-in-out infinite alternate;animation-delay:-17s;
+}
+.secaura i:nth-child(5){
+  left:-14%;top:48%;width:56%;height:54%;
+  background:rgba(241,204,190,.56);
+  animation:deriva-e 53s ease-in-out infinite alternate;animation-delay:-23s;
+}
+/* azul de apoio, fecha a composição embaixo */
+.secaura i:nth-child(6){
+  left:58%;top:66%;width:48%;height:46%;
+  background:rgba(var(--t-cyan-rgb),.18);
+  animation:deriva-f 41s ease-in-out infinite alternate;animation-delay:-13s;
+}
+
+/* cada mancha corre para um lado: é o cruzamento entre elas
+   que faz a cor mudar devagar ao longo da seção */
+@keyframes deriva-a{
   from{transform:translate3d(0,0,0) scale(1)}
-  to  {transform:translate3d(5%,-4%,0) scale(1.14)}
+  to  {transform:translate3d(16%,9%,0) scale(1.18)}
 }
+@keyframes deriva-b{
+  from{transform:translate3d(0,0,0) scale(1.08)}
+  to  {transform:translate3d(-19%,13%,0) scale(.94)}
+}
+@keyframes deriva-c{
+  from{transform:translate3d(-6%,4%,0) scale(1)}
+  to  {transform:translate3d(14%,-10%,0) scale(1.22)}
+}
+@keyframes deriva-d{
+  from{transform:translate3d(6%,-5%,0) scale(.96)}
+  to  {transform:translate3d(-17%,10%,0) scale(1.2)}
+}
+@keyframes deriva-e{
+  from{transform:translate3d(-4%,6%,0) scale(1.12)}
+  to  {transform:translate3d(21%,-8%,0) scale(.92)}
+}
+@keyframes deriva-f{
+  from{transform:translate3d(4%,2%,0) scale(1.04)}
+  to  {transform:translate3d(-14%,-12%,0) scale(1.16)}
+}
+
+.has-aura{position:relative}
 .has-aura > .wrap{position:relative;z-index:1}
-/* a mancha escurece levemente o fundo: o corpo compensa */
-.has-aura{--muted:#465B7C;--faint:#5A6B84}
+/* a mancha escurece e colore o fundo: o corpo compensa.
+   Medido nos pixels renderizados, no instante mais desfavorável
+   do ciclo das auroras, em todas as seções que as usam. */
+.has-aura{--muted:#374B66;--faint:#405166}
 .glassband{position:relative}
+
+/* nas faixas escuras a mesma composição, em opacidade baixa */
+.section--night .secaura i{filter:blur(104px)}
+.section--night .secaura i:nth-child(1){background:rgba(var(--t-cyan-rgb),.26)}
+.section--night .secaura i:nth-child(2){background:rgba(var(--t-sky-rgb),.18)}
+.section--night .secaura i:nth-child(3){background:rgba(192,233,241,.14)}
+.section--night .secaura i:nth-child(4){background:rgba(var(--t-coral-rgb),.20)}
+.section--night .secaura i:nth-child(5){background:rgba(241,204,190,.12)}
+.section--night .secaura i:nth-child(6){background:rgba(var(--t-cyan-rgb),.16)}
+.section--night.has-aura{--muted:rgba(255,255,255,.62);--faint:rgba(255,255,255,.52)}
+
 @media(prefers-reduced-motion:reduce){.secaura i{animation:none}}
 
 /* o cartão de vidro */
@@ -2358,7 +2514,9 @@ Somos a camada de curadoria, confiança e orquestração<br/>
 </section>
 
 <!-- ============ DIFERENCIAIS ============ -->
-<section class="section section--tint" id="diferencial">
+<section class="section section--tint has-aura" id="diferencial">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="dnafaixa dnafaixa--topo" aria-hidden="true"><i></i></div>
 <div class="wrap">
 <div class="eyebrow" data-reveal="">
 <span class="eyebrow__line"></span>
@@ -2397,7 +2555,8 @@ A PHD Healthtec <span class="en-c">orquestra a experiência, não pratica medici
 </section>
 
 <!-- ============ PROGRAMAS ============ -->
-<section class="section section--night" id="programas">
+<section class="section section--night has-aura" id="programas">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="techgrid" aria-hidden="true"></div>
 <div class="techsweep" aria-hidden="true"><span></span></div>
 <div class="wrap">
@@ -2496,7 +2655,9 @@ promessa de resultado clínico</span>.
 </section>
 
 <!-- ============ JORNADA ============ -->
-<section class="section" id="jornada">
+<section class="section has-aura" id="jornada">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="dnafaixa dnafaixa--base" aria-hidden="true"><i></i></div>
 <div class="wrap">
 <div style="display:flex;flex-direction:column;gap:40px" class="split">
 <div style="flex:1" data-reveal="scale">
@@ -2544,7 +2705,8 @@ Uma experiência curada em <span class="en-u">oito etapas</span>, cada uma acomp
 </section>
 
 <!-- ============ PROGRAMAS EM DETALHE ============ -->
-<section class="section section--surface" id="protocolos">
+<section class="section section--surface has-aura" id="protocolos">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="wrap">
 <div class="eyebrow" data-reveal="">
 <span class="eyebrow__line"></span>
@@ -2693,11 +2855,8 @@ licenciados</span>, respeitando a legislação da jurisdição onde o tratamento
 </div>
 
 <div style="flex:1" data-reveal="scale">
-<div class="media media--helice">
-<!-- a foto fica como base: aparece sozinha se o canvas não rodar
-     ou se o visitante pediu menos movimento -->
-<img class="media__img" src="assets/secao-ciencia.webp" alt="Dupla hélice de DNA" width="1200" height="750" loading="lazy" decoding="async"/>
-<canvas class="helice" id="helice" width="900" height="562" aria-hidden="true"></canvas>
+<div class="media">
+<img class="media__img" src="assets/secao-ciencia.webp" alt="Dupla hélice de DNA em tons prateados" width="1200" height="750" loading="lazy" decoding="async"/>
 <div class="media__tint"></div>
 <div class="media__inset"></div>
 </div>
@@ -2721,7 +2880,9 @@ licenciados</span>, respeitando a legislação da jurisdição onde o tratamento
 </section>
 
 <!-- ============ PARCEIROS ============ -->
-<section class="section section--night" id="parceiros">
+<section class="section section--night has-aura" id="parceiros">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="dnafaixa dnafaixa--topo dnafaixa--lenta" aria-hidden="true"><i></i></div>
 <div class="wrap">
 <div class="eyebrow" data-reveal="">
 <span class="eyebrow__line"></span>
@@ -2829,7 +2990,8 @@ onde o tratamento acontece. A PHD Healthtec <span class="en-c">coordena a jornad
 </section>
 
 <!-- ============ FAQ ============ -->
-<section class="section section--surface" id="faq">
+<section class="section section--surface has-aura" id="faq">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="wrap">
 <div class="faq-grid" style="display:grid;gap:48px">
 <div>
@@ -3779,131 +3941,6 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
   }
   apply();
   mq.addEventListener('change', apply);
-})();
-
-/* ------------------------------------------------------------
-   Hélice da seção de Ciência
-   O mesmo desenho das peças de vídeo, rodando ao vivo em canvas.
-   Só anima enquanto está em cena; fora dela o laço para.
-   ------------------------------------------------------------ */
-(function(){
-  var cv = document.getElementById('helice');
-  if(!cv || !cv.getContext) return;
-  var caixa = cv.closest('.media--helice');
-  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  if(!('IntersectionObserver' in window)) return;
-
-  var x = cv.getContext('2d'), W = cv.width, H = cv.height;
-  var emCena = false, inicio = null, loop = null;
-
-  function fundo(t){
-    var g = x.createLinearGradient(0,0,W,H);
-    g.addColorStop(0,'#0A1E37'); g.addColorStop(.55,'#0C233F'); g.addColorStop(1,'#14395A');
-    x.fillStyle = g; x.fillRect(0,0,W,H);
-    var r = x.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,W*.55);
-    r.addColorStop(0,'rgba(63,169,196,'+(0.09 + 0.04*Math.sin(t*1.1))+')');
-    r.addColorStop(1,'rgba(63,169,196,0)');
-    x.fillStyle = r; x.fillRect(0,0,W,H);
-  }
-
-  /* hélice deitada, atravessando o quadro
-     Sem shadowBlur e sem gradiente por nó: os dois são os pontos caros
-     do canvas 2D. O brilho vem de passadas sobrepostas, que custam
-     uma fração disso e dão o mesmo resultado. */
-  function helice(t){
-    var cy = H/2, esq = 70, dir = W-70, passos = 60;
-    var amp = H*0.31, voltas = 1.8, vel = t*0.75;
-    var cada = 3;
-    var pts = [], i, f, px, ang;
-    for(i=0;i<=passos;i++){
-      f = i/passos; px = esq + (dir-esq)*f;
-      ang = f*Math.PI*2*voltas - vel;
-      pts.push({x:px, a:cy+Math.sin(ang)*amp, b:cy+Math.sin(ang+Math.PI)*amp,
-                za:Math.cos(ang), zb:Math.cos(ang+Math.PI)});
-    }
-
-    /* degraus */
-    x.lineCap = 'round';
-    for(i=0;i<=passos;i+=cada){
-      var p = pts[i], prof = (p.za+1)/2;
-      if(Math.abs(p.b-p.a) < 12) continue;
-      x.strokeStyle = 'rgba(146,214,230,'+(0.08+0.30*prof).toFixed(3)+')';
-      x.lineWidth = 1.2+1.8*prof;
-      x.beginPath(); x.moveTo(p.x,p.a); x.lineTo(p.x,p.b); x.stroke();
-    }
-
-    /* fitas: uma passada larga e translúcida faz o halo,
-       outra fina e opaca faz o fio */
-    var lados = ['a','b'], zs = ['za','zb'], L, camada;
-    for(camada=0; camada<2; camada++){
-      for(L=0;L<2;L++){
-        for(i=0;i<passos;i++){
-          var q = pts[i], w2 = pts[i+1];
-          var dd = ((q[zs[L]] + w2[zs[L]])/2 + 1)/2;
-          x.beginPath(); x.moveTo(q.x,q[lados[L]]); x.lineTo(w2.x,w2[lados[L]]);
-          if(camada===0){
-            x.strokeStyle = 'rgba(63,169,196,'+(0.05+0.10*dd).toFixed(3)+')';
-            x.lineWidth = 9+11*dd;
-          } else {
-            x.strokeStyle = (L===0 ? 'rgba(98,192,218,' : 'rgba(79,201,168,')
-                            + (0.30+0.62*dd).toFixed(3) + ')';
-            x.lineWidth = 1.8+3.2*dd;
-          }
-          x.stroke();
-        }
-      }
-    }
-
-    /* nós: dois círculos chapados no lugar de um gradiente radial */
-    for(i=0;i<=passos;i+=cada){
-      var r2 = pts[i], pares = [[r2.a,r2.za],[r2.b,r2.zb]], k;
-      for(k=0;k<2;k++){
-        var py = pares[k][0], d = (pares[k][1]+1)/2, rr = 2.4+4*d;
-        x.fillStyle = 'rgba(63,169,196,'+(0.10+0.16*d).toFixed(3)+')';
-        x.beginPath(); x.arc(r2.x,py,rr*2.4,0,6.2832); x.fill();
-        x.fillStyle = 'rgba(214,240,247,'+(0.40+0.55*d).toFixed(3)+')';
-        x.beginPath(); x.arc(r2.x,py,rr*0.6,0,6.2832); x.fill();
-      }
-    }
-  }
-
-  var poeira = [], j;
-  for(j=0;j<40;j++) poeira.push({x:Math.random()*W, y:Math.random()*H,
-    r:Math.random()*1.8+0.4, v:Math.random()*10+4, f:Math.random()*6.28});
-  function particulas(t){
-    poeira.forEach(function(p){
-      var y = (p.y - t*p.v) % H; if(y<0) y += H;
-      var a = 0.10+0.18*Math.sin(t*1.6+p.f);
-      if(a<=0) return;
-      x.fillStyle = 'rgba(192,233,241,'+a+')';
-      x.beginPath(); x.arc(p.x+Math.sin(t*0.6+p.f)*7, y, p.r, 0, 7); x.fill();
-    });
-  }
-
-  /* teto de 30 quadros por segundo: o movimento é lento, 60 não
-     acrescenta nada e dobraria o custo em celular */
-  var ultimo = 0, intervalo = 1000/30;
-  function quadro(ts){
-    if(!emCena){ loop = null; return; }
-    loop = requestAnimationFrame(quadro);
-    if(ts - ultimo < intervalo) return;
-    ultimo = ts;
-    if(inicio === null) inicio = ts;
-    var t = (ts - inicio)/1000;
-    x.clearRect(0,0,W,H);
-    fundo(t); particulas(t); helice(t);
-  }
-
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      emCena = e.isIntersecting;
-      if(emCena){
-        caixa.classList.add('is-viva');
-        if(loop === null){ inicio = null; loop = requestAnimationFrame(quadro); }
-      }
-    });
-  }, {rootMargin:'160px 0px'});
-  io.observe(cv);
 })();
 
 /* ------------------------------------------------------------
