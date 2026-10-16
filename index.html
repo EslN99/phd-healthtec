@@ -1808,10 +1808,24 @@ ul{list-style:none}
 .hero__figure--desktop{display:none}
 @media(min-width:1024px){
   .hero__figure--mobile{display:none}
-  .hero__figure--desktop{display:flex;flex:1;align-items:center;justify-content:flex-end}
-  .hero__figure--desktop .hfig{max-width:452px}
+  .hero__figure--desktop{display:flex;flex:1;align-items:center;justify-content:flex-end;
+    padding-block:24px}
+  /* A moldura tem proporção 3:4, então a largura é que manda na altura.
+     Em notebook de tela baixa a largura fixa fazia a foto encostar na
+     faixa seguinte, por isso ela também é limitada pela altura livre:
+     100svh menos o cabeçalho e menos a folga que se quer em cima e
+     embaixo. O que for menor entre os dois vence. */
+  .hero__figure--desktop .hfig{
+    --folga:148px;
+    max-width:min(452px, calc((100svh - 64px - var(--folga)) * 0.75));
+  }
 }
-@media(min-width:1280px){.hero__figure--desktop .hfig{max-width:508px}}
+@media(min-width:1280px){
+  .hero__figure--desktop .hfig{
+    --folga:164px;
+    max-width:min(508px, calc((100svh - 64px - var(--folga)) * 0.75));
+  }
+}
 
 
 /* ============================================================
