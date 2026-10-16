@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /avaliacao.html
+Disallow: /agendamento.html
+
+Sitemap: https://esln99.github.io/phd-healthtec/sitemap.xml

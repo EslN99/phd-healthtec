@@ -123,3 +123,17 @@ Todo texto foi medido nos pixels renderizados e atinge no mínimo 4,5:1.
 Todo movimento respeita `prefers-reduced-motion`.
 
 Ao trocar cor de texto ou fundo, medir de novo.
+
+## Atualização de 16/10/2026
+
+Aplicado a partir da auditoria de marketing médico enviada pelo cliente:
+
+- Open Graph e Twitter Card nas 5 páginas, com `assets/og-image.jpg` (1200x630)
+- `link rel="canonical"` nas duas páginas indexáveis
+- JSON-LD no index: `Organization`, `WebSite`, `Service` e `FAQPage`
+- JSON-LD em ciencia-respaldo.html: `CollectionPage` com `BreadcrumbList`
+- `sitemap.xml` e `robots.txt` na raiz, com avaliacao e agendamento bloqueados
+- Contador de células agora renderiza 100 sem JavaScript; o zero só é aplicado quando a animação inicia
+- Copy enxugada: removidos 2 pilares e 2 cards que repetiam outros blocos, 1 parágrafo institucional e 3 frases duplicadas. As descrições de programas, protocolos, etapas da jornada e unidades parceiras foram mantidas integralmente.
+
+Pendências que dependem do cliente, e que o documento também aponta: número de WhatsApp, textos de Política de Privacidade e Termos, nome e CRM do responsável técnico, autorização dos parceiros SOKU, TheBlueZone e Clínica Longevity, e CNPJ da One X Sports.
