@@ -483,13 +483,13 @@ ul{list-style:none}
 }
 .nav__inner{
   max-width:var(--max);margin-inline:auto;height:100%;
-  display:flex;align-items:center;justify-content:space-between;
+  display:flex;align-items:center;justify-content:space-between;gap:24px;
   padding-inline:20px;
 }
 @media(min-width:768px){.nav__inner{padding-inline:40px}}
 
 /* wordmark: PHD bold + Healthtec light */
-.logo{display:inline-flex;align-items:center;gap:9px}
+.logo{display:inline-flex;align-items:center;gap:9px;flex:0 0 auto}
 .logo__mark{
   height:26px;width:auto;
   filter:drop-shadow(0 2px 4px rgba(var(--ink-rgb),.18));
@@ -511,15 +511,17 @@ ul{list-style:none}
 .wordmark b{font-weight:800;letter-spacing:.03em}
 .wordmark span{font-weight:500;color:var(--deep-blue)}
 
-.nav__links{display:none;align-items:center;gap:32px}
-@media(min-width:768px){.nav__links{display:flex}}
+.nav__links{display:none;align-items:center;gap:26px;flex-wrap:nowrap;min-width:0}
+@media(min-width:1060px){.nav__links{display:flex}}
+/* nada no menu quebra linha: era isso que empurrava os itens sobre o logo */
+.nav__links > *{white-space:nowrap;flex:0 0 auto}
 .nav__link{
   font-size:12px;font-weight:500;letter-spacing:.01em;color:var(--muted);
   transition:color var(--t-link) ease;
 }
 .nav__link:hover{color:var(--ink)}
-.nav__mobile{display:flex;align-items:center;gap:12px}
-@media(min-width:768px){.nav__mobile{display:none}}
+.nav__mobile{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+@media(min-width:1060px){.nav__mobile{display:none}}
 
 .burger{
   width:32px;height:32px;display:flex;align-items:center;justify-content:center;
@@ -539,6 +541,15 @@ ul{list-style:none}
 .drawer__inner{overflow:hidden}
 .drawer__list{display:flex;flex-direction:column;gap:4px;padding:16px 20px 24px}
 .drawer__list a{padding:10px 0;font-size:14px;font-weight:500;color:var(--muted)}
+/* em tablet o menu ganha duas colunas: em uma só, sobrava metade da tela vazia */
+@media(min-width:640px){
+  .drawer__list{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:2px 40px;padding:20px 40px 28px;
+    max-width:var(--max);margin-inline:auto;width:100%;
+  }
+  .drawer__list .btn{grid-column:1/-1;justify-self:start;margin-top:14px}
+}
 
 /* ============================================================
    9. HERO
@@ -1006,8 +1017,7 @@ ul{list-style:none}
 /* ============================================================
    18. AJUSTES INSTITUCIONAIS
    ============================================================ */
-@media(min-width:768px){.nav__links{gap:24px}}
-@media(min-width:1024px){.nav__links{gap:30px}}
+@media(min-width:1200px){.nav__links{gap:30px}}
 
 /* cartão de etapa do processo */
 .rail__item--step{width:230px}
@@ -2126,7 +2136,7 @@ ul{list-style:none}
 <a class="nav__link" href="#jornada">Jornada</a>
 <a class="nav__link" href="#ciencia">Ciência &amp; Segurança</a>
 <a class="btn btn--ghost btn--sm" href="ciencia-respaldo.html">Respaldo científico</a>
-<a class="btn btn--cta btn--sm" href="avaliacao.html">&#8594; Agendar avaliação confidencial</a>
+<a class="btn btn--cta btn--sm" href="avaliacao.html">&#8594; Agendar avaliação</a>
 </div>
 
 <div class="nav__mobile">
