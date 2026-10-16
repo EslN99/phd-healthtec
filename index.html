@@ -511,7 +511,7 @@ ul{list-style:none}
 .logo{position:relative;isolation:isolate}
 .logo__mark{
   position:relative;z-index:1;
-  animation:respira 4.6s ease-in-out infinite;
+  animation:respira 2.6s ease-in-out infinite;
   transform-origin:50% 50%;
 }
 @keyframes respira{
@@ -528,7 +528,7 @@ ul{list-style:none}
     rgba(var(--t-sky-rgb),.22) 42%,
     rgba(var(--t-cyan-rgb),0) 70%);
   pointer-events:none;
-  animation:halo 4.6s ease-in-out infinite;
+  animation:halo 2.6s ease-in-out infinite;
 }
 @keyframes halo{
   0%,100%{transform:scale(.78);opacity:.40}
@@ -549,7 +549,7 @@ ul{list-style:none}
     rgba(192,233,241,0) 360deg);
   -webkit-mask:radial-gradient(circle, transparent 66%, #000 69%, #000 78%, transparent 81%);
           mask:radial-gradient(circle, transparent 66%, #000 69%, #000 78%, transparent 81%);
-  animation:gira 6s linear infinite;
+  animation:gira 3.2s linear infinite;
 }
 @keyframes gira{to{transform:rotate(360deg)}}
 
@@ -559,8 +559,8 @@ ul{list-style:none}
 .footer .logo::after{left:30px;width:54px;height:54px;margin:-27px 0 0 -27px}
 
 /* ao passar o mouse o movimento acelera, sem saltar */
-.logo:hover .logo__mark,.logo:hover::before{animation-duration:2.4s}
-.logo:hover::after{animation-duration:3s}
+.logo:hover .logo__mark,.logo:hover::before{animation-duration:1.5s}
+.logo:hover::after{animation-duration:1.9s}
 
 @media(prefers-reduced-motion:reduce){
   .logo__mark,.logo::before,.logo::after{animation:none}
@@ -1918,7 +1918,7 @@ ul{list-style:none}
   width:200%;
   background:url("assets/dna-faixa.svg") repeat-x left center;
   background-size:auto 100%;
-  animation:corre 26s linear infinite;
+  animation:corre 9s linear infinite;
   will-change:transform;
 }
 /* 260px é um período do desenho: ao fim do ciclo o quadro
@@ -1929,11 +1929,38 @@ ul{list-style:none}
 }
 .dnafaixa--topo{top:0;height:94px}
 .dnafaixa--base{bottom:0;height:98px}
-.dnafaixa--lenta i{animation-duration:38s;animation-direction:reverse}
+.dnafaixa--lenta i{animation-duration:13s;animation-direction:reverse}
 .section--night .dnafaixa{opacity:.34}
 
 @media(max-width:767px){.dnafaixa{height:76px;opacity:.20}}
 @media(prefers-reduced-motion:reduce){.dnafaixa i{animation:none}}
+
+/* hélice em pé: a mesma peça girada, correndo na vertical pela
+   lateral da seção. Mesmo truque do período que fecha o laço. */
+.dnacoluna{
+  position:absolute;top:0;bottom:0;width:90px;z-index:0;
+  pointer-events:none;overflow:hidden;opacity:.24;
+  -webkit-mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+          mask-image:linear-gradient(180deg,transparent,#000 16%,#000 84%,transparent);
+}
+.dnacoluna i{
+  position:absolute;inset:0;display:block;height:200%;
+  background:url("assets/dna-coluna.svg") repeat-y center top;
+  background-size:100% auto;
+  animation:desce 11s linear infinite;
+  will-change:transform;
+}
+@keyframes desce{
+  from{transform:translate3d(0,0,0)}
+  to  {transform:translate3d(0,-260px,0)}
+}
+.dnacoluna--esq{left:14px}
+.dnacoluna--dir{right:14px}
+.dnacoluna--sobe i{animation-duration:14s;animation-direction:reverse}
+.section--night .dnacoluna{opacity:.32}
+/* em tela estreita a coluna disputaria espaço com o conteúdo */
+@media(max-width:1180px){.dnacoluna{display:none}}
+@media(prefers-reduced-motion:reduce){.dnacoluna i{animation:none}}
 
 /* ------------------------------------------------------------
    Auroras de fundo
@@ -1952,42 +1979,42 @@ ul{list-style:none}
   position:absolute;display:block;border-radius:50%;
   filter:blur(92px);
   will-change:transform;
-  animation:deriva-a 37s ease-in-out infinite alternate;
+  animation:deriva-a 13s ease-in-out infinite alternate;
 }
 
 /* azul */
 .secaura i:nth-child(1){
   left:-14%;top:-8%;width:58%;height:54%;
   background:rgba(var(--t-cyan-rgb),.30);
-  animation:deriva-a 37s ease-in-out infinite alternate;
+  animation:deriva-a 13s ease-in-out infinite alternate;
 }
 .secaura i:nth-child(2){
   left:46%;top:-12%;width:54%;height:50%;
   background:rgba(var(--t-sky-rgb),.22);
-  animation:deriva-b 43s ease-in-out infinite alternate;animation-delay:-9s;
+  animation:deriva-b 17s ease-in-out infinite alternate;animation-delay:-4s;
 }
 /* branco: o que abre espaço entre as cores */
 .secaura i:nth-child(3){
   left:12%;top:26%;width:62%;height:56%;
   background:rgba(255,255,255,.60);
-  animation:deriva-c 31s ease-in-out infinite alternate;animation-delay:-5s;
+  animation:deriva-c 11s ease-in-out infinite alternate;animation-delay:-3s;
 }
 /* coral */
 .secaura i:nth-child(4){
   left:50%;top:22%;width:58%;height:56%;
   background:rgba(var(--t-coral-rgb),.36);
-  animation:deriva-d 47s ease-in-out infinite alternate;animation-delay:-17s;
+  animation:deriva-d 19s ease-in-out infinite alternate;animation-delay:-7s;
 }
 .secaura i:nth-child(5){
   left:-14%;top:48%;width:56%;height:54%;
   background:rgba(241,204,190,.56);
-  animation:deriva-e 53s ease-in-out infinite alternate;animation-delay:-23s;
+  animation:deriva-e 23s ease-in-out infinite alternate;animation-delay:-9s;
 }
 /* azul de apoio, fecha a composição embaixo */
 .secaura i:nth-child(6){
   left:58%;top:66%;width:48%;height:46%;
   background:rgba(var(--t-cyan-rgb),.18);
-  animation:deriva-f 41s ease-in-out infinite alternate;animation-delay:-13s;
+  animation:deriva-f 15s ease-in-out infinite alternate;animation-delay:-6s;
 }
 
 /* cada mancha corre para um lado: é o cruzamento entre elas
@@ -2452,6 +2479,7 @@ e conduzida por médicos</span>, do primeiro contato ao acompanhamento pós-trat
 <!-- ============ A PHD HEALTHTEC ============ -->
 <section class="section has-aura" id="sobre">
 <div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="dnacoluna dnacoluna--dir" aria-hidden="true"><i></i></div>
 <div class="wrap">
 <div style="display:flex;flex-direction:column;gap:40px" class="split">
 <div style="flex:1">
@@ -2721,6 +2749,7 @@ Uma experiência curada em <span class="en-u">oito etapas</span>, cada uma acomp
 <!-- ============ PROGRAMAS EM DETALHE ============ -->
 <section class="section section--surface has-aura" id="protocolos">
 <div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="dnacoluna dnacoluna--esq dnacoluna--sobe" aria-hidden="true"><i></i></div>
 <div class="wrap">
 <div class="eyebrow" data-reveal="">
 <span class="eyebrow__line"></span>
@@ -2836,6 +2865,7 @@ Toque em um programa para ver <span class="en">composição, via de administraç
 <!-- ============ CIÊNCIA E SEGURANÇA ============ -->
 <section class="section has-aura" id="ciencia">
 <div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="dnacoluna dnacoluna--dir" aria-hidden="true"><i></i></div>
 <div class="wrap">
 <div style="display:flex;flex-direction:column;gap:40px" class="split">
 <div style="flex:1">
@@ -3006,6 +3036,7 @@ onde o tratamento acontece. A PHD Healthtec <span class="en-c">coordena a jornad
 <!-- ============ FAQ ============ -->
 <section class="section section--surface has-aura" id="faq">
 <div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="dnacoluna dnacoluna--esq" aria-hidden="true"><i></i></div>
 <div class="wrap">
 <div class="faq-grid" style="display:grid;gap:48px">
 <div>
