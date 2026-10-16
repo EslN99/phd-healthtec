@@ -1591,12 +1591,46 @@ ul{list-style:none}
   background:linear-gradient(100deg,var(--t-sky) 0%,var(--t-cyan) 32%,var(--t-teal) 62%,var(--deep-blue) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
+/* ------------------------------------------------------------
+   Brilho dos títulos
+   Um único gradiente animado, recortado no texto, usado no H1 da
+   hero e na linha de ênfase de cada título de seção. Os tons foram
+   escolhidos dentro da faixa que mantém contraste mínimo de 3:1
+   sobre cada fundo, inclusive no ponto mais claro da animação.
+   ------------------------------------------------------------ */
+:root{
+  --sh-base:var(--midnight-navy);
+  --sh-meio:var(--deep-blue);
+  --sh-alto:var(--tech-teal);
+  --sh-crista:#1E8CA5;
+}
+.section--night{
+  --sh-base:var(--crystal-aqua);
+  --sh-meio:var(--t-sky);
+  --sh-alto:#BFEAF5;
+  --sh-crista:#FFFFFF;
+}
 .text-shimmer{
   background-image:linear-gradient(100deg,
-    var(--deep-blue) 12%, var(--t-teal) 26%, var(--t-cyan) 36%,
-    var(--t-sky) 44%, var(--t-mint) 52%, var(--t-cyan) 62%, var(--midnight-navy) 80%);
+    var(--sh-base) 10%, var(--sh-meio) 24%, var(--sh-alto) 35%,
+    var(--sh-crista) 44%, var(--sh-alto) 54%, var(--sh-meio) 68%,
+    var(--sh-base) 84%);
   background-size:280% 100%;
   -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 5s linear infinite;
+}
+/* a animação só parte depois que o título entra em cena */
+[data-reveal]:not(.is-in) .text-shimmer{animation-play-state:paused}
+@media(prefers-reduced-motion:reduce){
+  .text-shimmer{animation:none;background-position:44% 0}
+}
+.light.text-shimmer,.brand.text-shimmer,
+.section--night .light.text-shimmer,
+.section--night .brand.text-shimmer{color:transparent}
+/* Safari antigo não recorta gradiente em texto: volta à cor sólida */
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .text-shimmer{color:var(--ink);background:none}
+  .section--night .text-shimmer{color:#fff}
 }
 .timeline__line{background:linear-gradient(to bottom,var(--t-mint),var(--t-cyan) 45%,var(--crystal-aqua) 75%,transparent)}
 .timeline__num{
@@ -2223,7 +2257,7 @@ e conduzida por médicos</span>, do primeiro contato ao acompanhamento pós-trat
 
 <h2 class="h2" style="margin-top:20px" data-reveal="">
 Não somos uma clínica.<br/>
-<span class="light">Somos a curadoria da jornada.</span>
+<span class="light text-shimmer">Somos a curadoria da jornada.</span>
 </h2>
 
 <p class="body" style="margin-top:24px" data-reveal="">
@@ -2298,7 +2332,7 @@ Somos a camada de curadoria, confiança e orquestração<br/>
 
 <h2 class="h2" style="margin-top:20px" data-reveal="">
 Curadoria médica.<br/>
-<span class="light">Não venda de procedimento.</span>
+<span class="light text-shimmer">Não venda de procedimento.</span>
 </h2>
 
 <p class="lead" style="margin-top:24px;max-width:640px" data-reveal="">
@@ -2323,7 +2357,7 @@ A PHD Healthtec <span class="en-c">orquestra a experiência, não pratica medici
 <div class="ancora__luz" aria-hidden="true"></div>
 <div class="ancora__texto">
 <h2 class="h2" data-reveal="">Longevidade não se compra.</h2>
-<div class="h2 text-gradient" style="margin-top:4px" data-reveal="">Se constrói com precisão.</div>
+<div class="h2 text-shimmer" style="margin-top:4px" data-reveal="">Se constrói com precisão.</div>
 </div>
 </section>
 
@@ -2339,7 +2373,7 @@ A PHD Healthtec <span class="en-c">orquestra a experiência, não pratica medici
 
 <h2 class="h2" style="margin-top:20px" data-reveal="">
 Seis programas assinatura.<br/>
-<span class="light">Um protocolo para cada caso.</span>
+<span class="light text-shimmer">Um protocolo para cada caso.</span>
 </h2>
 
 <p class="lead" style="margin-top:24px;max-width:640px" data-reveal="">
@@ -2446,7 +2480,7 @@ promessa de resultado clínico</span>.
 
 <h2 class="h2" style="margin-top:20px" data-reveal="">
 Do primeiro contato<br/>
-<span class="light">ao retorno ao Brasil.</span>
+<span class="light text-shimmer">ao retorno ao Brasil.</span>
 </h2>
 
 <p class="body" style="margin-top:24px" data-reveal="">
@@ -2484,7 +2518,7 @@ Uma experiência curada em <span class="en-u">oito etapas</span>, cada uma acomp
 
 <h2 class="h2" style="margin-top:20px" data-reveal="">
 Cada protocolo tem sua via<br/>
-<span class="brand">e sua indicação.</span>
+<span class="brand text-shimmer">e sua indicação.</span>
 </h2>
 
 <p class="lead" style="margin-top:24px;max-width:600px" data-reveal="">
@@ -2601,7 +2635,7 @@ Toque em um programa para ver <span class="en">composição, via de administraç
 
 <h2 class="h2" style="margin-top:20px" data-reveal="">
 O que a ciência diz<br/>
-<span class="light">e o que ela não promete.</span>
+<span class="light text-shimmer">e o que ela não promete.</span>
 </h2>
 
 <p class="body" style="margin-top:24px" data-reveal="">
@@ -2658,7 +2692,7 @@ licenciados</span>, respeitando a legislação da jurisdição onde o tratamento
 
 <h2 class="h2" style="margin-top:20px" data-reveal="">
 Execução por redes<br/>
-<span class="light">licenciadas no Chile.</span>
+<span class="light text-shimmer">licenciadas no Chile.</span>
 </h2>
 
 <p class="lead" style="margin-top:24px;max-width:680px" data-reveal="">
@@ -2766,7 +2800,7 @@ onde o tratamento acontece. A PHD Healthtec <span class="en-c">coordena a jornad
 <span class="eyebrow__text">Perguntas frequentes</span>
 </div>
 
-<h2 class="h2" style="margin-top:20px" data-reveal="">Perguntas frequentes.</h2>
+<h2 class="h2" style="margin-top:20px" data-reveal="">Perguntas <span class="text-shimmer">frequentes.</span></h2>
 
 <div style="margin-top:32px" data-reveal="">
 <div class="faq__item">
@@ -2833,7 +2867,7 @@ onde o tratamento acontece. A PHD Healthtec <span class="en-c">coordena a jornad
 
 <h2 class="h1" data-reveal="">
 Vamos estruturar<br/>
-<span class="light">sua jornada de longevidade?</span>
+<span class="light text-shimmer">sua jornada de longevidade?</span>
 </h2>
 
 <p class="body" style="margin-top:24px;max-width:520px" data-reveal="">
@@ -3707,6 +3741,28 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
   }
   apply();
   mq.addEventListener('change', apply);
+})();
+
+/* ------------------------------------------------------------
+   Brilho dos títulos: roda só enquanto o título está em cena.
+   Sem isso, onze gradientes ficariam repintando a página inteira
+   o tempo todo, inclusive em seções fora da tela.
+   ------------------------------------------------------------ */
+(function(){
+  var alvos = document.querySelectorAll('.text-shimmer');
+  if(!alvos.length) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!('IntersectionObserver' in window)) return;
+
+  alvos.forEach(function(el){ el.style.animationPlayState = 'paused'; });
+
+  var io = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      e.target.style.animationPlayState = e.isIntersecting ? 'running' : 'paused';
+    });
+  }, {rootMargin:'120px 0px'});
+
+  alvos.forEach(function(el){ io.observe(el); });
 })();
 </script>
 </body>

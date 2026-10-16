@@ -107,6 +107,24 @@ ul{list-style:none}
   font-weight:700;font-size:26px;line-height:1.15;letter-spacing:-.03em;
 }
 @media(min-width:768px){.h1{font-size:34px}}
+
+/* brilho dos títulos, igual ao da página principal */
+:root{--sh-base:var(--midnight-navy);--sh-meio:var(--deep-blue);--sh-alto:var(--tech-teal);--sh-crista:#1E8CA5}
+.text-shimmer{
+  background-image:linear-gradient(100deg,
+    var(--sh-base) 10%, var(--sh-meio) 24%, var(--sh-alto) 35%,
+    var(--sh-crista) 44%, var(--sh-alto) 54%, var(--sh-meio) 68%,
+    var(--sh-base) 84%);
+  background-size:280% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 5s linear infinite;
+}
+@keyframes shimmer{0%{background-position:150% 0}100%{background-position:-50% 0}}
+@media(prefers-reduced-motion:reduce){.text-shimmer{animation:none;background-position:44% 0}}
+@supports not ((-webkit-background-clip:text) or (background-clip:text)){
+  .text-shimmer{color:var(--ink);background:none}
+}
+
 .lead{margin-top:14px;font-size:15px;color:var(--muted);max-width:560px}
 .micro{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;color:var(--faint)}
 .eyebrow{display:flex;align-items:center;gap:12px}
@@ -479,7 +497,7 @@ fieldset{border:0}
   </div>
   <h1 class="h1" style="margin-top:18px">
     Escolha o horário<br>
-    da sua conversa inicial.
+    <span class="text-shimmer">da sua conversa inicial.</span>
   </h1>
   <p class="lead">
     Selecione uma data e um horário. <span class="en">A confirmação, com o link da videochamada</span>,
