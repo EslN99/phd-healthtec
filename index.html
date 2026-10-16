@@ -1606,6 +1606,27 @@ ul{list-style:none}
   -webkit-background-clip:text;background-clip:text;color:transparent;
 }
 /* ------------------------------------------------------------
+   Hélice viva na seção de Ciência
+   Desenhada em canvas, não é vídeo: pesa poucos KB e fica nítida
+   em qualquer tela. A foto embaixo é o estado de repouso.
+   ------------------------------------------------------------ */
+.media--helice{background:linear-gradient(160deg,#0A1E37 0%,#0C233F 55%,#14395A 100%)}
+.media--helice .media__img{
+  opacity:.22;filter:grayscale(.4) contrast(1.05);
+  transition:opacity .9s ease;
+}
+.media--helice.is-viva .media__img{opacity:.10}
+.helice{
+  position:absolute;inset:0;width:100%;height:100%;
+  display:block;opacity:0;transition:opacity .9s ease;
+}
+.media--helice.is-viva .helice{opacity:1}
+@media(prefers-reduced-motion:reduce){
+  .helice{display:none}
+  .media--helice .media__img{opacity:.85;filter:none}
+}
+
+/* ------------------------------------------------------------
    Brilho dos títulos
    Um único gradiente animado, recortado no texto, usado no H1 da
    hero e na linha de ênfase de cada título de seção. Os tons foram
@@ -2672,8 +2693,11 @@ licenciados</span>, respeitando a legislação da jurisdição onde o tratamento
 </div>
 
 <div style="flex:1" data-reveal="scale">
-<div class="media">
-<img class="media__img" src="assets/secao-ciencia.webp" alt="Dupla hélice de DNA em tons prateados" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media media--helice">
+<!-- a foto fica como base: aparece sozinha se o canvas não rodar
+     ou se o visitante pediu menos movimento -->
+<img class="media__img" src="assets/secao-ciencia.webp" alt="Dupla hélice de DNA" width="1200" height="750" loading="lazy" decoding="async"/>
+<canvas class="helice" id="helice" width="900" height="562" aria-hidden="true"></canvas>
 <div class="media__tint"></div>
 <div class="media__inset"></div>
 </div>
@@ -3755,6 +3779,131 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
   }
   apply();
   mq.addEventListener('change', apply);
+})();
+
+/* ------------------------------------------------------------
+   Hélice da seção de Ciência
+   O mesmo desenho das peças de vídeo, rodando ao vivo em canvas.
+   Só anima enquanto está em cena; fora dela o laço para.
+   ------------------------------------------------------------ */
+(function(){
+  var cv = document.getElementById('helice');
+  if(!cv || !cv.getContext) return;
+  var caixa = cv.closest('.media--helice');
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if(!('IntersectionObserver' in window)) return;
+
+  var x = cv.getContext('2d'), W = cv.width, H = cv.height;
+  var emCena = false, inicio = null, loop = null;
+
+  function fundo(t){
+    var g = x.createLinearGradient(0,0,W,H);
+    g.addColorStop(0,'#0A1E37'); g.addColorStop(.55,'#0C233F'); g.addColorStop(1,'#14395A');
+    x.fillStyle = g; x.fillRect(0,0,W,H);
+    var r = x.createRadialGradient(W*.5,H*.5,0,W*.5,H*.5,W*.55);
+    r.addColorStop(0,'rgba(63,169,196,'+(0.09 + 0.04*Math.sin(t*1.1))+')');
+    r.addColorStop(1,'rgba(63,169,196,0)');
+    x.fillStyle = r; x.fillRect(0,0,W,H);
+  }
+
+  /* hélice deitada, atravessando o quadro
+     Sem shadowBlur e sem gradiente por nó: os dois são os pontos caros
+     do canvas 2D. O brilho vem de passadas sobrepostas, que custam
+     uma fração disso e dão o mesmo resultado. */
+  function helice(t){
+    var cy = H/2, esq = 70, dir = W-70, passos = 60;
+    var amp = H*0.31, voltas = 1.8, vel = t*0.75;
+    var cada = 3;
+    var pts = [], i, f, px, ang;
+    for(i=0;i<=passos;i++){
+      f = i/passos; px = esq + (dir-esq)*f;
+      ang = f*Math.PI*2*voltas - vel;
+      pts.push({x:px, a:cy+Math.sin(ang)*amp, b:cy+Math.sin(ang+Math.PI)*amp,
+                za:Math.cos(ang), zb:Math.cos(ang+Math.PI)});
+    }
+
+    /* degraus */
+    x.lineCap = 'round';
+    for(i=0;i<=passos;i+=cada){
+      var p = pts[i], prof = (p.za+1)/2;
+      if(Math.abs(p.b-p.a) < 12) continue;
+      x.strokeStyle = 'rgba(146,214,230,'+(0.08+0.30*prof).toFixed(3)+')';
+      x.lineWidth = 1.2+1.8*prof;
+      x.beginPath(); x.moveTo(p.x,p.a); x.lineTo(p.x,p.b); x.stroke();
+    }
+
+    /* fitas: uma passada larga e translúcida faz o halo,
+       outra fina e opaca faz o fio */
+    var lados = ['a','b'], zs = ['za','zb'], L, camada;
+    for(camada=0; camada<2; camada++){
+      for(L=0;L<2;L++){
+        for(i=0;i<passos;i++){
+          var q = pts[i], w2 = pts[i+1];
+          var dd = ((q[zs[L]] + w2[zs[L]])/2 + 1)/2;
+          x.beginPath(); x.moveTo(q.x,q[lados[L]]); x.lineTo(w2.x,w2[lados[L]]);
+          if(camada===0){
+            x.strokeStyle = 'rgba(63,169,196,'+(0.05+0.10*dd).toFixed(3)+')';
+            x.lineWidth = 9+11*dd;
+          } else {
+            x.strokeStyle = (L===0 ? 'rgba(98,192,218,' : 'rgba(79,201,168,')
+                            + (0.30+0.62*dd).toFixed(3) + ')';
+            x.lineWidth = 1.8+3.2*dd;
+          }
+          x.stroke();
+        }
+      }
+    }
+
+    /* nós: dois círculos chapados no lugar de um gradiente radial */
+    for(i=0;i<=passos;i+=cada){
+      var r2 = pts[i], pares = [[r2.a,r2.za],[r2.b,r2.zb]], k;
+      for(k=0;k<2;k++){
+        var py = pares[k][0], d = (pares[k][1]+1)/2, rr = 2.4+4*d;
+        x.fillStyle = 'rgba(63,169,196,'+(0.10+0.16*d).toFixed(3)+')';
+        x.beginPath(); x.arc(r2.x,py,rr*2.4,0,6.2832); x.fill();
+        x.fillStyle = 'rgba(214,240,247,'+(0.40+0.55*d).toFixed(3)+')';
+        x.beginPath(); x.arc(r2.x,py,rr*0.6,0,6.2832); x.fill();
+      }
+    }
+  }
+
+  var poeira = [], j;
+  for(j=0;j<40;j++) poeira.push({x:Math.random()*W, y:Math.random()*H,
+    r:Math.random()*1.8+0.4, v:Math.random()*10+4, f:Math.random()*6.28});
+  function particulas(t){
+    poeira.forEach(function(p){
+      var y = (p.y - t*p.v) % H; if(y<0) y += H;
+      var a = 0.10+0.18*Math.sin(t*1.6+p.f);
+      if(a<=0) return;
+      x.fillStyle = 'rgba(192,233,241,'+a+')';
+      x.beginPath(); x.arc(p.x+Math.sin(t*0.6+p.f)*7, y, p.r, 0, 7); x.fill();
+    });
+  }
+
+  /* teto de 30 quadros por segundo: o movimento é lento, 60 não
+     acrescenta nada e dobraria o custo em celular */
+  var ultimo = 0, intervalo = 1000/30;
+  function quadro(ts){
+    if(!emCena){ loop = null; return; }
+    loop = requestAnimationFrame(quadro);
+    if(ts - ultimo < intervalo) return;
+    ultimo = ts;
+    if(inicio === null) inicio = ts;
+    var t = (ts - inicio)/1000;
+    x.clearRect(0,0,W,H);
+    fundo(t); particulas(t); helice(t);
+  }
+
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      emCena = e.isIntersecting;
+      if(emCena){
+        caixa.classList.add('is-viva');
+        if(loop === null){ inicio = null; loop = requestAnimationFrame(quadro); }
+      }
+    });
+  }, {rootMargin:'160px 0px'});
+  io.observe(cv);
 })();
 
 /* ------------------------------------------------------------
