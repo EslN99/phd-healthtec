@@ -541,6 +541,8 @@ ul{list-style:none}
 .drawer__inner{overflow:hidden}
 .drawer__list{display:flex;flex-direction:column;gap:4px;padding:16px 20px 24px}
 .drawer__list a{padding:10px 0;font-size:14px;font-weight:500;color:var(--muted)}
+/* o botão não é um link da lista: mantém a cor própria */
+.drawer__list a.btn{color:#fff;padding:14px 32px}
 /* em tablet o menu ganha duas colunas: em uma só, sobrava metade da tela vazia */
 @media(min-width:640px){
   .drawer__list{
@@ -1596,7 +1598,9 @@ ul{list-style:none}
 .techgrid{background-image:radial-gradient(rgba(var(--t-sky-rgb),.95) 1px, transparent 1.4px)}
 
 /* botões e gradientes mais vivos */
-.btn--cta{background:linear-gradient(135deg,var(--t-cyan) 0%,var(--t-teal) 48%,var(--deep-blue) 100%)}
+/* ciano fechado o bastante para o texto branco passar em qualquer
+   ponto do gradiente: 4,7:1 na ponta mais clara */
+.btn--cta{background:linear-gradient(135deg,#1F7E99 0%,var(--t-teal) 48%,var(--deep-blue) 100%)}
 .text-gradient{
   background:linear-gradient(100deg,var(--t-sky) 0%,var(--t-cyan) 32%,var(--t-teal) 62%,var(--deep-blue) 100%);
   -webkit-background-clip:text;background-clip:text;color:transparent;
