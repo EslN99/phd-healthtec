@@ -140,21 +140,17 @@ ul{list-style:none}
 .wrap{max-width:var(--max);margin-inline:auto;padding-inline:20px}
 @media(min-width:768px){.wrap{padding-inline:40px}}
 
-.section{position:relative;padding-block:56px;background:var(--canvas)}
+/* Nenhuma seção clara pinta o próprio fundo: a cor é uma só, do body,
+   e por isso não há emenda entre elas. Só as faixas escuras têm plano
+   proprio, e só ali existe transição. */
+.section{position:relative;padding-block:56px;background:transparent}
 @media(min-width:768px){.section{padding-block:80px}}
 @media(min-width:1024px){.section{padding-block:120px}}
-/* plano elevado: luz no topo, hairline embaixo. Separa sem borda dura. */
-.section--surface{
-  background:var(--surface);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
-             0 -1px 0 rgba(var(--ink-rgb),.05),
-             0 1px 0 rgba(var(--ink-rgb),.05);
-}
+/* antes estas duas classes pintavam planos distintos com hairline nas
+   bordas; agora não separam nada, ficam só como marcação semântica */
+.section--surface{background:transparent;box-shadow:none}
 /* respiro de luz no topo das seções em canvas */
-.section:not(.section--surface):not(.section--night)::before{
-  content:'';position:absolute;inset:0 0 auto 0;height:180px;pointer-events:none;
-  background:linear-gradient(180deg,rgba(255,255,255,.75) 0%,rgba(255,255,255,0) 100%);
-}
+/* o véu branco no topo de cada seção era o degrau mais visível de todos */
 
 /* ambiente escuro · slide 6 do manual */
 /* plano escuro: bloco institucional que delimita a página */
@@ -525,7 +521,7 @@ ul{list-style:none}
   margin:-31px 0 0 -31px;border-radius:50%;
   background:radial-gradient(circle,
     rgba(var(--t-cyan-rgb),.50) 0%,
-    rgba(var(--t-sky-rgb),.22) 42%,
+    rgba(var(--t-sky-rgb),.27) 42%,
     rgba(var(--t-cyan-rgb),0) 70%);
   pointer-events:none;
   animation:halo 2.6s ease-in-out infinite;
@@ -815,7 +811,7 @@ ul{list-style:none}
 @media(min-width:768px){.rail__fade{right:-40px;width:88px}}
 .rail-wrap.is-end .rail__fade{opacity:0}
 .section--night .rail__fade{background:linear-gradient(to left,var(--night),transparent)}
-.section--surface .rail__fade{background:linear-gradient(to left,var(--surface),transparent)}
+.section--surface .rail__fade{background:linear-gradient(to left,var(--canvas),transparent)}
 .rail__hint{margin-top:4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}
 
 .thumb{
@@ -1206,9 +1202,10 @@ ul{list-style:none}
 /* ============================================================
    20. PROFUNDIDADE DO HERO
    ============================================================ */
+/* a hero clareia no topo e volta exatamente à cor do body no rodapé,
+   então a emenda com a faixa seguinte não existe */
 .hero{
-  background:linear-gradient(180deg,#FFFFFF 0%,var(--canvas) 46%,#EEF3F7 100%);
-  box-shadow:inset 0 -90px 90px -70px rgba(var(--ink-rgb),.14);
+  background:linear-gradient(180deg,#FFFFFF 0%,#F9FBFC 34%,var(--canvas) 78%,var(--canvas) 100%);
 }
 /* textura de grade, esmaecida nas bordas */
 .hero__grid{
@@ -1243,12 +1240,7 @@ ul{list-style:none}
 /* ============================================================
    21. PLANO CLARO TINGIDO + FAIXA DE PILARES
    ============================================================ */
-.section--tint{
-  background:linear-gradient(180deg,var(--brand-soft) 0%,#F1F7FA 100%);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
-             0 -1px 0 rgba(var(--ink-rgb),.05),
-             0 1px 0 rgba(var(--ink-rgb),.05);
-}
+.section--tint{background:transparent;box-shadow:none}
 .section--tint .note{background:#fff}
 
 .pillars{
@@ -1290,12 +1282,7 @@ ul{list-style:none}
 /* ============================================================
    22. BARRA DE CONFIANÇA E PROGRAMAS
    ============================================================ */
-.trustbar{
-  position:relative;z-index:2;background:var(--surface);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),
-             0 -1px 0 rgba(var(--ink-rgb),.05),
-             0 2px 10px rgba(var(--ink-rgb),.05);
-}
+.trustbar{position:relative;z-index:2;background:transparent}
 .trustbar__inner{
   max-width:var(--max);margin-inline:auto;padding:20px;
   display:grid;gap:16px;
@@ -1979,42 +1966,42 @@ ul{list-style:none}
   position:absolute;display:block;border-radius:50%;
   filter:blur(92px);
   will-change:transform;
-  animation:deriva-a 13s ease-in-out infinite alternate;
+  animation:deriva-a 9s ease-in-out infinite alternate;
 }
 
 /* azul */
 .secaura i:nth-child(1){
   left:-14%;top:-8%;width:58%;height:54%;
-  background:rgba(var(--t-cyan-rgb),.30);
-  animation:deriva-a 13s ease-in-out infinite alternate;
+  background:rgba(var(--t-cyan-rgb),.36);
+  animation:deriva-a 9s ease-in-out infinite alternate;
 }
 .secaura i:nth-child(2){
   left:46%;top:-12%;width:54%;height:50%;
   background:rgba(var(--t-sky-rgb),.22);
-  animation:deriva-b 17s ease-in-out infinite alternate;animation-delay:-4s;
+  animation:deriva-b 12s ease-in-out infinite alternate;animation-delay:-4s;
 }
 /* branco: o que abre espaço entre as cores */
 .secaura i:nth-child(3){
   left:12%;top:26%;width:62%;height:56%;
-  background:rgba(255,255,255,.60);
-  animation:deriva-c 11s ease-in-out infinite alternate;animation-delay:-3s;
+  background:rgba(255,255,255,.62);
+  animation:deriva-c 8s ease-in-out infinite alternate;animation-delay:-3s;
 }
 /* coral */
 .secaura i:nth-child(4){
   left:50%;top:22%;width:58%;height:56%;
-  background:rgba(var(--t-coral-rgb),.36);
-  animation:deriva-d 19s ease-in-out infinite alternate;animation-delay:-7s;
+  background:rgba(var(--t-coral-rgb),.43);
+  animation:deriva-d 13s ease-in-out infinite alternate;animation-delay:-7s;
 }
 .secaura i:nth-child(5){
   left:-14%;top:48%;width:56%;height:54%;
-  background:rgba(241,204,190,.56);
-  animation:deriva-e 23s ease-in-out infinite alternate;animation-delay:-9s;
+  background:rgba(241,204,190,.64);
+  animation:deriva-e 15s ease-in-out infinite alternate;animation-delay:-9s;
 }
 /* azul de apoio, fecha a composição embaixo */
 .secaura i:nth-child(6){
   left:58%;top:66%;width:48%;height:46%;
-  background:rgba(var(--t-cyan-rgb),.18);
-  animation:deriva-f 15s ease-in-out infinite alternate;animation-delay:-6s;
+  background:rgba(var(--t-cyan-rgb),.22);
+  animation:deriva-f 10s ease-in-out infinite alternate;animation-delay:-6s;
 }
 
 /* cada mancha corre para um lado: é o cruzamento entre elas
@@ -2044,6 +2031,14 @@ ul{list-style:none}
   to  {transform:translate3d(-14%,-12%,0) scale(1.16)}
 }
 
+/* na hero a aurora sobe ate o topo e nao dissolve no rodape: assim
+   ela entrega a cor para a seção seguinte sem desenhar faixa */
+.secaura--hero{
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 88%,transparent 100%);
+          mask-image:linear-gradient(180deg,#000 0%,#000 88%,transparent 100%);
+}
+.hero{position:relative}
+.hero__inner,.trustbar__inner{position:relative;z-index:1}
 .has-aura{position:relative}
 .has-aura > .wrap{position:relative;z-index:1}
 /* a mancha escurece e colore o fundo: o corpo compensa.
@@ -2177,6 +2172,12 @@ ul{list-style:none}
     linear-gradient(0deg,   rgba(var(--t-sky-rgb),.12) 0%, transparent 46%),
     linear-gradient(180deg, var(--canvas) 0%, rgba(244,248,250,.30) 24%,
                              rgba(244,248,250,.30) 76%, var(--canvas) 100%);
+}
+/* a foto e as camadas de cor dissolvem nas duas pontas, senão a seção
+   começa como um bloco e desenha exatamente a linha que não queremos */
+.ancora__foto,.ancora__veu,.ancora__luz{
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 84%,transparent 100%);
+          mask-image:linear-gradient(180deg,transparent 0%,#000 16%,#000 84%,transparent 100%);
 }
 .ancora__luz{
   position:absolute;inset:0;z-index:2;pointer-events:none;
@@ -2392,6 +2393,7 @@ ul{list-style:none}
 
 <!-- ============ HERO ============ -->
 <section class="hero">
+<div class="secaura secaura--hero" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 <div class="hero__grid"></div>
 <div class="hero__glow"></div>
 <div class="hero__glow hero__glow--2"></div>
