@@ -573,8 +573,11 @@ fieldset{border:0}
   border:1px solid rgba(var(--ink-rgb),.06);
   backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
 }
-.inc b{display:block;font-size:13.5px;font-weight:700;letter-spacing:-.01em}
-.inc span{display:block;margin-top:5px;font-size:12.5px;font-weight:300;line-height:1.55;color:var(--muted)}
+/* o seletor precisa parar no texto: solto, ele pegava também o
+   <span> que é a caixa do ícone e o tornava block, desfazendo a
+   centralização que o flex fazia */
+.inc > div > b{display:block;font-size:13.5px;font-weight:700;letter-spacing:-.01em}
+.inc > div > span{display:block;margin-top:5px;font-size:12.5px;font-weight:300;line-height:1.55;color:var(--muted)}
 
 /* --- perguntas --- */
 .perg{border-top:1px solid rgba(var(--ink-rgb),.09);margin-top:26px}
@@ -679,7 +682,12 @@ fieldset{border:0}
 }
 
 /* --- caixa de ícone, usada em toda a página --- */
-.ico{
+.ico,
+.inc .ico,
+.mrow .ico,
+.crit__cab .ico,
+.etapa .ico,
+.viafig__topo .ico{
   width:38px;height:38px;flex:0 0 auto;
   display:flex;align-items:center;justify-content:center;
   border-radius:11px;
@@ -698,8 +706,13 @@ fieldset{border:0}
   background:linear-gradient(150deg,rgba(79,201,168,.16),rgba(79,201,168,.06));
   border-color:rgba(79,201,168,.24);
 }
-.ico--sm{width:30px;height:30px;border-radius:9px}
-.ico--sm svg{width:15px;height:15px}
+/* mesma especificidade da regra acima, senão o tamanho pequeno
+   não vence */
+.ico--sm,
+.inc .ico--sm,
+.mrow .ico--sm,
+.etapa .ico--sm{width:30px;height:30px;border-radius:9px}
+.ico--sm svg{width:16px;height:16px}
 
 /* a ficha técnica ganha ícone no topo */
 .fitem{padding-top:22px}
