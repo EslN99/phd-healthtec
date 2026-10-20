@@ -1014,6 +1014,27 @@ ul{list-style:none}
 @media(min-width:1024px){.media--wide .media__img{height:380px}}
 .media:hover .media__img{transform:scale(1.03)}
 
+/* ------------------------------------------------------------
+   Moldura com vídeo
+   A capa é uma imagem comum, com o peso de uma imagem. O vídeo só
+   baixa quando a moldura entra em cena, e nunca em quem pediu menos
+   movimento ou está com economia de dados.
+   ------------------------------------------------------------ */
+.media--video{background:#EFE9E4}
+.media--video .media__video{
+  position:absolute;inset:0;width:100%;
+  object-fit:cover;opacity:0;transition:opacity .8s ease;
+}
+.media--video.is-tocando .media__video{opacity:1}
+.media--video.is-tocando .media__capa{opacity:0;transition:opacity .8s ease}
+.media--video .media__capa{transition:opacity .8s ease}
+/* o zoom do hover vale para a capa e para o vídeo */
+.media--video:hover .media__video{transform:scale(1.03)}
+@media(prefers-reduced-motion:reduce){
+  .media--video .media__video{display:none}
+  .media--video .media__capa{opacity:1 !important}
+}
+
 /* véu frio: alinha as fotos à paleta sem lavar o assunto */
 .media__tint{
   position:absolute;inset:0;pointer-events:none;
@@ -3106,8 +3127,16 @@ onde o tratamento acontece. A PHD Healthtec <span class="en-c">coordena a jornad
 <!-- ============ CTA FINAL ============ -->
 <section class="section">
 <div class="wrap">
-<div class="media media--wide media--warm" data-reveal="scale" style="margin-bottom:56px">
-<img class="media__img" src="assets/secao-cta-final.webp" alt="Neurônios luminosos conectados em rede" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media media--wide media--warm media--video" data-reveal="scale" style="margin-bottom:56px">
+<!-- a capa aparece primeiro e some quando o vídeo começa; se o vídeo não
+     tocar, por autoplay bloqueado ou menos movimento, ela fica no lugar -->
+<img class="media__img media__capa" src="assets/cta-neuronio-capa.webp" alt="Neurônios luminosos conectados em rede" width="1200" height="750" loading="lazy" decoding="async"/>
+<video class="media__img media__video" muted loop playsinline preload="none"
+       poster="assets/cta-neuronio-capa.webp" width="1200" height="750"
+       aria-hidden="true" tabindex="-1">
+<source src="assets/cta-neuronio.webm" type="video/webm"/>
+<source src="assets/cta-neuronio.mp4" type="video/mp4"/>
+</video>
 <div class="media__tint"></div>
 <div class="media__inset"></div>
 </div>
@@ -3988,6 +4017,38 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
   }
   apply();
   mq.addEventListener('change', apply);
+})();
+
+/* ------------------------------------------------------------
+   Vídeo da moldura
+   Só começa a baixar quando a moldura chega perto da tela, e para
+   quando sai. Assim quem não rola até lá não paga os 558 KB.
+   ------------------------------------------------------------ */
+(function(){
+  var caixas = document.querySelectorAll('.media--video');
+  if(!caixas.length || !('IntersectionObserver' in window)) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  /* navegador com economia de dados ligada: fica na capa */
+  var con = navigator.connection;
+  if(con && (con.saveData || /(^|-)2g$/.test(con.effectiveType||''))) return;
+
+  var io = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(e){
+      var cx = e.target, v = cx.querySelector('video');
+      if(!v) return;
+      if(e.isIntersecting){
+        if(v.preload === 'none'){ v.preload = 'auto'; v.load(); }
+        var p = v.play();
+        if(p && p.catch) p.catch(function(){ /* autoplay recusado: fica a capa */ });
+        v.addEventListener('playing', function(){ cx.classList.add('is-tocando'); }, {once:true});
+      } else {
+        v.pause();
+      }
+    });
+  }, {rootMargin:'300px 0px'});
+
+  caixas.forEach(function(c){ io.observe(c); });
 })();
 
 /* ------------------------------------------------------------
