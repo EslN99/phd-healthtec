@@ -993,8 +993,11 @@ ul{list-style:none}
 .faq__btn:hover .faq__q{color:var(--brand-ink)}
 .faq__icon{flex-shrink:0;margin-top:2px;color:var(--brand);transition:transform var(--t-btn) ease}
 .faq__btn[aria-expanded="true"] .faq__icon{transform:rotate(45deg)}
-.faq__panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows var(--t-btn) ease}
-.faq__btn[aria-expanded="true"] + .faq__panel{grid-template-rows:1fr}
+/* Abre por max-height, não por grid. Com grid de 0fr para 1fr a trilha
+   colapsava para zero neste contexto e o painel nunca abria. O teto é
+   folgado em relação ao texto mais longo e só limita a animação. */
+.faq__panel{max-height:0;overflow:hidden;transition:max-height .42s cubic-bezier(.22,1,.36,1)}
+.faq__panel.is-open{max-height:460px}
 .faq__panel > div{overflow:hidden}
 .faq__a{font-size:13px;font-weight:300;color:var(--muted);line-height:1.75;padding-bottom:20px}
 
@@ -3360,13 +3363,19 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
 
 /* ---------- FAQ acordeão ---------- */
 (function(){
-  document.querySelectorAll('.faq__btn').forEach(function(btn){
+  var botoes = document.querySelectorAll('.faq__btn');
+
+  function marcar(btn, aberto){
+    btn.setAttribute('aria-expanded', aberto ? 'true' : 'false');
+    var p = btn.nextElementSibling;
+    if(p) p.classList.toggle('is-open', aberto);
+  }
+
+  botoes.forEach(function(btn){
     btn.addEventListener('click', function(){
-      var open = btn.getAttribute('aria-expanded') === 'true';
-      document.querySelectorAll('.faq__btn').forEach(function(b){
-        b.setAttribute('aria-expanded','false');
-      });
-      btn.setAttribute('aria-expanded', String(!open));
+      var aberto = btn.getAttribute('aria-expanded') === 'true';
+      botoes.forEach(function(b){ marcar(b, false); });
+      if(!aberto) marcar(btn, true);
     });
   });
 })();
@@ -3649,7 +3658,7 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
 
 /* ---------- programas: carrossel com painel de detalhe ---------- */
 (function(){
-  var PROGRAMAS = [{"nome": "Vitalys Prime", "foco": "Vitalidade sistêmica e longevidade", "rede": "Ambas as redes", "via": "Endovenosa", "acao": "Sistêmica", "perfil": "Manutenção funcional e longevidade", "desc": "Um programa sistêmico de suporte imunomodulador e anti-inflamatório, desenhado para quem busca manutenção funcional, vitalidade e longevidade saudável como base de um estilo de vida de alto desempenho."}, {"nome": "Atlas Regenera", "foco": "Regeneração musculoesquelética, articular e tendínea", "rede": "Ambas as redes", "via": "Endovenosa e aplicação local guiada por imagem", "acao": "Sistêmica e dirigida", "perfil": "Quadros musculoesqueléticos e articulares", "desc": "Combina a ação sistêmica da via endovenosa com uma aplicação local guiada por imagem, indicado para quadros musculoesqueléticos, articulares e tendíneos que exigem precisão dirigida."}, {"nome": "Athena Neural", "foco": "Suporte neurológico e neuroinflamatório", "rede": "Rede premium", "via": "Intratecal, em ambiente clínico controlado", "acao": "Neurológica", "perfil": "Protocolos neurológicos selecionados", "desc": "Direcionado a protocolos neurológicos e neuroinflamatórios selecionados, com administração intratecal conduzida em ambiente clínico controlado por especialistas."}, {"nome": "Prometheus Absolute", "foco": "Protocolo assinatura, abordagem neuro-respiratória", "rede": "Rede premium", "via": "Combinada: sistêmica, neurológica e respiratória", "acao": "Integral", "perfil": "Casos avaliados individualmente pela equipe médica", "desc": "O mais completo dos programas PHD Healthtec, combinando suporte sistêmico, neurológico e respiratório em um único protocolo. Reservado a casos avaliados individualmente pela equipe médica."}, {"nome": "Pneuma Vital", "foco": "Suporte respiratório e recuperação pulmonar", "rede": "Ambas as redes", "via": "Inalatória, sob supervisão médica", "acao": "Respiratória", "perfil": "Quadros respiratórios crônicos e sequelas pulmonares", "desc": "Voltado a quadros respiratórios crônicos e sequelas pulmonares, com administração inalatória sob supervisão médica."}, {"nome": "Eternity Éclat", "foco": "Rejuvenescimento e regeneração estética localizada", "rede": "Ambas as redes", "via": "Sistêmica e aplicações locais por zona", "acao": "Estética regenerativa", "perfil": "Rosto, colo, mãos, couro cabeludo e outras áreas", "desc": "Regeneração e rejuvenescimento estético por zona: rosto, colo, mãos, couro cabeludo e outras áreas com indicação profissional, unindo ação sistêmica a aplicações locais direcionadas."}];
+  var PROGRAMAS = [{"nome": "Vitalys Prime", "foco": "Vitalidade sistêmica e longevidade", "rede": "Ambas as redes", "via": "Endovenosa", "acao": "Sistêmica", "perfil": "Manutenção funcional e longevidade", "desc": "Um programa sistêmico de suporte imunomodulador e anti-inflamatório, desenhado para quem busca manutenção funcional, vitalidade e longevidade saudável como base de um estilo de vida de alto desempenho.", "pagina": "programa-vitalys-prime.html"}, {"nome": "Atlas Regenera", "foco": "Regeneração musculoesquelética, articular e tendínea", "rede": "Ambas as redes", "via": "Endovenosa e aplicação local guiada por imagem", "acao": "Sistêmica e dirigida", "perfil": "Quadros musculoesqueléticos e articulares", "desc": "Combina a ação sistêmica da via endovenosa com uma aplicação local guiada por imagem, indicado para quadros musculoesqueléticos, articulares e tendíneos que exigem precisão dirigida.", "pagina": ""}, {"nome": "Athena Neural", "foco": "Suporte neurológico e neuroinflamatório", "rede": "Rede premium", "via": "Intratecal, em ambiente clínico controlado", "acao": "Neurológica", "perfil": "Protocolos neurológicos selecionados", "desc": "Direcionado a protocolos neurológicos e neuroinflamatórios selecionados, com administração intratecal conduzida em ambiente clínico controlado por especialistas.", "pagina": ""}, {"nome": "Prometheus Absolute", "foco": "Protocolo assinatura, abordagem neuro-respiratória", "rede": "Rede premium", "via": "Combinada: sistêmica, neurológica e respiratória", "acao": "Integral", "perfil": "Casos avaliados individualmente pela equipe médica", "desc": "O mais completo dos programas PHD Healthtec, combinando suporte sistêmico, neurológico e respiratório em um único protocolo. Reservado a casos avaliados individualmente pela equipe médica.", "pagina": ""}, {"nome": "Pneuma Vital", "foco": "Suporte respiratório e recuperação pulmonar", "rede": "Ambas as redes", "via": "Inalatória, sob supervisão médica", "acao": "Respiratória", "perfil": "Quadros respiratórios crônicos e sequelas pulmonares", "desc": "Voltado a quadros respiratórios crônicos e sequelas pulmonares, com administração inalatória sob supervisão médica.", "pagina": ""}, {"nome": "Eternity Éclat", "foco": "Rejuvenescimento e regeneração estética localizada", "rede": "Ambas as redes", "via": "Sistêmica e aplicações locais por zona", "acao": "Estética regenerativa", "perfil": "Rosto, colo, mãos, couro cabeludo e outras áreas", "desc": "Regeneração e rejuvenescimento estético por zona: rosto, colo, mãos, couro cabeludo e outras áreas com indicação profissional, unindo ação sistêmica a aplicações locais direcionadas.", "pagina": ""}];
   var rail  = document.querySelector('#protocolos .rail');
   var painel= document.getElementById('pdetail');
   var card  = document.getElementById('pdetailCard');
@@ -3678,7 +3687,8 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
         spec('Investimento', 'Mediante avaliação') +
       '</dl>' +
       '<div class="pdetail__actions">' +
-        '<a class="btn btn--cta" href="avaliacao.html">&#8594; Solicitar avaliação</a>' +
+        (p.pagina ? '<a class="btn btn--cta" href="' + p.pagina + '">Ver o programa em detalhe &#8594;</a>' : '') +
+        '<a class="btn ' + (p.pagina ? 'btn--ghost' : 'btn--cta') + '" href="avaliacao.html">&#8594; Solicitar avaliação</a>' +
         '<a class="btn btn--ghost" href="agendamento.html">Escolher um horário</a>' +
         '<button type="button" class="pdetail__close" id="pdClose">Fechar &#215;</button>' +
       '</div>';
