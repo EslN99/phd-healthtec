@@ -1020,7 +1020,8 @@ ul{list-style:none}
    baixa quando a moldura entra em cena, e nunca em quem pediu menos
    movimento ou está com economia de dados.
    ------------------------------------------------------------ */
-.media--video{background:#EFE9E4}
+.media--video{background:#D6DFE6}
+#sobre .media--video{background:#C9D6DF}
 .media--video .media__video{
   position:absolute;inset:0;width:100%;
   object-fit:cover;opacity:0;transition:opacity .8s ease;
@@ -2534,8 +2535,14 @@ Somos a camada de curadoria, confiança e orquestração<br/>
 </div>
 
 <div style="flex:1" data-reveal="scale">
-<div class="media">
-<img class="media__img" src="assets/secao-sobre.webp" alt="Estrutura molecular translúcida sobre fundo azul" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media media--video">
+<img class="media__img media__capa" src="assets/sobre-moleculas-capa.webp" alt="Estrutura molecular translúcida sobre fundo azul" width="1200" height="750" loading="lazy" decoding="async"/>
+<video class="media__img media__video" muted loop playsinline preload="none"
+       poster="assets/sobre-moleculas-capa.webp" width="1200" height="750"
+       aria-hidden="true" tabindex="-1">
+<source src="assets/sobre-moleculas.webm" type="video/webm"/>
+<source src="assets/sobre-moleculas.mp4" type="video/mp4"/>
+</video>
 <div class="media__tint"></div>
 <div class="media__inset"></div>
 </div>
