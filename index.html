@@ -1022,6 +1022,7 @@ ul{list-style:none}
    ------------------------------------------------------------ */
 .media--video{background:#D6DFE6}
 #sobre .media--video{background:#C9D6DF}
+#ciencia .media--video{background:#C6CBCE}
 .media--video .media__video{
   position:absolute;inset:0;width:100%;
   object-fit:cover;opacity:0;transition:opacity .8s ease;
@@ -2927,8 +2928,14 @@ licenciados</span>, respeitando a legislação da jurisdição onde o tratamento
 </div>
 
 <div style="flex:1" data-reveal="scale">
-<div class="media">
-<img class="media__img" src="assets/secao-ciencia.webp" alt="Dupla hélice de DNA em tons prateados" width="1200" height="750" loading="lazy" decoding="async"/>
+<div class="media media--video">
+<img class="media__img media__capa" src="assets/ciencia-dna-capa.webp" alt="Dupla hélice de DNA em tons prateados" width="1200" height="750" loading="lazy" decoding="async"/>
+<video class="media__img media__video" muted loop playsinline preload="none"
+       poster="assets/ciencia-dna-capa.webp" width="1200" height="750"
+       aria-hidden="true" tabindex="-1">
+<source src="assets/ciencia-dna.webm" type="video/webm"/>
+<source src="assets/ciencia-dna.mp4" type="video/mp4"/>
+</video>
 <div class="media__tint"></div>
 <div class="media__inset"></div>
 </div>
