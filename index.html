@@ -2027,8 +2027,8 @@ ul{list-style:none}
 .loc{
   position:relative;overflow:hidden;height:100%;
   border-radius:var(--r-card);
-  background:linear-gradient(150deg, rgba(255,255,255,.13) 0%, rgba(255,255,255,.055) 100%);
-  backdrop-filter:blur(16px) saturate(150%);
+  background:linear-gradient(150deg, rgba(9,27,48,.50) 0%, rgba(7,21,39,.66) 100%);
+  backdrop-filter:blur(16px) saturate(140%);
   -webkit-backdrop-filter:blur(16px) saturate(150%);
   border:1px solid rgba(255,255,255,.16);
   box-shadow:0 2px 4px rgba(0,0,0,.20),0 16px 34px rgba(0,0,0,.28),
@@ -2056,6 +2056,7 @@ ul{list-style:none}
   border:1px solid rgba(255,255,255,.22);
 }
 .loc__pin--premium{background:rgba(var(--t-coral-rgb),.55);border-color:rgba(255,255,255,.28)}
+.loc__desc{margin-top:10px;font-size:12.5px;font-weight:300;line-height:1.7;color:rgba(255,255,255,.90)}
 .loc__pend{
   position:absolute;right:14px;top:14px;z-index:2;
   font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
@@ -2071,7 +2072,7 @@ ul{list-style:none}
 }
 .loc__end{
   margin-top:9px;display:flex;align-items:flex-start;gap:8px;
-  font-size:12.5px;font-weight:300;line-height:1.55;color:rgba(255,255,255,.66);
+  font-size:12.5px;font-weight:300;line-height:1.55;color:rgba(255,255,255,.88);
 }
 .loc__end svg{flex-shrink:0;margin-top:2px;color:rgba(var(--tone-rgb),1)}
 .loc__tags{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px}
@@ -2079,8 +2080,9 @@ ul{list-style:none}
   font-size:9.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
   padding:5px 9px;border-radius:999px;
   color:rgba(var(--tone-rgb),1);
-  background:rgba(var(--tone-rgb),.14);
-  border:1px solid rgba(var(--tone-rgb),.26);
+  color:color-mix(in srgb, rgb(var(--tone-rgb)) 48%, #FFFFFF);
+  background:rgba(var(--tone-rgb),.16);
+  border:1px solid rgba(var(--tone-rgb),.34);
 }
 
 
@@ -3297,30 +3299,28 @@ e governança local dedicadas <span class="en-c">exclusivamente à experiência 
 <div class="rail__item rail__item--loc" data-reveal="" style="--tone:var(--t-sky);--tone-rgb:var(--t-sky-rgb)">
 <article class="loc">
 <div class="loc__media">
-<span class="loc__pin">Rede padrão</span>
-<span class="loc__pend">Foto pendente</span>
-<img src="assets/parceiro-1.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="loc__pin">Rede parceira</span>
+<img src="assets/parceiro-bluezone.webp" alt="Fachada do edifício onde fica a The Blue Zone Clinic, em Lo Barnechea" width="480" height="300" loading="lazy" decoding="async"/>
 <span class="loc__veu"></span>
 </div>
 <div class="loc__body">
-<h3 class="loc__nome">Unidade Santiago Centro</h3>
-<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Comuna de Providencia, Santiago · Região Metropolitana, Chile</span></p>
-<div class="loc__tags"><span class="loc__tag">Vitalys Prime</span><span class="loc__tag">Atlas Regenera</span><span class="loc__tag">Pneuma Vital</span><span class="loc__tag">Eternity Éclat</span></div>
+<h3 class="loc__nome">The Blue Zone Clinic</h3>
+<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Av. La Dehesa 1939, Of. 305 · Lo Barnechea, Santiago · 7590932, Chile</span></p>
 </div>
 </article>
 </div>
 <div class="rail__item rail__item--loc" data-reveal="" style="--tone:var(--t-coral);--tone-rgb:var(--t-coral-rgb)">
 <article class="loc">
 <div class="loc__media">
-<span class="loc__pin loc__pin--premium">Rede premium</span>
-<span class="loc__pend">Foto pendente</span>
-<img src="assets/parceiro-2.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="loc__pin loc__pin--premium">Rede parceira</span>
+<img src="assets/parceiro-longevity.webp" alt="Mall Vivo Los Trapenses, onde fica a Longevity For Cell" width="900" height="562" loading="lazy" decoding="async"/>
 <span class="loc__veu"></span>
 </div>
 <div class="loc__body">
-<h3 class="loc__nome">Unidade Las Condes</h3>
-<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Comuna de Las Condes, Santiago · Região Metropolitana, Chile</span></p>
-<div class="loc__tags"><span class="loc__tag">Athena Neural</span><span class="loc__tag">Prometheus Absolute</span><span class="loc__tag">Vitalys Prime</span></div>
+<h3 class="loc__nome">Longevity For Cell</h3>
+<p class="loc__end"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10.5c0 6-8 11.5-8 11.5s-8-5.5-8-11.5a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10.2" r="2.6"/></svg><span>Mall Vivo Los Trapenses · La Dehesa, Santiago, Chile</span></p>
+<p class="loc__desc">Primeiro centro de medicina de precisão e medicina regenerativa do Chile, com foco em tratamentos com células-tronco e medicina preventiva personalizada.</p>
+<div class="loc__tags"><span class="loc__tag">Medicina de precisão</span><span class="loc__tag">Medicina regenerativa</span><span class="loc__tag">Células-tronco</span><span class="loc__tag">Prevenção personalizada</span></div>
 </div>
 </article>
 </div>
