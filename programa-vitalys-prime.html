@@ -486,6 +486,18 @@ fieldset{border:0}
 }
 .media__fio{position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(var(--ink-rgb),.07)}
 
+/* vídeo da abertura: a capa segura o lugar; o vídeo entra depois */
+.media__video{
+  position:absolute;inset:0;width:100%;object-fit:cover;
+  opacity:0;transition:opacity .8s ease;
+}
+.media.is-tocando .media__video{opacity:1}
+.media.is-tocando .media__capa{opacity:0;transition:opacity .8s ease}
+@media(prefers-reduced-motion:reduce){
+  .media__video{display:none}
+  .media.is-tocando .media__capa{opacity:1}
+}
+
 /* --- chips de ficha rápida --- */
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
 .chip{
@@ -954,7 +966,8 @@ fieldset{border:0}
     </div>
 
     <div class="media">
-      <img src="assets/programa-vitalys-prime.webp" alt="Representação de células em suspensão sobre fundo azul" width="900" height="600" loading="eager" decoding="async">
+      <img class="media__capa" src="assets/programa-vitalys-prime.webp" alt="Béquer de laboratório com solução azul e vapor" width="900" height="600" loading="eager" decoding="async">
+      <video class="media__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" width="1120" height="700"><source src="assets/programa-vitalys-prime.webm" type="video/webm"><source src="assets/programa-vitalys-prime.mp4" type="video/mp4"></video>
       <div class="media__veu"></div>
       <div class="media__fio"></div>
     </div>
@@ -1447,6 +1460,28 @@ fieldset{border:0}
       if(!aberto) marcar(btn, true);
     });
   });
+})();
+
+/* vídeo da abertura: só baixa quando a moldura chega perto da tela */
+(function(){
+  var cx = document.querySelector('.media');
+  if(!cx) return;
+  var v = cx.querySelector('video');
+  if(!v || !('IntersectionObserver' in window)) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var con = navigator.connection;
+  if(con && (con.saveData || /(^|-)2g$/.test(con.effectiveType||''))) return;
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        if(v.preload === 'none'){ v.preload = 'auto'; v.load(); }
+        var p = v.play();
+        if(p && p.catch) p.catch(function(){});
+        v.addEventListener('playing', function(){ cx.classList.add('is-tocando'); }, {once:true});
+      } else { v.pause(); }
+    });
+  }, {rootMargin:'300px 0px'});
+  io.observe(cx);
 })();
 </script>
 

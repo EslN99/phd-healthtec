@@ -1599,6 +1599,45 @@ ul{list-style:none}
     linear-gradient(180deg, rgba(12,35,63,.26) 0%, rgba(8,26,47,.74) 100%),
     linear-gradient(135deg, rgba(45,115,135,.40) 0%, rgba(12,35,63,.18) 56%, rgba(192,233,241,.10) 100%);
 }
+/* vídeo do programa: entra por cima da capa quando começa a tocar.
+   A capa carrega como imagem comum; o vídeo só baixa ao chegar perto. */
+.prog-card__video{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transform:scale(1.01);
+  transition:opacity .7s ease,
+             transform .85s cubic-bezier(.22,1,.36,1),
+             filter .6s ease;
+  filter:saturate(.82) brightness(.78) contrast(1.04);
+}
+.prog-card__media.is-tocando .prog-card__video{opacity:1}
+.prog-card__media.is-tocando img{opacity:0;transition:opacity .7s ease}
+.prog-card__media img{transition:transform .85s cubic-bezier(.22,1,.36,1), filter .6s ease, opacity .7s ease}
+#programas .prog-card:hover .prog-card__video,
+#programas .prog-card:focus-visible .prog-card__video{
+  transform:scale(1.10);
+  filter:saturate(.95) brightness(.92) contrast(1.04);
+}
+@media(prefers-reduced-motion:reduce){
+  .prog-card__video{display:none}
+  .prog-card__media.is-tocando img{opacity:1}
+}
+/* molduras de vídeo já nascem em fundo escuro: não precisam do
+   escurecimento que as fotos claras pedem */
+.prog-card__media--vid img,
+.prog-card__media--vid .prog-card__video{
+  filter:saturate(1.10) brightness(1.04) contrast(1.05);
+}
+#programas .prog-card:hover .prog-card__media--vid img,
+#programas .prog-card:hover .prog-card__media--vid .prog-card__video,
+#programas .prog-card:focus-visible .prog-card__media--vid img,
+#programas .prog-card:focus-visible .prog-card__media--vid .prog-card__video{
+  filter:saturate(1.20) brightness(1.14) contrast(1.05);
+}
+.prog-card__media--vid .prog-card__veu{
+  background:
+    linear-gradient(180deg, rgba(12,35,63,.10) 0%, rgba(8,26,47,.46) 100%),
+    linear-gradient(135deg, rgba(45,115,135,.26) 0%, rgba(12,35,63,.08) 58%, rgba(192,233,241,.08) 100%);
+}
 /* o selo da rede sobe para dentro da moldura */
 .prog-card__selo{
   position:absolute;left:12px;top:12px;z-index:2;
@@ -2739,9 +2778,10 @@ parceiras no Chile</span>, conforme complexidade e recursos exigidos.
 
 <div class="grid grid--2 grid--3" style="margin-top:40px">
 <a class="card prog-card" href="programa-vitalys-prime.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<span class="prog-card__media">
+<span class="prog-card__media prog-card__media--vid">
 <span class="prog-card__selo">Ambas as redes</span>
 <img src="assets/programa-vitalys-prime.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<video class="prog-card__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" width="640" height="400"><source src="assets/programa-vitalys-prime-card.webm" type="video/webm"/><source src="assets/programa-vitalys-prime-card.mp4" type="video/mp4"/></video>
 <span class="prog-card__veu"></span>
 </span>
 <h3 class="prog-card__name">Vitalys Prime</h3>
@@ -2753,9 +2793,10 @@ parceiras no Chile</span>, conforme complexidade e recursos exigidos.
 </div>
 </a>
 <a class="card prog-card" href="programa-atlas-regenera.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<span class="prog-card__media">
+<span class="prog-card__media prog-card__media--vid">
 <span class="prog-card__selo">Ambas as redes</span>
 <img src="assets/programa-atlas-regenera.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<video class="prog-card__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" width="640" height="400"><source src="assets/programa-atlas-regenera-card.webm" type="video/webm"/><source src="assets/programa-atlas-regenera-card.mp4" type="video/mp4"/></video>
 <span class="prog-card__veu"></span>
 </span>
 <h3 class="prog-card__name">Atlas Regenera</h3>
@@ -2767,9 +2808,10 @@ parceiras no Chile</span>, conforme complexidade e recursos exigidos.
 </div>
 </a>
 <a class="card prog-card" href="programa-athena-neural.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<span class="prog-card__media">
+<span class="prog-card__media prog-card__media--vid">
 <span class="prog-card__selo prog-card__selo--premium">Rede premium</span>
 <img src="assets/programa-athena-neural.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<video class="prog-card__video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" width="640" height="400"><source src="assets/programa-athena-neural-card.webm" type="video/webm"/><source src="assets/programa-athena-neural-card.mp4" type="video/mp4"/></video>
 <span class="prog-card__veu"></span>
 </span>
 <h3 class="prog-card__name">Athena Neural</h3>
@@ -4158,7 +4200,7 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
    quando sai. Assim quem não rola até lá não paga os 558 KB.
    ------------------------------------------------------------ */
 (function(){
-  var caixas = document.querySelectorAll('.media--video');
+  var caixas = document.querySelectorAll('.media--video, .prog-card__media');
   if(!caixas.length || !('IntersectionObserver' in window)) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
