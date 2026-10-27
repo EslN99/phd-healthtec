@@ -4355,34 +4355,53 @@ conformidade com a legislação das jurisdições onde os serviços são prestad
 
 /* ------------------------------------------------------------
    Vídeo da moldura
-   Só começa a baixar quando a moldura chega perto da tela, e para
-   quando sai. Assim quem não rola até lá não paga os 558 KB.
+   Só começa a baixar quando a moldura chega perto da tela. Depois
+   disso roda em laço, sem parar. Quem não rola até lá não paga nada.
    ------------------------------------------------------------ */
 (function(){
   var caixas = document.querySelectorAll('.media--video, .prog-card__media');
-  if(!caixas.length || !('IntersectionObserver' in window)) return;
+  if(!caixas.length) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
   /* navegador com economia de dados ligada: fica na capa */
   var con = navigator.connection;
   if(con && (con.saveData || /(^|-)2g$/.test(con.effectiveType||''))) return;
 
-  var io = new IntersectionObserver(function(entradas){
-    entradas.forEach(function(e){
-      var cx = e.target, v = cx.querySelector('video');
-      if(!v) return;
-      if(e.isIntersecting){
-        if(v.preload === 'none'){ v.preload = 'auto'; v.load(); }
-        var p = v.play();
-        if(p && p.catch) p.catch(function(){ /* autoplay recusado: fica a capa */ });
-        v.addEventListener('playing', function(){ cx.classList.add('is-tocando'); }, {once:true});
-      } else {
-        v.pause();
-      }
-    });
-  }, {rootMargin:'300px 0px'});
+  var recusados = [];
 
-  caixas.forEach(function(c){ io.observe(c); });
+  function tocar(cx, v){
+    if(v.preload === 'none'){ v.preload = 'auto'; v.load(); }
+    v.loop = true;
+    v.addEventListener('playing', function(){ cx.classList.add('is-tocando'); });
+    var p = v.play();
+    if(p && p.catch) p.catch(function(){
+      /* autoplay recusado: fica a capa e tenta de novo no primeiro gesto */
+      if(recusados.indexOf(v) < 0) recusados.push(v);
+    });
+  }
+
+  if(!('IntersectionObserver' in window)){
+    caixas.forEach(function(c){ var v = c.querySelector('video'); if(v) tocar(c, v); });
+  } else {
+    var io = new IntersectionObserver(function(entradas){
+      entradas.forEach(function(e){
+        if(!e.isIntersecting) return;
+        var cx = e.target, v = cx.querySelector('video');
+        if(!v) return;
+        tocar(cx, v);
+        io.unobserve(cx);   /* uma vez iniciado, roda sem parar */
+      });
+    }, {rootMargin:'300px 0px'});
+    caixas.forEach(function(c){ io.observe(c); });
+  }
+
+  /* o primeiro gesto da pessoa libera o que o navegador tinha recusado */
+  ['pointerdown','touchstart','keydown'].forEach(function(ev){
+    window.addEventListener(ev, function(){
+      recusados.forEach(function(v){ var p = v.play(); if(p && p.catch) p.catch(function(){}); });
+      recusados.length = 0;
+    }, {once:true, passive:true});
+  });
 })();
 
 /* ------------------------------------------------------------

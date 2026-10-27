@@ -1462,26 +1462,41 @@ fieldset{border:0}
   });
 })();
 
-/* vídeo da abertura: só baixa quando a moldura chega perto da tela */
+/* vídeo da abertura: baixa quando a moldura chega perto da tela e
+   depois roda em laço, sem parar */
 (function(){
   var cx = document.querySelector('.media');
   if(!cx) return;
   var v = cx.querySelector('video');
-  if(!v || !('IntersectionObserver' in window)) return;
+  if(!v) return;
   if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   var con = navigator.connection;
   if(con && (con.saveData || /(^|-)2g$/.test(con.effectiveType||''))) return;
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){
-      if(e.isIntersecting){
-        if(v.preload === 'none'){ v.preload = 'auto'; v.load(); }
-        var p = v.play();
-        if(p && p.catch) p.catch(function(){});
-        v.addEventListener('playing', function(){ cx.classList.add('is-tocando'); }, {once:true});
-      } else { v.pause(); }
-    });
-  }, {rootMargin:'300px 0px'});
-  io.observe(cx);
+
+  var recusado = false;
+  function tocar(){
+    if(v.preload === 'none'){ v.preload = 'auto'; v.load(); }
+    v.loop = true;
+    v.addEventListener('playing', function(){ cx.classList.add('is-tocando'); });
+    var p = v.play();
+    if(p && p.catch) p.catch(function(){ recusado = true; });
+  }
+
+  if(!('IntersectionObserver' in window)){ tocar(); }
+  else {
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ tocar(); io.unobserve(cx); } });
+    }, {rootMargin:'300px 0px'});
+    io.observe(cx);
+  }
+
+  ['pointerdown','touchstart','keydown'].forEach(function(ev){
+    window.addEventListener(ev, function(){
+      if(!recusado) return;
+      recusado = false;
+      var p = v.play(); if(p && p.catch) p.catch(function(){});
+    }, {once:true, passive:true});
+  });
 })();
 </script>
 
