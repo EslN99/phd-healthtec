@@ -817,6 +817,59 @@ ul{list-style:none}
 .section--surface .rail__fade{background:linear-gradient(to left,var(--canvas),transparent)}
 .rail__hint{margin-top:4px;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--faint)}
 
+/* ------------------------------------------------------------
+   Carrossel de especialistas
+   Retratos 4:5 em moldura, com o mesmo crescer ao passar o mouse
+   dos cartões de programa.
+   ------------------------------------------------------------ */
+.rail__item--esp{width:208px}
+@media(min-width:768px){.rail__item--esp{width:236px}}
+.esp-card{
+  display:block;
+  transition:transform var(--t-card) cubic-bezier(.22,1,.36,1);
+}
+.esp-card__foto{
+  position:relative;display:block;overflow:hidden;
+  border-radius:16px;aspect-ratio:4/5;
+  background:#DCE5EB;
+  box-shadow:0 2px 6px rgba(var(--ink-rgb),.07),
+             0 14px 30px rgba(var(--ink-rgb),.12);
+}
+.esp-card__foto img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.01);
+  transition:transform .85s cubic-bezier(.22,1,.36,1), filter .6s ease;
+  filter:saturate(.94) contrast(1.02);
+}
+.esp-card__veu{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg, transparent 52%, rgba(12,35,63,.34) 100%),
+    linear-gradient(142deg, rgba(var(--brand-rgb),.16) 0%, transparent 56%);
+}
+.esp-card__fio{
+  position:absolute;inset:0;pointer-events:none;border-radius:16px;
+  box-shadow:inset 0 0 0 1px rgba(var(--ink-rgb),.08);
+}
+.esp-card__nome{
+  margin-top:16px;
+  font-size:15px;font-weight:600;letter-spacing:-.01em;color:var(--ink);
+}
+.esp-card__area{
+  margin-top:7px;
+  font-size:12.5px;font-weight:300;line-height:1.65;color:var(--muted);
+}
+.esp-card:hover{transform:translateY(-6px)}
+.esp-card:hover .esp-card__foto img{
+  transform:scale(1.07);
+  filter:saturate(1.04) contrast(1.03);
+}
+@media(prefers-reduced-motion:reduce){
+  .esp-card:hover{transform:none}
+  .esp-card:hover .esp-card__foto img{transform:scale(1.01)}
+  .esp-card__foto img{transition:none}
+}
+
 .thumb{
   position:relative;overflow:hidden;border-radius:var(--r-card);
   border:1px solid rgba(var(--ink-rgb),.07);
@@ -2627,6 +2680,111 @@ e conduzida por médicos</span>, do primeiro contato ao acompanhamento pós-trat
 <div class="chip" data-reveal=""><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="5.5" r="2.5"/><circle cx="18" cy="18.5" r="2.5"/><path d="M6 8v4.5a3.5 3.5 0 0 0 3.5 3.5H15"/></svg><span><b>Jornada 100% coordenada</b> do Brasil ao Chile</span></div>
 </div>
 </div>
+
+<!-- ============ ESPECIALISTAS ============ -->
+<section class="section has-aura" id="especialistas">
+<div class="secaura" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+<div class="wrap">
+<div class="eyebrow" data-reveal="">
+<span class="eyebrow__line"></span>
+<span class="eyebrow__text">Quem conduz</span>
+</div>
+
+<h2 class="h2" style="margin-top:20px" data-reveal="">
+<span class="text-shimmer">Profissionais licenciados</span><br/>
+<span class="light">em cada etapa da jornada.</span>
+</h2>
+
+<p class="lead" style="margin-top:24px;max-width:620px" data-reveal="">
+Os protocolos são aplicados por profissionais das <span class="en">redes clínicas parceiras no Chile</span>, cada um responsável pela sua área dentro do programa.
+</p>
+
+<div class="rail-wrap">
+<div class="rail" data-carousel aria-label="Especialistas das redes parceiras">
+<div class="rail__item rail__item--esp" data-reveal="">
+<figure class="esp-card">
+<span class="esp-card__foto">
+<img src="assets/esp-paulina-vega.webp" alt="Retrato de Paulina Vega" width="720" height="900" loading="lazy" decoding="async"/>
+<span class="esp-card__veu"></span>
+<span class="esp-card__fio"></span>
+</span>
+<figcaption>
+<div class="esp-card__nome">Paulina Vega</div>
+<div class="esp-card__area">Especialista em medicina funcional e regenerativa</div>
+</figcaption>
+</figure>
+</div>
+<div class="rail__item rail__item--esp" data-reveal="">
+<figure class="esp-card">
+<span class="esp-card__foto">
+<img src="assets/esp-leopoldo-parada.webp" alt="Retrato de Leopoldo Parada" width="720" height="900" loading="lazy" decoding="async"/>
+<span class="esp-card__veu"></span>
+<span class="esp-card__fio"></span>
+</span>
+<figcaption>
+<div class="esp-card__nome">Leopoldo Parada</div>
+<div class="esp-card__area">Especialista em ortopedia, traumatologia e longevidade saudável</div>
+</figcaption>
+</figure>
+</div>
+<div class="rail__item rail__item--esp" data-reveal="">
+<figure class="esp-card">
+<span class="esp-card__foto">
+<img src="assets/esp-alejandra-errazuriz.webp" alt="Retrato de Alejandra Errázuriz" width="720" height="900" loading="lazy" decoding="async"/>
+<span class="esp-card__veu"></span>
+<span class="esp-card__fio"></span>
+</span>
+<figcaption>
+<div class="esp-card__nome">Alejandra Errázuriz</div>
+<div class="esp-card__area">Enfermeira especializada em soroterapia regenerativa</div>
+</figcaption>
+</figure>
+</div>
+<div class="rail__item rail__item--esp" data-reveal="">
+<figure class="esp-card">
+<span class="esp-card__foto">
+<img src="assets/esp-katia-perez.webp" alt="Retrato de Dra. Katia Perez" width="720" height="900" loading="lazy" decoding="async"/>
+<span class="esp-card__veu"></span>
+<span class="esp-card__fio"></span>
+</span>
+<figcaption>
+<div class="esp-card__nome">Dra. Katia Perez</div>
+<div class="esp-card__area">Especialista em medicina estética regenerativa</div>
+</figcaption>
+</figure>
+</div>
+<div class="rail__item rail__item--esp" data-reveal="">
+<figure class="esp-card">
+<span class="esp-card__foto">
+<img src="assets/esp-rodrigo-mardones.webp" alt="Retrato de Rodrigo Mardones" width="720" height="900" loading="lazy" decoding="async"/>
+<span class="esp-card__veu"></span>
+<span class="esp-card__fio"></span>
+</span>
+<figcaption>
+<div class="esp-card__nome">Rodrigo Mardones</div>
+<div class="esp-card__area">Traumatologista especializado em anti-age no modelo 360 regenerativo</div>
+</figcaption>
+</figure>
+</div>
+<div class="rail__item rail__item--esp" data-reveal="">
+<figure class="esp-card">
+<span class="esp-card__foto">
+<img src="assets/esp-marcelo-munoz.webp" alt="Retrato de Dr. Marcelo Muñoz" width="720" height="900" loading="lazy" decoding="async"/>
+<span class="esp-card__veu"></span>
+<span class="esp-card__fio"></span>
+</span>
+<figcaption>
+<div class="esp-card__nome">Dr. Marcelo Muñoz</div>
+<div class="esp-card__area">Especialista em traumatologia regenerativa</div>
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="rail__fade"></div>
+</div>
+<p class="rail__hint">Arraste para ver mais &#8594;</p>
+</div>
+</section>
 
 <!-- ============ A PHD HEALTHTEC ============ -->
 <section class="section has-aura" id="sobre">
