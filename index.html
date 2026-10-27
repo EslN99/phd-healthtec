@@ -220,6 +220,9 @@ ul{list-style:none}
 .section--night .h2,.section--night .h1{color:#fff}
 .section--night .light,.section--night .body,.section--night .lead{color:rgba(255,255,255,.62)}
 .section--night .micro{color:rgba(var(--aqua-rgb),.75)}
+/* nos cartões de programa a micro ficava em 3,6:1 sobre o plano do
+   cartão: passa a usar o aqua sólido */
+#programas .prog-card .micro--brand{color:var(--crystal-aqua)}
 
 /* ============================================================
    4. TIPOGRAFIA
@@ -1562,6 +1565,90 @@ ul{list-style:none}
 #programas.is-live .techsweep span{animation:varredura 1.7s cubic-bezier(.4,0,.2,1) .25s both}
 @keyframes varredura{to{transform:translateX(340%) skewX(-12deg)}}
 
+/* ------------------------------------------------------------
+   Cartão de programa com moldura
+   A caixa de ícone dá lugar à fotografia do programa. O cartão
+   inteiro é um link: a moldura e o hover já sugerem isso.
+   ------------------------------------------------------------ */
+#programas .prog-card{
+  display:flex;flex-direction:column;height:100%;
+  padding:14px 14px 22px;
+  text-decoration:none;color:inherit;
+  transition:box-shadow var(--t-card) ease,
+             transform var(--t-card) cubic-bezier(.22,1,.36,1);
+}
+.prog-card__media{
+  position:relative;display:block;overflow:hidden;
+  border-radius:13px;
+  aspect-ratio:16/10;
+  background:#0E2742;
+  box-shadow:inset 0 0 0 1px rgba(var(--aqua-rgb),.14);
+}
+.prog-card__media img{
+  display:block;width:100%;height:100%;object-fit:cover;
+  transform:scale(1.01);
+  transition:transform .85s cubic-bezier(.22,1,.36,1), filter .6s ease;
+  /* as fotos vêm claras demais para uma faixa escura: escurecem e
+     dessaturam um pouco para não competir com o fundo */
+  filter:saturate(.82) brightness(.78) contrast(1.04);
+}
+/* véu frio: alinha as fotos à paleta da faixa escura */
+.prog-card__veu{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    linear-gradient(180deg, rgba(12,35,63,.26) 0%, rgba(8,26,47,.74) 100%),
+    linear-gradient(135deg, rgba(45,115,135,.40) 0%, rgba(12,35,63,.18) 56%, rgba(192,233,241,.10) 100%);
+}
+/* o selo da rede sobe para dentro da moldura */
+.prog-card__selo{
+  position:absolute;left:12px;top:12px;z-index:2;
+  font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;
+  padding:5px 10px;border-radius:999px;
+  color:#fff;
+  background:rgba(12,35,63,.52);
+  border:1px solid rgba(var(--aqua-rgb),.30);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+}
+.prog-card__selo--premium{
+  border-color:rgba(var(--accent-rgb),.46);
+  background:rgba(96,42,28,.50);
+}
+#programas .prog-card .prog-card__name{margin-top:18px;padding-inline:8px}
+#programas .prog-card .micro--brand{padding-inline:8px}
+#programas .prog-card__focus{padding-inline:8px}
+#programas .prog-card__meta{margin-inline:8px}
+
+/* a seta aparece no rodapé do cartão, no lugar do selo que saiu */
+.prog-card__ir{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:11px;font-weight:600;letter-spacing:.04em;
+  color:var(--crystal-aqua);
+  transition:gap .35s cubic-bezier(.22,1,.36,1);
+}
+.prog-card__ir svg{transition:transform .35s cubic-bezier(.22,1,.36,1)}
+
+/* hover: o cartão cresce e a foto acompanha */
+#programas .prog-card:hover,
+#programas .prog-card:focus-visible{
+  transform:translateY(-6px) scale(1.015);
+  box-shadow:0 10px 24px rgba(0,0,0,.30), 0 26px 56px rgba(0,0,0,.26), var(--rim-night);
+}
+#programas .prog-card:hover .prog-card__media img,
+#programas .prog-card:focus-visible .prog-card__media img{
+  transform:scale(1.10);
+  filter:saturate(.95) brightness(.92) contrast(1.04);
+}
+#programas .prog-card:hover .prog-card__ir{gap:11px}
+#programas .prog-card:hover .prog-card__ir svg{transform:translateX(2px)}
+#programas .prog-card:focus-visible{outline:2px solid var(--crystal-aqua);outline-offset:3px}
+
+@media(prefers-reduced-motion:reduce){
+  #programas .prog-card:hover,
+  #programas .prog-card:focus-visible{transform:none}
+  #programas .prog-card:hover .prog-card__media img{transform:scale(1.01)}
+  .prog-card__media img{transition:none}
+}
+
 /* --- 3. foco que segue o cursor no card --- */
 #programas .card{--mx:50%;--my:50%}
 #programas .card::after{display:none}          /* o anel antigo dá lugar à borda reativa */
@@ -2651,66 +2738,90 @@ parceiras no Chile</span>, conforme complexidade e recursos exigidos.
 </p>
 
 <div class="grid grid--2 grid--3" style="margin-top:40px">
-<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3.6"/><path d="M12 3v1.8M12 19.2V21M3 12h1.8M19.2 12H21M5.6 5.6l1.3 1.3M17.1 17.1l1.3 1.3M18.4 5.6l-1.3 1.3M6.9 17.1l-1.3 1.3"/></svg></div>
+<a class="card prog-card" href="programa-vitalys-prime.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<span class="prog-card__media">
+<span class="prog-card__selo">Ambas as redes</span>
+<img src="assets/programa-vitalys-prime.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="prog-card__veu"></span>
+</span>
 <h3 class="prog-card__name">Vitalys Prime</h3>
 <div class="micro micro--brand" style="margin-top:8px">Vitalidade sistêmica e longevidade</div>
 <p class="prog-card__focus">Programa sistêmico de suporte imunomodulador e anti-inflamatório, desenhado para quem busca manutenção funcional, vitalidade e envelhecimento saudável como base de um estilo de vida de alto desempenho.</p>
 <div class="prog-card__meta">
-<span class="tagline">Ambas as redes</span>
+<span class="prog-card__ir">Ver o programa <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
 <span class="prog-card__price">Mediante avaliação</span>
 </div>
-</div>
-<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 10c.7-.7 1.69 0 2.5 0a2.5 2.5 0 1 0 0-5 .5.5 0 0 1-.5-.5 2.5 2.5 0 1 0-5 0c0 .81.7 1.8 0 2.5l-7 7c-.7.7-1.69 0-2.5 0a2.5 2.5 0 0 0 0 5c.28 0 .5.22.5.5a2.5 2.5 0 1 0 5 0c0-.81-.7-1.8 0-2.5Z"/></svg></div>
+</a>
+<a class="card prog-card" href="programa-atlas-regenera.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<span class="prog-card__media">
+<span class="prog-card__selo">Ambas as redes</span>
+<img src="assets/programa-atlas-regenera.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="prog-card__veu"></span>
+</span>
 <h3 class="prog-card__name">Atlas Regenera</h3>
 <div class="micro micro--brand" style="margin-top:8px">Regeneração musculoesquelética, articular e tendínea</div>
 <p class="prog-card__focus">Combina a ação sistêmica da via endovenosa com aplicação local guiada por imagem, indicado para quadros musculoesqueléticos, articulares e tendíneos que exigem precisão dirigida.</p>
 <div class="prog-card__meta">
-<span class="tagline">Ambas as redes</span>
+<span class="prog-card__ir">Ver o programa <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
 <span class="prog-card__price">Mediante avaliação</span>
 </div>
-</div>
-<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="6.5" r="2.3"/><circle cx="17" cy="10" r="2.3"/><circle cx="9" cy="17.5" r="2.3"/><path d="M9 7.6 14.9 9.4M15.6 12 10.6 15.7M8.1 8.7l.6 6.5"/></svg></div>
+</a>
+<a class="card prog-card" href="programa-athena-neural.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<span class="prog-card__media">
+<span class="prog-card__selo prog-card__selo--premium">Rede premium</span>
+<img src="assets/programa-athena-neural.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="prog-card__veu"></span>
+</span>
 <h3 class="prog-card__name">Athena Neural</h3>
 <div class="micro micro--brand" style="margin-top:8px">Suporte neurológico e neuroinflamatório</div>
 <p class="prog-card__focus">Direcionado a protocolos neurológicos e neuroinflamatórios selecionados, com administração intratecal conduzida em ambiente clínico controlado por especialistas.</p>
 <div class="prog-card__meta">
-<span class="tagline tagline--premium">Rede premium</span>
+<span class="prog-card__ir">Ver o programa <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
 <span class="prog-card__price">Mediante avaliação</span>
 </div>
-</div>
-<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7Z"/><path d="M3.4 12h4.1l1.2-2.2 2.3 4.6 1.6-3.1.9 1.7h4.4"/></svg></div>
+</a>
+<a class="card prog-card" href="programa-prometheus-absolute.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<span class="prog-card__media">
+<span class="prog-card__selo prog-card__selo--premium">Rede premium</span>
+<img src="assets/programa-prometheus-absolute.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="prog-card__veu"></span>
+</span>
 <h3 class="prog-card__name">Prometheus Absolute</h3>
 <div class="micro micro--brand" style="margin-top:8px">Protocolo assinatura, abordagem neuro-respiratória</div>
 <p class="prog-card__focus">O mais completo dos programas, combinando suporte sistêmico, neurológico e respiratório em um único protocolo. Reservado a casos avaliados individualmente pela equipe médica.</p>
 <div class="prog-card__meta">
-<span class="tagline tagline--premium">Rede premium</span>
+<span class="prog-card__ir">Ver o programa <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
 <span class="prog-card__price">Mediante avaliação</span>
 </div>
-</div>
-<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v10"/><path d="M9 8c0 2-1.4 2.6-2.6 4.2C5 14 4.6 16 4.6 18.2c0 1.4.9 2.3 2.2 2.3 1.6 0 3.2-1.1 3.2-3.1V8"/><path d="M15 8c0 2 1.4 2.6 2.6 4.2C19 14 19.4 16 19.4 18.2c0 1.4-.9 2.3-2.2 2.3-1.6 0-3.2-1.1-3.2-3.1V8"/></svg></div>
+</a>
+<a class="card prog-card" href="programa-pneuma-vital.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<span class="prog-card__media">
+<span class="prog-card__selo">Ambas as redes</span>
+<img src="assets/programa-pneuma-vital.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="prog-card__veu"></span>
+</span>
 <h3 class="prog-card__name">Pneuma Vital</h3>
 <div class="micro micro--brand" style="margin-top:8px">Suporte respiratório e recuperação pulmonar</div>
 <p class="prog-card__focus">Voltado a quadros respiratórios crônicos e sequelas pulmonares, com administração inalatória sob supervisão médica.</p>
 <div class="prog-card__meta">
-<span class="tagline">Ambas as redes</span>
+<span class="prog-card__ir">Ver o programa <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
 <span class="prog-card__price">Mediante avaliação</span>
 </div>
-</div>
-<div class="card prog-card" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
-<div class="icon-box"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2.8 1.7 4.4a2 2 0 0 0 1.1 1.1l4.4 1.7-4.4 1.7a2 2 0 0 0-1.1 1.1L12 17.2l-1.7-4.4a2 2 0 0 0-1.1-1.1L4.8 10l4.4-1.7a2 2 0 0 0 1.1-1.1L12 2.8Z"/><path d="M18.5 15.5 19.2 17l1.5.7-1.5.7-.7 1.5-.7-1.5-1.5-.7 1.5-.7.7-1.5Z"/></svg></div>
+</a>
+<a class="card prog-card" href="programa-eternity-eclat.html" data-reveal=""><span class="pg-fx" aria-hidden="true"></span>
+<span class="prog-card__media">
+<span class="prog-card__selo">Ambas as redes</span>
+<img src="assets/programa-eternity-eclat.webp" alt="" width="900" height="600" loading="lazy" decoding="async"/>
+<span class="prog-card__veu"></span>
+</span>
 <h3 class="prog-card__name">Eternity Éclat</h3>
 <div class="micro micro--brand" style="margin-top:8px">Rejuvenescimento e regeneração estética localizada</div>
 <p class="prog-card__focus">Regeneração por zona: rosto, colo, mãos, couro cabeludo e outras áreas com indicação profissional, unindo ação sistêmica a aplicações locais direcionadas.</p>
 <div class="prog-card__meta">
-<span class="tagline">Ambas as redes</span>
+<span class="prog-card__ir">Ver o programa <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
 <span class="prog-card__price">Mediante avaliação</span>
 </div>
-</div>
+</a>
 </div>
 
 <div class="seal" data-reveal="">
