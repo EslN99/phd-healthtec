@@ -862,25 +862,28 @@ ul{list-style:none}
    Parceria científica: painel escuro com a marca do parceiro
    ------------------------------------------------------------ */
 .parcsci{
-  margin-top:20px;border-radius:14px;overflow:hidden;
-  max-width:600px;
-  padding:14px 16px;
-  background:linear-gradient(150deg, #0E2438 0%, #0A1A2C 100%);
-  border:1px solid rgba(var(--aqua-rgb),.14);
-  display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;
+  margin-top:32px;border-radius:999px;
+  padding:8px 18px 8px 12px;
+  background:linear-gradient(140deg, #10283C 0%, #0A1A2C 100%);
+  border:1px solid rgba(var(--aqua-rgb),.16);
+  display:inline-flex;flex-wrap:wrap;align-items:center;gap:10px;
 }
-@media(min-width:720px){
-  .parcsci{flex-direction:row;text-align:left;gap:18px;padding:14px 20px}
-}
-.parcsci__marca{flex:0 0 auto;width:104px}
-.parcsci__marca img{display:block;width:100%;height:auto}
+.parcsci__marca{flex:0 0 auto;display:inline-flex;align-items:center;gap:9px}
+.parcsci__simb{display:block;width:auto;height:34px}
+.parcsci__word{display:block;width:auto;height:13px}
 .parcsci__rot{
-  font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;
+  font-size:8.5px;font-weight:600;text-transform:uppercase;letter-spacing:.14em;
   color:rgba(var(--aqua-rgb),.92);
+  margin-left:6px;padding-right:12px;border-right:1px solid rgba(var(--aqua-rgb),.22);
 }
 .parcsci__frase{
-  margin-top:5px;font-size:13px;font-weight:300;line-height:1.55;
-  color:rgba(255,255,255,.92);
+  font-size:12px;font-weight:300;line-height:1.5;color:rgba(255,255,255,.92);
+}
+/* no celular a faixa vira um bloco: o texto ganha a linha inteira */
+@media(max-width:719px){
+  .parcsci{border-radius:14px;padding:12px 14px;gap:8px;max-width:100%}
+  .parcsci__rot{margin-left:6px;padding-right:0;border-right:0}
+  .parcsci__frase{flex:1 0 100%}
 }
 
 .espgrupo{
@@ -2780,6 +2783,15 @@ e conduzida por médicos</span>, do primeiro contato ao acompanhamento pós-trat
 A direção científica e clínica fica no Brasil; a aplicação dos protocolos, com as <span class="en">redes clínicas parceiras no Chile</span>. Cada profissional responde pela sua área dentro do programa.
 </p>
 
+<div class="parcsci" data-reveal="">
+<span class="parcsci__marca">
+<img class="parcsci__simb" src="assets/nexolevia-simbolo.webp" alt="" width="160" height="196" loading="lazy" decoding="async"/>
+<img class="parcsci__word" src="assets/nexolevia-wordmark.webp" alt="Nexolevia" width="520" height="46" loading="lazy" decoding="async"/>
+</span>
+<span class="parcsci__rot">Parceria científica</span>
+<span class="parcsci__frase">Ciência suíça aplicada à longevidade de precisão.</span>
+</div>
+
 <div class="dirgrid">
 
 <article class="dircard" data-reveal="">
@@ -2790,8 +2802,7 @@ A direção científica e clínica fica no Brasil; a aplicação dos protocolos,
 <div>
 <h3 class="dircard__nome">Dra. Viviane da Silva Anastácio<br/><span class="light">MSc, PhD, ND, BSc</span></h3>
 <div class="dircard__papel">Direção científica</div>
-<p class="dircard__bio">Formação internacional em <span class="en">genômica, nutrigenômica e ciências da saúde</span>, com mestrado na Inglaterra e na Suíça, e mais de dez anos de experiência em genômica funcional, nutrição personalizada e saúde de precisão.</p>
-<p class="dircard__bio">Atuação em projetos internacionais do <span class="en">Horizon Europa</span> e experiência em iniciativas de genética clínica europeia.</p>
+<p class="dircard__bio">Formação internacional em <span class="en">genômica, nutrigenômica e ciências da saúde</span>, com mestrado na Inglaterra e na Suíça. Mais de dez anos em genômica funcional e saúde de precisão, com atuação em projetos do <span class="en">Horizon Europa</span>.</p>
 </div>
 </article>
 
@@ -2803,21 +2814,10 @@ A direção científica e clínica fica no Brasil; a aplicação dos protocolos,
 <div>
 <h3 class="dircard__nome">Dra. Bruna Sarubbi Scaggion Soares</h3>
 <div class="dircard__papel">Médica · Nutrologia, medicina funcional e longevidade</div>
-<p class="dircard__bio">Graduada pela UNIMAR em 2006, com residência na Santa Casa de Misericórdia de São Paulo. Pós-graduação em Nutrologia pela ABRAN e pelo Hospital Israelita Albert Einstein, e em Medicina Funcional Integrativa pela ABMFI, da qual é membro ativa. Cursa especialização em Ciências da Longevidade Humana.</p>
-<p class="dircard__bio">Pesquisadora clínica em ensaios nacionais e internacionais sobre <span class="en">doenças cardiovasculares e síndrome metabólica</span>. A prática une rigor científico e cuidado individualizado, com foco em modulação metabólica, equilíbrio hormonal e prevenção ativa do envelhecimento.</p>
+<p class="dircard__bio">Residência na Santa Casa de São Paulo, pós-graduação em Nutrologia pela ABRAN e pelo Einstein, e em <span class="en">Medicina Funcional Integrativa</span> pela ABMFI. Pesquisadora clínica em ensaios sobre doenças cardiovasculares e síndrome metabólica, com foco em modulação metabólica, equilíbrio hormonal e prevenção do envelhecimento.</p>
 </div>
 </article>
 
-</div>
-
-<div class="parcsci" data-reveal="">
-<div class="parcsci__marca">
-<img src="assets/parceiro-nexolevia.webp" alt="Nexolevia" width="760" height="683" loading="lazy" decoding="async"/>
-</div>
-<div>
-<div class="parcsci__rot">Parceria científica</div>
-<p class="parcsci__frase">Ciência suíça aplicada à longevidade de precisão.</p>
-</div>
 </div>
 
 <div class="espgrupo" data-reveal="">Equipe clínica nas redes parceiras do Chile</div>
